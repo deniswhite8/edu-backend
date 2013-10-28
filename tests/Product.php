@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/../src/Product.php';
 
 
@@ -52,7 +53,6 @@ $product = new Product(['special_price' => 42]);
 if (assert($product->getSpecialPrice() == 42, 'Returns special price which has been initialized')) {
     echo '.';
 }
-
 
 $productWithSpecial = new Product(['special_price' => 123.5]);
 if (assert($productWithSpecial->isSpecialPriceApplied() === true, 'Returns true if special price applied')) {

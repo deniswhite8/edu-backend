@@ -2,6 +2,7 @@
 
 class Product
 {
+
     private $_data = array();
 
     public function __construct(array $data)
