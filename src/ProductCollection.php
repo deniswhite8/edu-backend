@@ -19,7 +19,7 @@ class ProductCollection
 
     public function getSize()
     {
-        return $this->_limitCount;
+        return count($this->getProducts());
     }
 
     public function limit($limitCount)
