@@ -18,4 +18,9 @@ class Сontainer {
     {
         return isset($this->_data[$key]) ? $this->_data[$key] : null;
     }
+
+    protected function _setData($key, $value)
+    {
+        $this->_data[$key] = $value;
+    }
 } 
