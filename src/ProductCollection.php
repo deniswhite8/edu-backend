@@ -1,34 +1,23 @@
 <?php
 
-class ProductCollection
+require_once __DIR__ . '/Collection.php';
+
+class ProductCollection extends Collection
 {
-    private $_productArray = array();
-    private $_offsetCount, $_limitCount;
-
-    public function __construct($productArray)
-    {
-        $this->_productArray = $productArray;
-        $this->_offsetCount = 0;
-        $this->_limitCount = count($this->_productArray);
-    }
-
     public function getProducts()
     {
-        return array_slice($this->_productArray, $this->_offsetCount, $this->_limitCount);
+        return $this->_getData();
     }
 
-    public function getSize()
-    {
-        return count($this->getProducts());
+    public function getSize() {
+        return $this->_getSize();
     }
 
-    public function limit($limitCount)
-    {
-        $this->_limitCount = $limitCount;
+    public function limit($limitCount) {
+        $this->_limit($limitCount);
     }
 
-    public function offset($offsetCount)
-    {
-        $this->_offsetCount = $offsetCount;
+    public function offset($offsetCount) {
+        $this->_offset($offsetCount);
     }
 }
