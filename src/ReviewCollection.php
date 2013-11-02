@@ -10,21 +10,6 @@ require_once __DIR__ . '/Collection.php';
 
 class ReviewCollection extends Collection
 {
-    public function limit($limitCount)
-    {
-        $this->_limit($limitCount);
-    }
-
-    public function offset($offsetCount)
-    {
-        $this->_offset($offsetCount);
-    }
-
-    public function getSize()
-    {
-        return $this->_getSize();
-    }
-
     public function getAverageRating()
     {
         $size = $this->getSize();
@@ -47,5 +32,11 @@ class ReviewCollection extends Collection
         }
 
         return $arr;
+    }
+
+
+    public function getReviews()
+    {
+        return $this->_getData();
     }
 }

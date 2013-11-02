@@ -6,27 +6,27 @@ class Product extends Сontainer
 {
     public function getSku()
     {
-        return $this->_getData('sku');
+        return $this->getField('sku');
     }
 
     public function getName()
     {
-        return $this->_getData('name');
+        return $this->getField('name');
     }
 
     public function getImage()
     {
-        return $this->_getData('image');
+        return $this->getField('image');
     }
 
     public function getPrice()
     {
-        return $this->_getData('price');
+        return $this->getField('price');
     }
 
     public function getSpecialPrice()
     {
-        return $this->_getData('special_price');
+        return $this->getField('special_price');
     }
 
     public function isSpecialPriceApplied()

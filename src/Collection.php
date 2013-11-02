@@ -9,6 +9,7 @@
 class Collection implements Iterator {
     private $_data = array();
     private $_offsetCount, $_limitCount;
+    private $_position = 0;
 
     public function __construct($data)
     {
@@ -22,51 +23,58 @@ class Collection implements Iterator {
         return array_slice($this->_data, $this->_offsetCount, $this->_limitCount);
     }
 
-    protected function _getSize()
+    public function getSize()
     {
         return count($this->_getData());
     }
 
-    protected function _limit($limitCount)
+    public function limit($limitCount)
     {
         $this->_limitCount = $limitCount;
     }
 
-    protected function _offset($offsetCount)
+    public function offset($offsetCount)
     {
         $this->_offsetCount = $offsetCount;
     }
 
+    public function sort($key)
+    {
+        $cmp = function($first, $second) use ($key)
+        {
+            $a = $first->getField($key);
+            $b = $second->getField($key);
+
+            if($a == $b) return 0;
+            return ($a < $b) ? -1 : 1;
+        };
+        usort($this->_data, $cmp);
+    }
 
     // Iterator function
 
     public function rewind()
     {
-        reset($this->_data);
+        $this->_position = 0;
     }
 
     public function current()
     {
-        $var = current($this->_data);
-        return $var;
+        return $this->_data[$this->_position + $this->_offsetCount];
     }
 
     public function key()
     {
-        $var = key($this->_data);
-        return $var;
+        return $this->_position;
     }
 
     public function next()
     {
-        $var = next($this->_data);
-        return $var;
+        $this->_position++;
     }
 
     public function valid()
     {
-        $key = key($this->_data);
-        $var = ($key !== null && $key !== false);
-        return $var;
+        return $this->_position < $this->_limitCount && isset($this->_data[$this->_position + $this->_offsetCount]);
     }
 }

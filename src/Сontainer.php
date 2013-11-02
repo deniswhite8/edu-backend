@@ -14,12 +14,12 @@ class Сontainer {
         $this->_data = $data;
     }
 
-    protected function _getData($key)
+    public function getField($key)
     {
         return isset($this->_data[$key]) ? $this->_data[$key] : null;
     }
 
-    protected function _setData($key, $value)
+    public function setField($key, $value)
     {
         $this->_data[$key] = $value;
     }
