@@ -74,6 +74,17 @@ class ReviewCollectionTest extends PHPUnit_Framework_TestCase {
         $reviewCollection = new ReviewCollection($inputArray);
 
         $this->assertEquals(3, $reviewCollection->getAverageRating());
+
+        //******//
+
+        $reviewCollection = new ReviewCollection([]);
+        $excp = null;
+        try {
+            $reviewCollection->getAverageRating();
+        } catch (Exception $ex) {
+            $excp = $ex;
+        }
+        $this->assertEquals(new UnderflowException('Impossible to calculate the average rating of the empty collection reviews'), $excp);
     }
 
     public function testGetReviewOfProduct()

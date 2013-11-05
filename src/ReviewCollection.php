@@ -12,10 +12,13 @@ class ReviewCollection extends Collection
 {
     public function getAverageRating()
     {
-        $size = $this->getSize();
+        $allReviews = $this->getReviews();
+        $size = count($allReviews);
         $sum = 0;
 
-        foreach ($this as $review) {
+        if ($size == 0) throw new UnderflowException('Impossible to calculate the average rating of the empty collection reviews');
+
+        foreach ($allReviews as $review) {
             $sum += $review->getRating();
         }
 
@@ -25,7 +28,8 @@ class ReviewCollection extends Collection
     public function getReviewOfProduct($product)
     {
         $arr = array();
-        foreach ($this as $review) {
+        $allReviews = $this->getReviews();
+        foreach ($allReviews as $review) {
             if ($review->belongsToProduct($product)) {
                 $arr[] = $review;
             }
