@@ -12,7 +12,7 @@ class ReviewCollection extends Collection
 {
     public function getAverageRating()
     {
-        $allReviews = $this->getReviews();
+        $allReviews = $this->_getAllData();
         $size = count($allReviews);
         $sum = 0;
 
@@ -28,7 +28,7 @@ class ReviewCollection extends Collection
     public function getReviewOfProduct($product)
     {
         $arr = array();
-        $allReviews = $this->getReviews();
+        $allReviews = $this->_getAllData();
         foreach ($allReviews as $review) {
             if ($review->belongsToProduct($product)) {
                 $arr[] = $review;

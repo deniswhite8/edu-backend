@@ -23,6 +23,11 @@ class Collection implements Iterator {
         return array_slice($this->_data, $this->_offsetCount, $this->_limitCount);
     }
 
+    protected function _getAllData()
+    {
+        return $this->_data;
+    }
+
     public function getSize()
     {
         return count($this->_getData());

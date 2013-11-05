@@ -87,6 +87,36 @@ class ReviewCollectionTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(new UnderflowException('Impossible to calculate the average rating of the empty collection reviews'), $excp);
     }
 
+    public function testGetReviewsWithOffsetAndLimit()
+    {
+        $inputArray = [new Review(['rating' => 1]), new Review(['rating' => 3]), new Review(['rating' => 5]), new Review(['rating' => 3])];
+        $reviewCollection = new ReviewCollection($inputArray);
+        $reviewCollection->offset(1);
+        $reviewCollection->limit(2);
+        $this->assertEquals([new Review(['rating' => 3]), new Review(['rating' => 5])], $reviewCollection->getReviews());
+    }
+
+    public function testGetAverageWithOffsetAndLimit()
+    {
+        $inputArray = [new Review(['rating' => 1]), new Review(['rating' => 3]), new Review(['rating' => 5]), new Review(['rating' => 3])];
+        $reviewCollection = new ReviewCollection($inputArray);
+        $reviewCollection->offset(1);
+        $reviewCollection->limit(2);
+        $this->assertEquals(3, $reviewCollection->getAverageRating());
+    }
+
+    public function testGetReviewOfProductWithOffsetAndLimit()
+    {
+        $product = new Product(['sku' => 321]);
+        $arr = [new Review(['product' => $product, 'name' => 'a']), new Review(['product' => $product, 'name' => 'b']),
+            new Review(['product' => $product, 'name' => 'c'])];
+        $reviewCollection = new ReviewCollection(array_merge($arr));
+        $reviewCollection->offset(1);
+        $reviewCollection->limit(1);
+
+        $this->assertEquals($arr, $reviewCollection->getReviewOfProduct($product));
+    }
+
     public function testGetReviewOfProduct()
     {
         $product = new Product(['sku' => 321]);
