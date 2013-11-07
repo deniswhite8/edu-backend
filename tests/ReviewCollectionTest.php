@@ -6,7 +6,7 @@
  * Time: 19:51
  */
 
-require_once __DIR__ . '/../src/ReviewCollection.php';
+require_once __DIR__ . '/../src/models/ReviewCollection.php';
 
 class ReviewCollectionTest extends PHPUnit_Framework_TestCase {
     public function testForeach()
@@ -145,5 +145,6 @@ class ReviewCollectionTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals([new Review(['name' => 'shit', 'rating' => 1]), new Review(['name' => 'bad', 'rating' => 2]),
                 new Review(['name' => 'good', 'rating' => 4]), new Review(['name' => 'very good!', 'rating' => 5])],
             $reviewCollection->getReviews());
+
     }
 }
