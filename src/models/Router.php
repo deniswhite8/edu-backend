@@ -2,12 +2,15 @@
 
 class Router
 {
-    private $_route;
-
     public function __construct($route)
     {
-        list($this->_controller, $this->_action) = explode('_', $route);
-        $this->_route = $route;
+        if ($route) {
+            list($this->_controller, $this->_action) = explode('_', $route);
+        } else {
+            $this->_controller = "Product";
+            $this->_action = "view";
+        }
+
     }
 
     public function getController()
@@ -17,6 +20,6 @@ class Router
 
     public function getAction()
     {
-        return $this->_action . 'Action';
+        return lcfirst($this->_action) . 'Action';
     }
 }

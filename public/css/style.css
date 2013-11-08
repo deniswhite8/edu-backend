@@ -1,0 +1,46 @@
+body {
+    /*background-image: url("../img/bg.png");*/
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+
+h1, ul, p {
+    margin-left: 40px;
+}
+
+h1 {
+    margin-bottom: 50px;
+}
+
+.clearfix:after {
+    content: ".";
+    visibility: hidden;
+    display: block;
+    clear: both;
+    height: 0;
+}
+
+
+.item {
+    list-style-type: none;
+    margin-bottom: 20px;
+}
+
+.item img {
+    float: left;
+    width: 200px;
+}
+
+.item h2 {
+    margin-left: 220px;
+    margin-bottom: 20px;
+}
+
+.item p {
+    margin: 0;
+    margin-left: 210px;
+}
