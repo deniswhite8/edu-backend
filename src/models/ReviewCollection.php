@@ -14,28 +14,22 @@ class ReviewCollection extends Collection
     {
         $allReviews = $this->_getAllData();
         $size = count($allReviews);
-        $sum = 0;
 
         if ($size == 0) throw new UnderflowException('Impossible to calculate the average rating of the empty collection reviews');
 
-        foreach ($allReviews as $review) {
-            $sum += $review->getRating();
-        }
+        $ratings = array_map(function (Review $review) {
+            return $review->getRating();
+        }, $allReviews);
 
-        return $sum / $size;
+        return array_sum($ratings) / $size;
     }
 
     public function getReviewOfProduct($product)
     {
-        $arr = array();
         $allReviews = $this->_getAllData();
-        foreach ($allReviews as $review) {
-            if ($review->belongsToProduct($product)) {
-                $arr[] = $review;
-            }
-        }
-
-        return $arr;
+        return array_filter($allReviews, function (Review $review) use($product) {
+            return $review->belongsToProduct($product);
+        });
     }
 
 

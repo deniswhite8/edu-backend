@@ -6,7 +6,7 @@
  * Time: 15:50
  */
 
-class Collection implements Iterator {
+class Collection implements IteratorAggregate {
     private $_data = array();
     private $_offsetCount, $_limitCount;
     private $_position = 0;
@@ -57,29 +57,8 @@ class Collection implements Iterator {
     }
 
     // Iterator function
-
-    public function rewind()
+    public function getIterator()
     {
-        $this->_position = 0;
-    }
-
-    public function current()
-    {
-        return $this->_data[$this->_position + $this->_offsetCount];
-    }
-
-    public function key()
-    {
-        return $this->_position;
-    }
-
-    public function next()
-    {
-        $this->_position++;
-    }
-
-    public function valid()
-    {
-        return $this->_position < $this->_limitCount && isset($this->_data[$this->_position + $this->_offsetCount]);
+        return new ArrayIterator($this->_getData());
     }
 }
