@@ -22,6 +22,8 @@ class ProductController
                 'special_price' => 9
             ])
         ]);
-        require_once __DIR__ . '/../views/product_list.phtml';
+
+        $_page = __DIR__ . '/../views/product_list.phtml';
+        include(__DIR__ . '/../views/main.phtml');
     }
 }

@@ -34,6 +34,7 @@ class Router
         }
 
         if ($notFoundError) {
+            require_once __DIR__ . '/../controllers/ErrorController.php';
             $this->_controllerName = 'ErrorController';
             $this->_actionName = 'pageNotFoundAction';
         }

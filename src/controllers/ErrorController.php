@@ -3,6 +3,8 @@
 class ErrorController {
     public function pageNotFoundAction() {
         header('HTTP/1.0 404 Not Found');
-        require_once __DIR__ . '/../views/pageNotFound.phtml';
+
+        $_page = __DIR__ . '/../views/pageNotFound.phtml';
+        include(__DIR__ . '/../views/main.phtml');
     }
 }
