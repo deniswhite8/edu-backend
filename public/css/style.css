@@ -1,19 +1,24 @@
-body {
-    /*background-image: url("../img/bg.png");*/
-}
-
 * {
     padding: 0;
     margin: 0;
 }
 
-
-h1, ul, p {
-    margin-left: 40px;
+body {
+    background-image: url("../img/bg.png");
+    padding: 30px 90px 20px 90px;
 }
 
 h1 {
     margin-bottom: 50px;
+    font-family: sans-serif;
+}
+
+a {
+    color: #dd4814;
+}
+
+.inline {
+    display: inline;
 }
 
 .clearfix:after {
@@ -28,6 +33,16 @@ h1 {
 .item {
     list-style-type: none;
     margin-bottom: 20px;
+
+    border: 1px solid #ddd;
+    background-color: #eee;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    padding: 10px;
+    color: #000;
+
+    font-family: serif;
 }
 
 .item img {
@@ -36,11 +51,10 @@ h1 {
 }
 
 .item h2 {
-    margin-left: 220px;
+    margin-left: 250px;
     margin-bottom: 20px;
 }
 
 .item p {
-    margin: 0;
-    margin-left: 210px;
+    margin-left: 250px;
 }

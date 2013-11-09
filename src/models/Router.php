@@ -2,6 +2,9 @@
 
 class Router
 {
+    private $_controllerName;
+    private $_actionName;
+
     public function __construct($route)
     {
         if ($route) {
@@ -11,15 +14,38 @@ class Router
             $this->_action = "view";
         }
 
+        $this->_controllerName = ucfirst($this->_controller) . 'Controller';
+        $this->_actionName = lcfirst($this->_action) . 'Action';
+
+        $this->_isExist();
+    }
+
+    private function _isExist()
+    {
+        $notFoundError = false;
+
+        if (file_exists(__DIR__ . "/../controllers/{$this->_controllerName}.php")) {
+            require_once __DIR__ . "/../controllers/{$this->_controllerName}.php";
+            if (!class_exists($this->_controllerName) || !in_array($this->_actionName, get_class_methods($this->_controllerName))) {
+                $notFoundError = true;
+            }
+        } else {
+            $notFoundError = true;
+        }
+
+        if ($notFoundError) {
+            $this->_controllerName = 'ErrorController';
+            $this->_actionName = 'pageNotFoundAction';
+        }
     }
 
     public function getController()
     {
-        return ucfirst($this->_controller) . 'Controller';
+        return $this->_controllerName;
     }
 
     public function getAction()
     {
-        return lcfirst($this->_action) . 'Action';
+        return $this->_actionName;
     }
 }

@@ -11,10 +11,10 @@
     <?php foreach ($product as $_product): ?>
         <li class="item clearfix">
             <img src="<?php echo $_product->getImage(); ?>" alt=""/>
-            <h2><?php echo $_product->getName(); ?></h2>
-            <p>Sku: <?php echo $_product->getSku(); ?></p>
-            <p>Price: <?php echo $_product->getPrice(); ?></p>
-            <p>Special Price: <span><?php echo $_product->getSpecialPrice(); ?></p>
+            <a href="#"><h2><?php echo $_product->getName(); ?></h2></a>
+            <p>SKU: <?php echo $_product->getSku(); ?></p>
+            <p>Цена: <?php echo $_product->getPrice(); ?> $</p>
+            <p>Спец. цена: <span><?php echo $_product->getSpecialPrice(); ?> $</p>
         </li>
     <?php endforeach; ?>
 </ul>
