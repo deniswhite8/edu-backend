@@ -114,7 +114,7 @@ class ReviewCollectionTest extends PHPUnit_Framework_TestCase {
         $reviewCollection->offset(1);
         $reviewCollection->limit(1);
 
-        $this->assertEquals($arr, $reviewCollection->getReviewOfProduct($product));
+        $this->assertEquals(new ReviewCollection($arr), $reviewCollection->getReviewOfProduct($product));
     }
 
     public function testGetReviewOfProduct()
@@ -124,7 +124,7 @@ class ReviewCollectionTest extends PHPUnit_Framework_TestCase {
         $arr2 = [new Review(['product' => new Product([]), 'name' => 'c']), new Review(['product' => new Product([]), 'name' => 'd'])];
 
         $reviewCollection = new ReviewCollection(array_merge($arr1, $arr2));
-        $this->assertEquals($arr1, $reviewCollection->getReviewOfProduct($product));
+        $this->assertEquals(new ReviewCollection($arr1), $reviewCollection->getReviewOfProduct($product));
     }
 
     public function testSort()

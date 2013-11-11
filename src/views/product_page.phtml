@@ -1,0 +1,19 @@
+<h1> <?php echo $product->getName(); ?> </h1>
+<ul>
+    <li class="item clearfix">
+        <img src="<?php echo $product->getImage(); ?>" alt=""/>
+        <a href="#"><h2><?php echo $product->getName(); ?></h2></a>
+        <p><span>SKU:</span> <?php echo $product->getSku(); ?></p>
+        <p><span>Цена:</span> <?php echo $product->getPrice(); ?> $</p>
+        <p><span>Спец. цена:</span> <?php echo $product->getSpecialPrice(); ?> $</p>
+        <p><span>Средний рейтинг:</span> <?php echo round($reviews->getReviewOfProduct($product)->getAverageRating(), 2); ?></p>
+    </li>
+
+    <?php foreach ($reviews as $_review): ?>
+        <li class="review">
+            <p><span><?php echo $_review->getName(); ?></span></p>
+            <p><?php echo $_review->getText(); ?></p>
+            <p><span><?php echo $_review->getRating(); ?> / 5</span></p>
+        </li>
+    <?php endforeach; ?>
+</ul>

@@ -30,7 +30,7 @@ a {
 }
 
 
-.item {
+.item, .review {
     list-style-type: none;
     margin-bottom: 20px;
 
@@ -45,6 +45,11 @@ a {
     font-family: serif;
 }
 
+.review span {
+    color: #dd4814;
+    font-weight: bold;
+}
+
 .item img {
     float: left;
     width: 200px;
@@ -57,4 +62,8 @@ a {
 
 .item p {
     margin-left: 250px;
+}
+
+.item span {
+    font-weight: bold;
 }

@@ -27,9 +27,10 @@ class ReviewCollection extends Collection
     public function getReviewOfProduct($product)
     {
         $allReviews = $this->_getAllData();
-        return array_filter($allReviews, function (Review $review) use($product) {
+        $newData = array_filter($allReviews, function (Review $review) use($product) {
             return $review->belongsToProduct($product);
         });
+        return new ReviewCollection($newData);
     }
 
 

@@ -3,10 +3,10 @@
     <?php foreach ($product as $_product): ?>
         <li class="item clearfix">
             <img src="<?php echo $_product->getImage(); ?>" alt=""/>
-            <a href="#"><h2><?php echo $_product->getName(); ?></h2></a>
-            <p>SKU: <?php echo $_product->getSku(); ?></p>
-            <p>Цена: <?php echo $_product->getPrice(); ?> $</p>
-            <p>Спец. цена: <span><?php echo $_product->getSpecialPrice(); ?> $</p>
+            <a href="/?page=product_item"><h2><?php echo $_product->getName(); ?></h2></a>
+            <p><span>SKU:</span> <?php echo $_product->getSku(); ?></p>
+            <p><span>Цена:</span> <?php echo $_product->getPrice(); ?> $</p>
+            <p><span>Спец. цена:</span> <?php echo $_product->getSpecialPrice(); ?> $</p>
         </li>
     <?php endforeach; ?>
 </ul>
