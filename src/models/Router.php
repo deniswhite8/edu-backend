@@ -1,5 +1,9 @@
 <?php
 
+class PageNotFoundException extends Exception
+{
+}
+
 class Router
 {
     private $_controllerName;
@@ -17,7 +21,9 @@ class Router
         $this->_controllerName = ucfirst($this->_controller) . 'Controller';
         $this->_actionName = lcfirst($this->_action) . 'Action';
 
-        $this->_isExist();
+        if ($this->_isExist()) {
+            throw new PageNotFoundException();
+        }
     }
 
     private function _isExist()
@@ -33,11 +39,7 @@ class Router
             $notFoundError = true;
         }
 
-        if ($notFoundError) {
-            require_once __DIR__ . '/../controllers/ErrorController.php';
-            $this->_controllerName = 'ErrorController';
-            $this->_actionName = 'pageNotFoundAction';
-        }
+        return $notFoundError;
     }
 
     public function getController()

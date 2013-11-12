@@ -30,7 +30,7 @@ class ReviewCollection extends Collection
         $newData = array_filter($allReviews, function (Review $review) use($product) {
             return $review->belongsToProduct($product);
         });
-        return new ReviewCollection($newData);
+        return new ReviewCollection(array_values($newData));
     }
 
 

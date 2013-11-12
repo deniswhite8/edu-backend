@@ -123,7 +123,7 @@ class ReviewCollectionTest extends PHPUnit_Framework_TestCase {
         $arr1 = [new Review(['product' => $product, 'name' => 'a']), new Review(['product' => $product, 'name' => 'b'])];
         $arr2 = [new Review(['product' => new Product([]), 'name' => 'c']), new Review(['product' => new Product([]), 'name' => 'd'])];
 
-        $reviewCollection = new ReviewCollection(array_merge($arr1, $arr2));
+        $reviewCollection = new ReviewCollection(array_merge($arr2, $arr1));
         $this->assertEquals(new ReviewCollection($arr1), $reviewCollection->getReviewOfProduct($product));
     }
 
