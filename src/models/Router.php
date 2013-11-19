@@ -22,7 +22,7 @@ class Router
         $this->_actionName = lcfirst($this->_action) . 'Action';
 
         if ($this->_isExist()) {
-            throw new PageNotFoundException();
+            throw new PageNotFoundException('Page not found');
         }
     }
 

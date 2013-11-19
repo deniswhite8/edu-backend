@@ -35,16 +35,13 @@ class ReviewTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(5, $review->getRating());
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Rating must be an integer number and is in the range from 1 to 5
+     */
     public function testSetIncorrectRating()
     {
-        $excp = null;
-
-        try {
-            $review = new Review(['rating' => 9]);
-        } catch (Exception $ex) {
-            $excp = $ex;
-        }
-        $this->assertEquals(new InvalidArgumentException('Rating must be an integer number and is in the range from 1 to 5'), $excp);
+        new Review(['rating' => 9]);
     }
 
     public function testGetProduct()

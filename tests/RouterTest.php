@@ -22,31 +22,32 @@ class RouterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('viewAction', $router->getAction());
     }
 
-    public function testReturnPageNotFoundError()
+
+    /**
+     * @expectedException PageNotFoundException
+     * @expectedExceptionMessage Page not found
+     */
+    public function testRouterException1()
     {
-        $exp = null;
 
-        try {
-            $router = new Router('foo_bar');
-        } catch (PageNotFoundException $ex) {
-            $exp = $ex;
-        }
-        $this->assertEquals(new PageNotFoundException(), $exp);
+        new Router('foo_bar');
+    }
 
-        $exp = null;
-        try {
-            $router = new Router('foo_view');
-        } catch (PageNotFoundException $ex) {
-            $exp = $ex;
-        }
-        $this->assertEquals(new PageNotFoundException(), $exp);
+    /**
+     * @expectedException PageNotFoundException
+     * @expectedExceptionMessage Page not found
+     */
+    public function testRouterException2()
+    {
+        new Router('foo_view');
+    }
 
-        $exp = null;
-        try {
-            $router = new Router('product_bar');
-        } catch (PageNotFoundException $ex) {
-            $exp = $ex;
-        }
-        $this->assertEquals(new PageNotFoundException(), $exp);
+    /**
+     * @expectedException PageNotFoundException
+     * @expectedExceptionMessage Page not found
+     */
+    public function testRouterException3()
+    {
+        new Router('product_bar');
     }
 }
