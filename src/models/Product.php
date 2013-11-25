@@ -33,4 +33,14 @@ class Product extends Сontainer
     {
         return (bool) $this->getSpecialPrice();
     }
+
+    public function getId()
+    {
+        return $this->getField('product_id');
+    }
+
+    public function load(IResourceEntity $resource, $id)
+    {
+        $this->_data = $resource->find($id);
+    }
 }

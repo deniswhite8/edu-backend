@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../src/models/Product.php';
+require_once __DIR__ . '/../src/models/Resource/IResourceEntity.php';
 
 class ProductTest extends PHPUnit_Framework_TestCase
 {
@@ -60,5 +61,28 @@ class ProductTest extends PHPUnit_Framework_TestCase
 
         $product = new Product(['special_price' => 42]);
         $this->assertEquals(42, $product->getSpecialPrice());
+    }
+
+    public function testReturnsIdWhichHasBeenInitialized()
+    {
+        $product = new Product(['product_id' => 1]);
+        $this->assertEquals(1, $product->getId());
+
+        $product = new Product(['product_id' => 2]);
+        $this->assertEquals(2, $product->getId());
+    }
+
+    public function testLoadsDataFromResource()
+    {
+        $resource = $this->getMock('IResourceEntity');
+        $resource->expects($this->any())
+            ->method('find')
+            ->with($this->equalTo(42))
+            ->will($this->returnValue(['name' => 'foo']));
+
+        $product = new Product([]);
+        $product->load($resource, 42);
+
+        $this->assertEquals('foo', $product->getName());
     }
 }

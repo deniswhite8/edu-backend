@@ -7,7 +7,7 @@
  */
 
 class Сontainer {
-    private $_data = array();
+    protected $_data = array();
 
     public function __construct(array $data)
     {

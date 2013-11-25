@@ -15,7 +15,7 @@ class Router
             list($this->_controller, $this->_action) = explode('_', $route);
         } else {
             $this->_controller = "Product";
-            $this->_action = "view";
+            $this->_action = "list";
         }
 
         $this->_controllerName = ucfirst($this->_controller) . 'Controller';

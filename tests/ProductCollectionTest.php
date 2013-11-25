@@ -1,87 +1,52 @@
 <?php
 
-require_once __DIR__ . '/../src/models/Product.php';
+require_once __DIR__ . '/../src/models/Resource/IResourceCollection.php';
 require_once __DIR__ . '/../src/models/ProductCollection.php';
 
 class ProductCollectionTest extends PHPUnit_Framework_TestCase
 {
-    public function testGetProductsEquals()
+    public function testTakesDataFromResource()
     {
-        $products = new ProductCollection([new Product(['sku' => 'fuu']), new Product(['sku' => 'bar'])]);
-        $this->assertEquals([new Product(['sku' => 'fuu']), new Product(['sku' => 'bar'])], $products->getProducts());
+        $resource = $this->getMock('IResourceCollection');
+        $resource->expects($this->any())
+            ->method('fetch')
+            ->will($this->returnValue(
+                [
+                    ['name' => 'Nokla']
+                ]
+            ));
+
+        $collection = new ProductCollection($resource);
+
+        $products = $collection->getProducts();
+        $this->assertEquals('Nokla', $products[0]->getName());
     }
 
-    public function testGetSizeEquals()
+    public function testIsIterableWithForeachFunction()
     {
-        $products = new ProductCollection([new Product([]), new Product([])]);
-        $this->assertEquals(2, $products->getSize());
+        $resource = $this->getMock('IResourceCollection');
+        $resource->expects($this->any())
+            ->method('fetch')
+            ->will($this->returnValue(
+                [
+                    ['sku' => 'foo'],
+                    ['sku' => 'bar']
+                ]
+            ));
 
-        $products = new ProductCollection([new Product([])]);
-        $this->assertEquals(1, $products->getSize());
-    }
+        $expected = array(0 => 'foo', 1 => 'bar');
+        $collection = new ProductCollection($resource);
+        $iterated = false;
 
-    public function testGetSizeWithLimitEquals()
-    {
-        $products = new ProductCollection([new Product(['sku' => 'fuu']), new Product(['sku' => 'bar']), new Product(['sku' => 'baz'])]);
-        $products->limit(1);
-        $this->assertEquals(1, $products->getSize());
 
-        $products = new ProductCollection([new Product(['sku' => 'fuu']), new Product(['sku' => 'bar']), new Product(['sku' => 'baz'])]);
-        $products->limit(2);
-        $this->assertEquals(2, $products->getSize());
-    }
 
-    public function testGetProductsWithLimitEquals()
-    {
-        $products = new ProductCollection([new Product(['sku' => 'fuu']), new Product(['sku' => 'bar']), new Product(['sku' => 'baz'])]);
-        $products->limit(1);
-        $this->assertEquals([new Product(['sku' => 'fuu'])], $products->getProducts());
+        foreach ($collection as $_key => $item) {
+            $this->assertEquals($expected[$_key], $item->getSku());
+            $iterated = true;
+        }
 
-        $products = new ProductCollection([new Product(['sku' => 'fuu']), new Product(['sku' => 'bar']), new Product(['sku' => 'baz'])]);
-        $products->limit(2);
-        $this->assertEquals([new Product(['sku' => 'fuu']), new Product(['sku' => 'bar'])], $products->getProducts());
-    }
-
-    public function testGetProductsWithOffsetEquals()
-    {
-        $products = new ProductCollection([new Product(['sku' => 'fuu']), new Product(['sku' => 'bar']), new Product(['sku' => 'baz'])]);
-        $products->offset(0);
-        $this->assertEquals([new Product(['sku' => 'fuu']), new Product(['sku' => 'bar']), new Product(['sku' => 'baz'])], $products->getProducts());
-
-        $products = new ProductCollection([new Product(['sku' => 'fuu']), new Product(['sku' => 'bar']), new Product(['sku' => 'baz'])]);
-        $products->offset(1);
-        $this->assertEquals([new Product(['sku' => 'bar']), new Product(['sku' => 'baz'])], $products->getProducts());
-
-        $products = new ProductCollection([new Product(['sku' => 'fuu']), new Product(['sku' => 'bar']), new Product(['sku' => 'baz'])]);
-        $products->offset(2);
-        $this->assertEquals([new Product(['sku' => 'baz'])], $products->getProducts());
-    }
-
-    public function testGetSizeWithOffsetEquals()
-    {
-        $products = new ProductCollection([new Product([])]);
-        $products->limit(100);
-        $this->assertEquals(1, $products->getSize());
-    }
-
-    public function testGetSizeWithOffsetAndLimitEquals()
-    {
-        $products = new ProductCollection([new Product([]), new Product([])]);
-        $products->offset(2);
-        $products->limit(1);
-        $this->assertEquals(0, $products->getSize());
-
-        $products = new ProductCollection([new Product(['sku' => 1]), new Product(['sku' => 2]), new Product(['sku' => 3])]);
-        $products->offset(1);
-        $products->limit(1);
-        $this->assertEquals(1, $products->getSize());
-    }
-
-    public function testGetProductsWithOffsetAndLimitEquals()
-    {
-        $products = new ProductCollection([new Product(['sku' => 1]), new Product(['sku' => 2]), new Product(['sku' => 3])]);
-        $products->offset(1);
-        $products->limit(1);
-        $this->assertEquals([new Product(['sku' => 2])], $products->getProducts());
+        if (!$iterated) {
+            $this->fail('Iteration did not happen');
+        }
     }
 }
