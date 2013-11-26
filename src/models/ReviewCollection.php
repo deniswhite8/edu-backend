@@ -7,35 +7,52 @@
  */
 
 require_once __DIR__ . '/Collection.php';
+require_once __DIR__ . '/Review.php';
 
 class ReviewCollection extends Collection
 {
+
+    public $product = null;
+
     public function getAverageRating()
     {
-        $allReviews = $this->_getAllData();
-        $size = count($allReviews);
+        $avg = '';
+        if ($this->product)
+            $avg = $this->_resource->avgWithWhereEqual('rating', 'product_id', $this->product->getId());
+        else
+            $avg = $this->_resource->avg('rating');
 
-        if ($size == 0) throw new UnderflowException('Impossible to calculate the average rating of the empty collection reviews');
-
-        $ratings = array_map(function (Review $review) {
-            return $review->getRating();
-        }, $allReviews);
-
-        return array_sum($ratings) / $size;
+        return floatval(reset($avg[0]));
     }
 
-    public function getReviewOfProduct($product)
+    public function getReviewsOfProduct($product)
     {
-        $allReviews = $this->_getAllData();
-        $newData = array_filter($allReviews, function (Review $review) use($product) {
-            return $review->belongsToProduct($product);
-        });
-        return new ReviewCollection(array_values($newData));
+        $ret = new ReviewCollection($this->_resource);
+        $ret->product = $product;
+        return $ret;
     }
 
 
     public function getReviews()
     {
-        return $this->_getData();
+        if ($this->product)
+            return $this->toReviewsArray($this->_resource->whereEqual('product_id', $this->product->getId()));
+        else
+            return $this->toReviewsArray($this->_resource->fetch());
+    }
+
+    private function toReviewsArray($array)
+    {
+        return array_map(
+            function ($data) {
+                return new Review($data);
+            },
+            $array
+        );
+    }
+
+    public function getIterator()
+    {
+        return new ArrayIterator($this->getReviews());
     }
 }

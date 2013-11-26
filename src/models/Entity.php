@@ -6,7 +6,7 @@
  * Time: 14:09
  */
 
-class Сontainer {
+abstract class Entity {
     protected $_data = array();
 
     public function __construct(array $data)
@@ -23,4 +23,6 @@ class Сontainer {
     {
         $this->_data[$key] = $value;
     }
-} 
+
+    abstract protected function load(IResourceEntity $resource, $id);
+}

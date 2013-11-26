@@ -15,4 +15,22 @@ class DBCollection implements IResourceCollection
         return $this->_connection->query("SELECT * FROM {$this->_table}")
             ->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function whereEqual($field, $val)
+    {
+        return $this->_connection->query("SELECT * FROM {$this->_table} WHERE {$field}={$val}")
+            ->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function avg($avgfield)
+    {
+        return $this->_connection->query("SELECT AVG({$avgfield}) FROM {$this->_table}")
+            ->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function avgWithWhereEqual($avgfield, $field, $val)
+    {
+        return $this->_connection->query("SELECT AVG({$avgfield}) FROM {$this->_table} WHERE {$field}={$val}")
+                    ->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

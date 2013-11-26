@@ -3,15 +3,8 @@
 require_once __DIR__ . '/Collection.php';
 require_once __DIR__ . '/Resource/IResourceCollection.php';
 
-class ProductCollection implements IteratorAggregate // extends Collection
+class ProductCollection extends Collection
 {
-    private $_resource;
-
-    public function __construct(IResourceCollection $resource)
-    {
-        $this->_resource = $resource;
-    }
-
     public function getProducts()
     {
         return array_map(

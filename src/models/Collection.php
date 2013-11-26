@@ -6,59 +6,17 @@
  * Time: 15:50
  */
 
-class Collection implements IteratorAggregate {
-    private $_data = array();
-    private $_offsetCount, $_limitCount;
-    private $_position = 0;
+abstract class Collection implements IteratorAggregate {
 
-    public function __construct($data)
+    protected $_resource;
+
+    public function __construct(IResourceCollection $resource)
     {
-        $this->_data = $data;
-        $this->_offsetCount = 0;
-        $this->_limitCount = count($this->_data);
+        $this->_resource = $resource;
     }
 
-    protected function _getData()
-    {
-        return array_slice($this->_data, $this->_offsetCount, $this->_limitCount);
-    }
-
-    protected function _getAllData()
-    {
-        return $this->_data;
-    }
-
-    public function getSize()
-    {
-        return count($this->_getData());
-    }
-
-    public function limit($limitCount)
-    {
-        $this->_limitCount = $limitCount;
-    }
-
-    public function offset($offsetCount)
-    {
-        $this->_offsetCount = $offsetCount;
-    }
-
-    public function sort($key)
-    {
-        $cmp = function($first, $second) use ($key)
-        {
-            $a = $first->getField($key);
-            $b = $second->getField($key);
-
-            if($a == $b) return 0;
-            return ($a < $b) ? -1 : 1;
-        };
-        usort($this->_data, $cmp);
-    }
-
-    // Iterator function
     public function getIterator()
     {
-        return new ArrayIterator($this->_getData());
+
     }
 }

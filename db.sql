@@ -63,6 +63,26 @@ CREATE TABLE order_products (
   AUTO_INCREMENT =1;
 
 
+CREATE TABLE reviews (
+  review_id    INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  rating INT(1) UNSIGNED NOT NULL,
+  text VARCHAR(2047)
+       COLLATE utf8_bin NULL,
+
+  product_id INT(11) UNSIGNED NOT NULL,
+  customer_id INT(11) UNSIGNED NOT NULL,
+
+  PRIMARY KEY (review_id)
+)
+  ENGINE =InnoDB
+  DEFAULT CHARSET =utf8
+  AUTO_INCREMENT =1;
+
+
+
+
+
+
 -- homework
 
 ALTER TABLE products
@@ -97,6 +117,19 @@ REFERENCES orders (order_id)
   ON UPDATE CASCADE;
 
 
+ALTER TABLE reviews
+ADD FOREIGN KEY (customer_id)
+REFERENCES customers (customer_id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+
+ALTER TABLE reviews
+ADD FOREIGN KEY (product_id)
+REFERENCES products (product_id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
 
 -- test
 # INSERT INTO customers (name) VALUES ('Petya');
@@ -104,8 +137,9 @@ REFERENCES orders (order_id)
 # INSERT INTO orders (customer_id, seller_id) VALUES (1, 1);
 # INSERT INTO products (name, sku) VALUES ('Nokia', '12345');
 # INSERT INTO order_products (product_id, order_id) VALUES (1, 1);
+# INSERT INTO reviews (customer_id, product_id, rating, text) VALUES (1, 1, 1, 'bad'), (1, 2, 5, 'good');
 
 
-CREATE TABLE abstract_collection (id INT(11) DEFAULT NULL, data VARCHAR(100) DEFAULT NULL)
-  ENGINE=InnoDB
-  DEFAULT CHARSET=latin1;
+# CREATE TABLE abstract_collection (id INT(11) DEFAULT NULL, data VARCHAR(100) DEFAULT NULL)
+#   ENGINE=InnoDB
+#   DEFAULT CHARSET=latin1;

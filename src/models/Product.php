@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . '/Сontainer.php';
+require_once __DIR__ . '/Entity.php';
 
-class Product extends Сontainer
+class Product extends Entity
 {
     public function getSku()
     {

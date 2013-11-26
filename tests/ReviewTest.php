@@ -44,25 +44,25 @@ class ReviewTest extends PHPUnit_Framework_TestCase
         new Review(['rating' => 9]);
     }
 
-    public function testGetProduct()
-    {
-        $product = new Product(['sku' => 12345]);
-        $review = new Review(['product' => $product]);
-
-        $this->assertEquals($product, $review->getProduct());
-    }
-
-    public function testBelongsToProductPositive()
-    {
-        $product = new Product(['sku' => 12345]);
-        $review = new Review(['product' => $product]);
-        $this->assertEquals(true, $review->belongsToProduct($product));
-    }
-
-    public function testBelongsToProductNegative()
-    {
-        $product = new Product(['sku' => 12345]);
-        $review = new Review([]);
-        $this->assertEquals(false, $review->belongsToProduct($product));
-    }
+//    public function testGetProduct()
+//    {
+//        $product = new Product(['sku' => 12345]);
+//        $review = new Review(['product' => $product]);
+//
+//        $this->assertEquals($product, $review->getProduct());
+//    }
+//
+//    public function testBelongsToProductPositive()
+//    {
+//        $product = new Product(['sku' => 12345]);
+//        $review = new Review(['product' => $product]);
+//        $this->assertEquals(true, $review->belongsToProduct($product));
+//    }
+//
+//    public function testBelongsToProductNegative()
+//    {
+//        $product = new Product(['sku' => 12345]);
+//        $review = new Review([]);
+//        $this->assertEquals(false, $review->belongsToProduct($product));
+//    }
 }
