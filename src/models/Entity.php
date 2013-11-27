@@ -6,7 +6,7 @@
  * Time: 14:09
  */
 
-abstract class Entity {
+class Entity {
     protected $_data = array();
 
     public function __construct(array $data)
@@ -24,5 +24,8 @@ abstract class Entity {
         $this->_data[$key] = $value;
     }
 
-    abstract protected function load(IResourceEntity $resource, $id);
+    public function load(IResourceEntity $resource, $id)
+    {
+        $this->_data = $resource->find($id);
+    }
 }
