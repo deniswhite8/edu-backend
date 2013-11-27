@@ -70,7 +70,11 @@ CREATE TABLE reviews (
        COLLATE utf8_bin NULL,
 
   product_id INT(11) UNSIGNED NOT NULL,
-  customer_id INT(11) UNSIGNED NOT NULL,
+#   customer_id INT(11) UNSIGNED NOT NULL,
+  email VARCHAR(128)
+        COLLATE  utf8_bin NULL,
+  name VARCHAR(128)
+        COLLATE  utf8_bin NULL,
 
   PRIMARY KEY (review_id)
 )
@@ -117,29 +121,24 @@ REFERENCES orders (order_id)
   ON UPDATE CASCADE;
 
 
-ALTER TABLE reviews
-ADD FOREIGN KEY (customer_id)
-REFERENCES customers (customer_id)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
-
-
-ALTER TABLE reviews
-ADD FOREIGN KEY (product_id)
-REFERENCES products (product_id)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+# ALTER TABLE reviews
+# ADD FOREIGN KEY (customer_id)
+# REFERENCES customers (customer_id)
+#   ON DELETE CASCADE
+#   ON UPDATE CASCADE;
+#
+#
+# ALTER TABLE reviews
+# ADD FOREIGN KEY (product_id)
+# REFERENCES products (product_id)
+#   ON DELETE CASCADE
+#   ON UPDATE CASCADE;
 
 
 -- test
-# INSERT INTO customers (name) VALUES ('Petya');
-# INSERT INTO sellers (name) VALUES ('Vasya');
-# INSERT INTO orders (customer_id, seller_id) VALUES (1, 1);
-# INSERT INTO products (name, sku) VALUES ('Nokia', '12345');
-# INSERT INTO order_products (product_id, order_id) VALUES (1, 1);
-# INSERT INTO reviews (customer_id, product_id, rating, text) VALUES (1, 1, 1, 'bad'), (1, 2, 5, 'good');
-
-
-# CREATE TABLE abstract_collection (id INT(11) DEFAULT NULL, data VARCHAR(100) DEFAULT NULL)
-#   ENGINE=InnoDB
-#   DEFAULT CHARSET=latin1;
+INSERT INTO customers (name) VALUES ('Petya');
+INSERT INTO sellers (name) VALUES ('Vasya');
+INSERT INTO orders (customer_id, seller_id) VALUES (1, 1);
+INSERT INTO products (name, sku) VALUES ('Nokia', '12345'), ('SE', '3242');
+INSERT INTO order_products (product_id, order_id) VALUES (1, 1);
+INSERT INTO reviews (product_id, rating, text, name) VALUES (1, 1, 'bad', 'lolka'), (2, 5, 'good', 'petrovich'), (1, 2, 'no', 'qwerty');
