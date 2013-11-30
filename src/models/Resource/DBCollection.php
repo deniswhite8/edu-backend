@@ -1,8 +1,12 @@
 <?php
-class DBCollection implements IResourceCollection
+
+class DBCollection
+    implements IResourceCollection
 {
     private $_connection;
     private $_table;
+    private $_filters = [];
+    private $_bind = [];
 
     public function __construct(PDO $connection, $table)
     {
@@ -12,25 +16,53 @@ class DBCollection implements IResourceCollection
 
     public function fetch()
     {
-        return $this->_connection->query("SELECT * FROM {$this->_table}")
-            ->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->_prepareSql();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function whereEqual($field, $val)
+    public function filterBy($column, $value)
     {
-        return $this->_connection->query("SELECT * FROM {$this->_table} WHERE {$field}={$val}")
-            ->fetchAll(PDO::FETCH_ASSOC);
+        $this->_filters[$column] = $value;
     }
 
-    public function avg($avgfield)
+    public function average($column)
     {
-        return $this->_connection->query("SELECT AVG({$avgfield}) FROM {$this->_table}")
-            ->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->_prepareSql("AVG({$column}) as avg");
+        return $stmt->fetchColumn();
     }
 
-    public function avgWithWhereEqual($avgfield, $field, $val)
+    protected function _prepareSql($columns = '*')
     {
-        return $this->_connection->query("SELECT AVG({$avgfield}) FROM {$this->_table} WHERE {$field}={$val}")
-                    ->fetchAll(PDO::FETCH_ASSOC);
+        $sql = "SELECT {$columns} FROM {$this->_table}";
+        if ($this->_filters) {
+            $sql .= ' WHERE ' . $this->_prepareFilters();
+        }
+        $stmt = $this->_connection
+            ->prepare($sql);
+        if ($this->_bind) {
+            $this->_bindValues($stmt);
+        }
+        $stmt->execute();
+
+        return $stmt;
     }
+
+    private function _prepareFilters()
+    {
+        $conditions = [];
+        foreach ($this->_filters as $column => $value) {
+            $parameter = ':_param_' . $column;
+            $conditions[] = $column . ' = ' . $parameter . '';
+            $this->_bind[$parameter] = $value;
+        }
+        return implode(' AND ', $conditions);
+    }
+
+    private function _bindValues(PDOStatement $stmt)
+    {
+        foreach ($this->_bind as $parameter => $value) {
+            $stmt->bindValue($parameter, $value);
+        }
+    }
+
 }

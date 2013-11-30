@@ -1,32 +1,31 @@
 <?php
-
 require_once __DIR__ . '/Entity.php';
 
 class Product extends Entity
 {
     public function getSku()
     {
-        return $this->getField('sku');
+        return $this->_getData('sku');
     }
 
     public function getName()
     {
-        return $this->getField('name');
+        return $this->_getData('name');
     }
 
     public function getImage()
     {
-        return $this->getField('image');
+        return $this->_getData('image');
     }
 
     public function getPrice()
     {
-        return $this->getField('price');
+        return $this->_getData('price');
     }
 
     public function getSpecialPrice()
     {
-        return $this->getField('special_price');
+        return $this->_getData('special_price');
     }
 
     public function isSpecialPriceApplied()
@@ -36,6 +35,11 @@ class Product extends Entity
 
     public function getId()
     {
-        return $this->getField('product_id');
+        return $this->_getData('product_id');
+    }
+
+    public function load(IResourceEntity $resource, $id)
+    {
+        $this->_data = $resource->find($id);
     }
 }

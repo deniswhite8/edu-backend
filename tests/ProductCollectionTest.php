@@ -1,9 +1,8 @@
 <?php
-
 require_once __DIR__ . '/../src/models/Resource/IResourceCollection.php';
 require_once __DIR__ . '/../src/models/ProductCollection.php';
 
-class ProductCollectionTest extends PHPUnit_Framework_TestCase
+class __ProductCollection extends PHPUnit_Framework_TestCase
 {
     public function testTakesDataFromResource()
     {
@@ -34,14 +33,11 @@ class ProductCollectionTest extends PHPUnit_Framework_TestCase
                 ]
             ));
 
-        $expected = array(0 => 'foo', 1 => 'bar');
         $collection = new ProductCollection($resource);
+        $expected = array(0 => 'foo', 1 => 'bar');
         $iterated = false;
-
-
-
-        foreach ($collection as $_key => $item) {
-            $this->assertEquals($expected[$_key], $item->getSku());
+        foreach ($collection as $_key => $_product) {
+            $this->assertEquals($expected[$_key], $_product->getSku());
             $iterated = true;
         }
 
@@ -49,4 +45,5 @@ class ProductCollectionTest extends PHPUnit_Framework_TestCase
             $this->fail('Iteration did not happen');
         }
     }
+
 }

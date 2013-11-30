@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../models/ProductCollection.php';
-require_once __DIR__ . '/../models/ReviewCollection.php';
+require_once __DIR__ . '/../models/ProductReviewCollection.php';
 require_once __DIR__ . '/../models/Resource/DBCollection.php';
 require_once __DIR__ . '/../models/Resource/DBEntity.php';
 require_once __DIR__ . '/../models/Product.php';
@@ -32,8 +32,9 @@ class ProductController
         $product->load($resource, $_GET['id']);
 
         $reviewsRes = new DBCollection($connection, 'reviews');
-        $allReviews = new ReviewCollection($reviewsRes);
-        $reviews = $allReviews->getReviewsOfProduct($product);
+        $allReviews = new ProductReviewCollection($reviewsRes);
+        $allReviews->filterByProduct($product);
+        $reviews = $allReviews->getReviews();
 
         $_page = __DIR__ . '/../views/product_page.phtml';
         include(__DIR__ . '/../views/main.phtml');

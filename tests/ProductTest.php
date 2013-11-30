@@ -1,11 +1,10 @@
 <?php
-
 require_once __DIR__ . '/../src/models/Product.php';
 require_once __DIR__ . '/../src/models/Resource/IResourceEntity.php';
 
 class ProductTest extends PHPUnit_Framework_TestCase
 {
-    public function testSkuEquals()
+    public function testReturnsSkuWhichHasBeenInitialized()
     {
         $product = new Product(['sku' => '12345']);
         $this->assertEquals('12345', $product->getSku());
@@ -14,16 +13,16 @@ class ProductTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('567890', $product->getSku());
     }
 
-    public function testNameEquals()
+    public function testReturnsNameWhichHasBeenInitialized()
     {
         $product = new Product(['name' => 'Nokio']);
         $this->assertEquals('Nokio', $product->getName());
 
-        $product = new Product(['name' => 'Motyorobla']);
-        $this->assertEquals('Motyorobla', $product->getName());
+        $product = new Product(['name' => 'Motorobla']);
+        $this->assertEquals('Motorobla', $product->getName());
     }
 
-    public function testImageEquals()
+    public function testReturnsImageWhichHasBeenInitialized()
     {
         $product = new Product(['image' => 'http://url.ru/img.jpg']);
         $this->assertEquals('http://url.ru/img.jpg', $product->getImage());
@@ -32,8 +31,7 @@ class ProductTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('http://url.ru/img2.jpg', $product->getImage());
     }
 
-
-    public function testPriceEquals()
+    public function testReturnsPriceWhichHasBeenInitialized()
     {
         $product = new Product(['price' => 123.5]);
         $this->assertEquals(123.5, $product->getPrice());
@@ -42,25 +40,22 @@ class ProductTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(42, $product->getPrice());
     }
 
-    public function testSpecialPriceIsTrue()
-    {
-        $product = new Product(['special_price' => 123.5]);
-        $this->assertEquals(true, $product->isSpecialPriceApplied());
-    }
-
-    public function testSpecialPriceIsFalse()
-    {
-        $product = new Product([]);
-        $this->assertEquals(false, $product->isSpecialPriceApplied());
-    }
-
-    public function testSpecialPriceEquals()
+    public function testReturnsSpecialPriceWhichHasBeenInitialized()
     {
         $product = new Product(['special_price' => 123.5]);
         $this->assertEquals(123.5, $product->getSpecialPrice());
 
         $product = new Product(['special_price' => 42]);
         $this->assertEquals(42, $product->getSpecialPrice());
+    }
+
+    public function testSpecialPriceIsAppliedWhenValueIsSet()
+    {
+        $product = new Product(['special_price' => 123.5]);
+        $this->assertTrue($product->isSpecialPriceApplied());
+
+        $product = new Product([]);
+        $this->assertFalse($product->isSpecialPriceApplied());
     }
 
     public function testReturnsIdWhichHasBeenInitialized()

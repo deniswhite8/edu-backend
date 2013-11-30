@@ -6,7 +6,7 @@
         <p><span>SKU:</span> <?php echo $product->getSku(); ?></p>
         <p><span>Цена:</span> <?php echo $product->getPrice(); ?> $</p>
         <p><span>Спец. цена:</span> <?php echo $product->getSpecialPrice(); ?> $</p>
-        <p><span>Средний рейтинг:</span> <?php echo round($reviews->getAverageRating(), 2); ?></p>
+        <p><span>Средний рейтинг:</span> <?php echo round($allReviews->getAverageRating(), 2); ?></p>
     </li>
 
     <?php foreach ($reviews as $_review): ?>
