@@ -1,5 +1,9 @@
 <?php
+<<<<<<< HEAD
 
+=======
+namespace App\Model;
+>>>>>>> remotes/oggetto/master
 class Entity
 {
     protected $_data = array();
@@ -18,4 +22,8 @@ class Entity
     {
         return $this->_getData($key);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> remotes/oggetto/master

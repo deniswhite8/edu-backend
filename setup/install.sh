@@ -12,3 +12,6 @@ apt-get install -y php5-cli php5-mysql
 
 # Install GIT
 apt-get install -y git
+
+# Install GIT
+apt-get install -y curl

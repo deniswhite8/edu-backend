@@ -1,42 +1,33 @@
 <?php
-require_once __DIR__ . '/../models/ProductCollection.php';
-require_once __DIR__ . '/../models/ProductReviewCollection.php';
-require_once __DIR__ . '/../models/Resource/DBCollection.php';
-require_once __DIR__ . '/../models/Resource/DBEntity.php';
-require_once __DIR__ . '/../models/Product.php';
-require_once __DIR__ . '/../models/Resource/DBConfig.php';
+namespace App\Controller;
+
+use App\Model\Resource\DBCollection;
+use App\Model\Resource\DBEntity;
+use App\Model\ProductCollection;
+use App\Model\Product;
+use App\Model\Resource\Table\Product as ProductTable;
 
 class ProductController
 {
     public function listAction()
     {
-        $dbconf = $GLOBALS['dbconf'];
-        $connection = $dbconf->getConnection();
-        $resource = new DBCollection($connection, 'products');
+        $connection = new \PDO('mysql:host=localhost;dbname=student', 'root', '123123');
+        $resource = new DBCollection($connection, new ProductTable);
         $products = new ProductCollection($resource);
 
-        $_page = __DIR__ . '/../views/product_list.phtml';
-        include(__DIR__ . '/../views/main.phtml');
+        $view = 'product_list';
+        require_once __DIR__ . '/../views/layout/base.phtml';
     }
 
     public function viewAction()
     {
         $product = new Product([]);
 
-        $dbconf = $GLOBALS['dbconf'];
-        $connection = $dbconf->getConnection();
-
-        $tableName = 'products';
-        $primaryKey = $dbconf->getPrimaryKey($tableName);
-        $resource = new DBEntity($connection, $tableName, $primaryKey);
+        $connection = new \PDO('mysql:host=localhost;dbname=student', 'root', '123123');
+        $resource = new DBEntity($connection, new ProductTable);
         $product->load($resource, $_GET['id']);
 
-        $reviewsRes = new DBCollection($connection, 'reviews');
-        $allReviews = new ProductReviewCollection($reviewsRes);
-        $allReviews->filterByProduct($product);
-        $reviews = $allReviews->getReviews();
-
-        $_page = __DIR__ . '/../views/product_page.phtml';
-        include(__DIR__ . '/../views/main.phtml');
+        $view = 'product_view';
+        require_once __DIR__ . '/../views/layout/base.phtml';
     }
 }
