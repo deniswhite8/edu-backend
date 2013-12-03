@@ -58,6 +58,11 @@ class ProductTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($product->isSpecialPriceApplied());
     }
 
+    public function testCastSpecialPriceToFloatWhenChecksForApplied()
+    {
+
+    }
+
     public function testReturnsIdWhichHasBeenInitialized()
     {
         $product = new Product(['product_id' => 1]);

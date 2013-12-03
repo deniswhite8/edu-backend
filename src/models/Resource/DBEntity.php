@@ -15,9 +15,8 @@ class DBEntity implements IResourceEntity
 
     public function find($id)
     {
-        return $this
-            ->_connection
-            ->query("SELECT * FROM {$this->_table} WHERE {$this->_primaryKey} = {$id}")
-            ->fetch(PDO::FETCH_ASSOC);
+        $smtm = $this->_connection->prepare("SELECT * FROM {$this->_table} WHERE {$this->_primaryKey} = :id");
+        $smtm->execute([':id' => $id]);
+        return $smtm->fetch(PDO::FETCH_ASSOC);
     }
 }

@@ -13,6 +13,15 @@ class DBEntityTest
         $this->assertEquals(['id' => 2, 'data' => 'bar'], $resource->find(2));
     }
 
+    public function testEscapeFilterParametr()
+    {
+        $resource = new DBEntity(
+            $this->getConnection()->getConnection(), 'abstract_collection', 'id'
+        );
+        $this->assertEquals(['id' => 2, 'data' => 'bar'], $resource->find('2-1'));
+    }
+
+
     public function getConnection()
     {
         $pdo = new PDO('mysql:host=localhost;dbname=student_unit', 'root', '123');
