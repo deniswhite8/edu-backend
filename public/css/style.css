@@ -67,3 +67,7 @@ a {
 .item span {
     font-weight: bold;
 }
+
+.strike {
+    text-decoration: line-through;
+}

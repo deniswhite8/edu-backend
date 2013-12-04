@@ -38,11 +38,13 @@ CREATE TABLE orders (
   AUTO_INCREMENT =1;
 
 CREATE TABLE products (
-  product_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  name       VARCHAR(255)
-             COLLATE utf8_bin NULL,
-  sku        VARCHAR(255)
-             COLLATE utf8_bin NULL,
+  product_id    INT(11) UNSIGNED        NOT NULL AUTO_INCREMENT,
+  name          VARCHAR(255)
+                COLLATE utf8_bin        NULL,
+  sku           VARCHAR(255)
+                COLLATE utf8_bin        NULL,
+  price         DECIMAL(10, 2) UNSIGNED NOT NULL,
+  special_price DECIMAL(10, 2) UNSIGNED NULL,
 
   PRIMARY KEY (product_id)
 )
@@ -64,27 +66,23 @@ CREATE TABLE order_products (
 
 
 CREATE TABLE reviews (
-  review_id    INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  rating INT(1) UNSIGNED NOT NULL,
-  text VARCHAR(2047)
-       COLLATE utf8_bin NULL,
+  review_id  INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  rating     INT(1) UNSIGNED  NOT NULL,
+  text       VARCHAR(2047)
+             COLLATE utf8_bin NULL,
 
   product_id INT(11) UNSIGNED NOT NULL,
 #   customer_id INT(11) UNSIGNED NOT NULL,
-  email VARCHAR(128)
-        COLLATE  utf8_bin NULL,
-  name VARCHAR(128)
-        COLLATE  utf8_bin NULL,
+  email      VARCHAR(128)
+             COLLATE utf8_bin NULL,
+  name       VARCHAR(128)
+             COLLATE utf8_bin NULL,
 
   PRIMARY KEY (review_id)
 )
   ENGINE =InnoDB
   DEFAULT CHARSET =utf8
   AUTO_INCREMENT =1;
-
-
-
-
 
 
 -- homework
@@ -139,6 +137,8 @@ REFERENCES orders (order_id)
 INSERT INTO customers (name) VALUES ('Petya');
 INSERT INTO sellers (name) VALUES ('Vasya');
 INSERT INTO orders (customer_id, seller_id) VALUES (1, 1);
-INSERT INTO products (name, sku) VALUES ('Nokia', '12345'), ('SE', '3242');
+INSERT INTO products (name, sku, price, special_price)
+  VALUES ('Nokia', '12345', 100.00, 0.00), ('SE', '3242', 50.00, 48.99);
 INSERT INTO order_products (product_id, order_id) VALUES (1, 1);
-INSERT INTO reviews (product_id, rating, text, name) VALUES (1, 1, 'bad', 'lolka'), (2, 5, 'good', 'petrovich'), (1, 2, 'no', 'qwerty');
+INSERT INTO reviews (product_id, rating, text, name)
+  VALUES (1, 1, 'bad', 'lolka'), (2, 5, 'good', 'petrovich'), (1, 2, 'no', 'qwerty');

@@ -20,7 +20,7 @@ class DBEntityTest
 
     public function getConnection()
     {
-        $pdo = new \PDO('mysql:host=localhost;dbname=student_unit', 'root', '123123');
+        $pdo = new \PDO('mysql:host=localhost;dbname=student_unit', 'root', '123');
         return $this->createDefaultDBConnection($pdo, 'student_unit');
     }
 
