@@ -2,6 +2,8 @@ CREATE TABLE customers (
   customer_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   name        VARCHAR(255)
               COLLATE utf8_bin NULL,
+  password    VARCHAR(32)
+              COLLATE utf8_bin NOT NULL,
   rating      DECIMAL(10, 2)   NULL,
 
   PRIMARY KEY (customer_id)
@@ -90,6 +92,9 @@ CREATE TABLE reviews (
 ALTER TABLE products
 ADD UNIQUE INDEX (sku);
 
+ALTER TABLE customers
+ADD UNIQUE INDEX (name);
+
 
 ALTER TABLE orders
 ADD FOREIGN KEY (customer_id)
@@ -134,11 +139,11 @@ REFERENCES orders (order_id)
 
 
 -- test
-INSERT INTO customers (name) VALUES ('Petya');
-INSERT INTO sellers (name) VALUES ('Vasya');
-INSERT INTO orders (customer_id, seller_id) VALUES (1, 1);
+# INSERT INTO customers (name) VALUES ('Petya');
+# INSERT INTO sellers (name) VALUES ('Vasya');
+# INSERT INTO orders (customer_id, seller_id) VALUES (1, 1);
 INSERT INTO products (name, sku, price, special_price)
   VALUES ('Nokia', '12345', 100.00, 0.00), ('SE', '3242', 50.00, 48.99);
-INSERT INTO order_products (product_id, order_id) VALUES (1, 1);
+# INSERT INTO order_products (product_id, order_id) VALUES (1, 1);
 INSERT INTO reviews (product_id, rating, text, name)
   VALUES (1, 1, 'bad', 'lolka'), (2, 5, 'good', 'petrovich'), (1, 2, 'no', 'qwerty');

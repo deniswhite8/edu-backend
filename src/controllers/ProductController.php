@@ -17,7 +17,7 @@ class ProductController
         $resource = new DBCollection($connection, new ProductTable);
         $products = new ProductCollection($resource);
 
-        $_page = 'product_list';
+        $view = 'product_list';
         require_once __DIR__ . '/../views/layout/main.phtml';
     }
 
@@ -33,7 +33,7 @@ class ProductController
         $reviews = new ProductReviewCollection($reviewResource);
         $reviews->filterByProduct($product);
 
-        $_page = 'product_view';
+        $view = 'product_view';
         require_once __DIR__ . '/../views/layout/main.phtml';
     }
 }

@@ -1,0 +1,18 @@
+<h1>Login</h1>
+
+<form action="?page=customer_login" method="POST">
+    <div>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="customer[name]" />
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input type="text" id="password" name="customer[password]" />
+    </div>
+
+    <input type="submit" value="Login">
+    <?php if ($error): ?>
+        <p class="error">Incorrect username or password</p>
+    <?php endif; ?>
+</form>
+

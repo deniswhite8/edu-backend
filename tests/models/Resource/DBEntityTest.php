@@ -2,6 +2,9 @@
 namespace Test\Model\Resource;
 use App\Model\Resource\DBEntity;
 
+class PDOMock extends \PDO {
+    public function __construct() {}
+}
 class DBEntityTest
     extends \PHPUnit_Extensions_Database_TestCase
 {
@@ -21,30 +24,30 @@ class DBEntityTest
     public function testSavesDataInDb()
     {
         $resource = $this->_getResource();
+
         $resource->save(['id' => 3, 'data' => 'baz']);
 
         $queryTable = $this->getConnection()->createQueryTable(
             'abstract_collection', 'SELECT * FROM abstract_collection'
         );
         $expectedTable = (new \PHPUnit_Extensions_Database_DataSet_YamlDataSet(
-            __DIR__ . '/DBEntityTest/expectations/abstract_entity.yaml'
-        ))->getTable('abstract_collection');
+            __DIR__ . '/DBEntityTest/expectations/testSavesDataInDb.yaml'
+        ))->getTable("abstract_collection");
 
         $this->assertTablesEqual($expectedTable, $queryTable);
     }
 
-
-    public function testUpdateEntityIfExists()
+    public function testUpdatesEntityIfExists()
     {
         $resource = $this->_getResource();
-        $resource->save(['id' => 3, 'data' => 'baz']);
+        $resource->save(['id' => 2, 'data' => 'baz']);
 
         $queryTable = $this->getConnection()->createQueryTable(
             'abstract_collection', 'SELECT * FROM abstract_collection'
         );
         $expectedTable = (new \PHPUnit_Extensions_Database_DataSet_YamlDataSet(
-            __DIR__ . '/DBEntityTest/expectations/abstract_entity.yaml'
-        ))->getTable('abstract_collection');
+            __DIR__ . '/DBEntityTest/expectations/testUpdatesEntityIfExists.yaml'
+        ))->getTable("abstract_collection");
 
         $this->assertTablesEqual($expectedTable, $queryTable);
     }

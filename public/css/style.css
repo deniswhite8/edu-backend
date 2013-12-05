@@ -71,3 +71,34 @@ a {
 .strike {
     text-decoration: line-through;
 }
+
+form div label {
+    display: block;
+    float: left;
+}
+
+form div input {
+    display: block;
+    margin-left: 100px;
+}
+
+form div {
+    margin-bottom: 5px;
+}
+
+form {
+    float: left;
+    background: #ffffff;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+
+.login-box {
+    float: right;
+}
+
+.error {
+    color: red;
+    padding: 5px;
+}

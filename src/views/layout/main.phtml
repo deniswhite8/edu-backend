@@ -6,6 +6,17 @@
     <link rel="stylesheet" href="/css/style.css"/>
 </head>
 <body>
-    <?php include(__DIR__ . '/../' . $_page . '.phtml'); ?>
+    <?php $session = new \App\Model\Session();
+    if (!$session->isLogged()):?>
+        <div class="login-box">
+            <a href="?page=customer_login">Login</a> |
+            <a href="?page=customer_register">Register</a>
+        </div>
+    <?php else: ?>
+         <div class="login-box">
+            <p>Welcome, <strong><?php echo $session->getCustomer()->getData('name') ?></strong></p>
+            <a href="?page=customer_logout">Logout</a>
+        </div>
+    <?php endif; include(__DIR__ . '/../' . $view . '.phtml'); ?>
 </body>
 </html>
