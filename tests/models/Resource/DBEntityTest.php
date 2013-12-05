@@ -18,6 +18,37 @@ class DBEntityTest
         $this->assertEquals(['id' => 2, 'data' => 'bar'], $resource->find('2 - 1'));
     }
 
+    public function testSavesDataInDb()
+    {
+        $resource = $this->_getResource();
+        $resource->save(['id' => 3, 'data' => 'baz']);
+
+        $queryTable = $this->getConnection()->createQueryTable(
+            'abstract_collection', 'SELECT * FROM abstract_collection'
+        );
+        $expectedTable = (new \PHPUnit_Extensions_Database_DataSet_YamlDataSet(
+            __DIR__ . '/DBEntityTest/expectations/abstract_entity.yaml'
+        ))->getTable('abstract_collection');
+
+        $this->assertTablesEqual($expectedTable, $queryTable);
+    }
+
+
+    public function testUpdateEntityIfExists()
+    {
+        $resource = $this->_getResource();
+        $resource->save(['id' => 3, 'data' => 'baz']);
+
+        $queryTable = $this->getConnection()->createQueryTable(
+            'abstract_collection', 'SELECT * FROM abstract_collection'
+        );
+        $expectedTable = (new \PHPUnit_Extensions_Database_DataSet_YamlDataSet(
+            __DIR__ . '/DBEntityTest/expectations/abstract_entity.yaml'
+        ))->getTable('abstract_collection');
+
+        $this->assertTablesEqual($expectedTable, $queryTable);
+    }
+
     public function getConnection()
     {
         $pdo = new \PDO('mysql:host=localhost;dbname=student_unit', 'root', '123');
