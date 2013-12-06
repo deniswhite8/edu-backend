@@ -13,7 +13,6 @@ class Session
     public function __construct()
     {
         session_start();
-
         $connection = new \PDO('mysql:host=localhost;dbname=student', 'root', '123');
         $this->_resource = new DBEntity($connection, new CustomerTable);
     }
@@ -41,5 +40,15 @@ class Session
     public function logout()
     {
         unset($_SESSION['id']);
+    }
+
+    public function set($key, $data)
+    {
+        $_SESSION[$key] = $data;
+    }
+
+    public function get($key)
+    {
+        return $_SESSION[$key];
     }
 }

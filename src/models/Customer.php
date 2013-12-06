@@ -4,6 +4,13 @@ use App\Model\Resource\IResourceEntity;
 
 class Customer extends Entity
 {
+    public function __construct(array $data)
+    {
+        $hasher = new Hasher();
+        $data['password'] = $hasher->hashed($data['password']);
+        $this->_data = $data;
+    }
+
     public function save(IResourceEntity $resource)
     {
         $id = $resource->save($this->_data);

@@ -1,0 +1,19 @@
+<div class="shopping-cart">
+<?php foreach($items as $item):
+$product = $item['product'];?>
+    <a href="/?page=product_view&id=<?php echo $product->getId()?>"><strong><?php echo $product->getName(); ?></strong></a>
+    <p><?php echo $item['count']?> pieces</p>
+    <a class="change" href="/?page=shoppingCart_plus&id=<?php echo $product->getId() ?>">+</a>
+    <?php if($item['count'] > 1): ?>
+        <a class="change" href="/?page=shoppingCart_minus&id=<?php echo $product->getId() ?>">-</a>
+    <?php endif; ?>
+    <br>
+    <?php if($product->isSpecialPriceApplied()): ?>
+        <p class="strike"><?php echo $product->getPrice(); ?></p>
+        <p><?php echo $product->getSpecialPrice(); ?> $</p>
+    <?php else: ?>
+        <p><?php echo $product->getPrice(); ?> $</p>
+    <?php endif; ?>
+    <a href="/?page=shoppingCart_delete&id=<?php echo $product->getId() ?>" class="option">Delete from cart</a>
+<?php endforeach; ?>
+</div>

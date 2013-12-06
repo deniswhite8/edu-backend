@@ -11,30 +11,47 @@ use App\Model\Session;
 class CustomerController
 {
 
+
+
     public function loginAction()
     {
+        $error = false;
+        $again = false;
         if (isset($_POST['customer'])) {
             if ($this->_loginCustomer()) $this->_goBack();
             else {
                 $error = true;
-                $view = 'customer_login';
-                require_once __DIR__ . '/../views/layout/main.phtml';
+                $again = true;
             }
         } else {
             $error = false;
-            $view = 'customer_login';
-            require_once __DIR__ . '/../views/layout/main.phtml';
+            $again = true;
         }
+
+        $view = 'customer_login';
+        if ($again) require_once __DIR__ . '/../views/layout/main.phtml';
     }
 
     public function registerAction()
     {
+        $error = false;
+        $again = false;
         if (isset($_POST['customer'])) {
-            $this->_registerCustomer();
+            if ($this->_registerCustomer()) {
+                $this->_loginCustomer();
+                $this->_goBack();
+            }
+            else {
+                $error = true;
+                $again = true;
+            }
         } else {
-            $view = 'customer_register';
-            require_once __DIR__ . '/../views/layout/main.phtml';
+            $error = false;
+            $again = true;
         }
+
+        $view = 'customer_register';
+        if ($again) require_once __DIR__ . '/../views/layout/main.phtml';
     }
 
     public function logoutAction()
@@ -49,7 +66,12 @@ class CustomerController
         $connection = new \PDO('mysql:host=localhost;dbname=student', 'root', '123');
         $resource = new DBEntity($connection, new CustomerTable);
         $customer = new Customer($_POST['customer']);
-        $customer->save($resource);
+        try {
+            $customer->save($resource);
+        } catch (\Exception $ex) {
+            return false;
+        }
+        return true;
     }
 
     private function _loginCustomer()

@@ -22,6 +22,14 @@ class DBEntity
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
+    public function delete($id)
+    {
+        $smtm = $this->_connection->prepare(
+            "DELETE FROM {$this->_table->getName()} WHERE {$this->_table->getPrimaryKey()} = :id"
+        );
+        $smtm->execute([':id' => $id]);
+    }
+
     public function save($data)
     {
         $fields = array_keys($data);
@@ -30,7 +38,7 @@ class DBEntity
         } else {
             $stmt = $this->_insertItem($fields);
         }
-        $stmt->execute(array_combine($this->_prepareBind($fields), $data));
+        if(!$stmt->execute(array_combine($this->_prepareBind($fields), $data))) throw new \Exception();
         return $this->_connection->lastInsertId($this->_table->getPrimaryKey());
     }
 

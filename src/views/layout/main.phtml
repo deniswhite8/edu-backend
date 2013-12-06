@@ -6,15 +6,18 @@
     <link rel="stylesheet" href="/css/style.css"/>
 </head>
 <body>
+    <a href="/index.php" class="arrow-back">←</a>
     <?php $session = new \App\Model\Session();
     if (!$session->isLogged()):?>
         <div class="login-box">
-            <a href="?page=customer_login">Login</a> |
+            <a href="?page=shoppingCart_list">Shopping cart</a>
+            <a href="?page=customer_login">Login</a>
             <a href="?page=customer_register">Register</a>
         </div>
     <?php else: ?>
          <div class="login-box">
             <p>Welcome, <strong><?php echo $session->getCustomer()->getData('name') ?></strong></p>
+            <a href="?page=shoppingCart_list">Shopping cart</a>
             <a href="?page=customer_logout">Logout</a>
         </div>
     <?php endif; include(__DIR__ . '/../' . $view . '.phtml'); ?>

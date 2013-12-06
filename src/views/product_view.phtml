@@ -11,6 +11,7 @@
             <p><span>Цена:</span> <?php echo $product->getPrice(); ?> $</p>
         <?php endif; ?>
         <p><span>Средний рейтинг:</span> <?php echo round($reviews->getAverageRating(), 2); ?></p>
+        <a href="/?page=shoppingCart_add&id=<?php echo $product->getId(); ?>" class="option">Add to cart</a>
     </li>
 
     <?php foreach ($reviews as $_review): ?>

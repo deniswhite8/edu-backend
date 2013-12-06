@@ -12,6 +12,20 @@ CREATE TABLE customers (
   DEFAULT CHARSET =utf8
   AUTO_INCREMENT =1;
 
+
+CREATE TABLE shopping_cart (
+  shopping_cart_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  customer_id      INT(11) UNSIGNED NOT NULL,
+  product_id       INT(11) UNSIGNED NOT NULL,
+  count            INT(11) UNSIGNED NULL,
+
+  PRIMARY KEY (shopping_cart_id)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  AUTO_INCREMENT = 1;
+
+
 CREATE TABLE sellers (
   seller_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   name      VARCHAR(255)
@@ -47,6 +61,8 @@ CREATE TABLE products (
                 COLLATE utf8_bin        NULL,
   price         DECIMAL(10, 2) UNSIGNED NOT NULL,
   special_price DECIMAL(10, 2) UNSIGNED NULL,
+  image         VARCHAR(255)
+                COLLATE utf8_bin        NULL,
 
   PRIMARY KEY (product_id)
 )
@@ -123,6 +139,17 @@ REFERENCES orders (order_id)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 
+ALTER TABLE shopping_cart
+ADD FOREIGN KEY (customer_id)
+REFERENCES customers (customer_id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE shopping_cart
+ADD FOREIGN KEY (product_id)
+REFERENCES products (product_id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
 
 # ALTER TABLE reviews
 # ADD FOREIGN KEY (customer_id)
@@ -142,8 +169,9 @@ REFERENCES orders (order_id)
 # INSERT INTO customers (name) VALUES ('Petya');
 # INSERT INTO sellers (name) VALUES ('Vasya');
 # INSERT INTO orders (customer_id, seller_id) VALUES (1, 1);
-INSERT INTO products (name, sku, price, special_price)
-  VALUES ('Nokia', '12345', 100.00, 0.00), ('SE', '3242', 50.00, 48.99);
+INSERT INTO products (name, sku, price, special_price, image)
+  VALUES ('Nokia', '12345', 100.00, 0.00, 'http://www.qosc.zp.ua/wp-content/uploads/2013/08/Nokia_3310.jpg'),
+  ('SE', '3242', 50.00, 48.99, 'http://freemarket.kiev.ua/images_goods/Sony-Ericsson/Sony-Ericsson-K320i-6.jpg');
 # INSERT INTO order_products (product_id, order_id) VALUES (1, 1);
 INSERT INTO reviews (product_id, rating, text, name)
   VALUES (1, 1, 'bad', 'lolka'), (2, 5, 'good', 'petrovich'), (1, 2, 'no', 'qwerty');
