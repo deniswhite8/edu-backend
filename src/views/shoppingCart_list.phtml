@@ -1,10 +1,10 @@
 <div class="shopping-cart">
 <?php foreach($items as $item):
-$product = $item['product'];?>
+$product = $item->product;?>
     <a href="/?page=product_view&id=<?php echo $product->getId()?>"><strong><?php echo $product->getName(); ?></strong></a>
-    <p><?php echo $item['count']?> pieces</p>
+    <p><?php echo $item->getCount()?> pieces</p>
     <a class="change" href="/?page=shoppingCart_plus&id=<?php echo $product->getId() ?>">+</a>
-    <?php if($item['count'] > 1): ?>
+    <?php if($item->getCount() > 1): ?>
         <a class="change" href="/?page=shoppingCart_minus&id=<?php echo $product->getId() ?>">-</a>
     <?php endif; ?>
     <br>

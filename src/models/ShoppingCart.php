@@ -12,6 +12,7 @@ class ShoppingCart
     private $_cartEntityResource;
     private $_productResource;
     private $_session;
+    private $_cartItemCollection;
 
     public function __construct(IResourceEntity $cartEntityResource, IResourceCollection $cartCollectionResource, IResourceEntity $productResource, Session $session)
     {
@@ -20,6 +21,7 @@ class ShoppingCart
         $this->_cartCollectionResource = $cartCollectionResource;
         $this->_productResource = $productResource;
         $this->_cartEntityResource = $cartEntityResource;
+        $this->_cartItemCollection = new CartItemCollection($cartCollectionResource, $productResource);
 
         if (!isset($customer)) return;
         $this->_customerId = $customer->getId();
@@ -28,45 +30,38 @@ class ShoppingCart
 
     public function getItems()
     {
-        $data = [];
-        $resultArray = [];
         if (isset($this->_customerId)) {
             $this->_cartCollectionResource->filterBy('customer_id', $this->_customerId);
-            $data = $this->_cartCollectionResource->fetch();
-
-            foreach ($data as $i) {
-                $product = new Product([]);
-                $product->load($this->_productResource, $i['product_id']);
-                $resultArray[] = ['product' => $product, 'count' => $i['count']];
-            }
+            return $this->_cartItemCollection->getItems();
         } else {
             $data = $this->_session->get('cart');
-
+            $resultArray = [];
             foreach ($data as $productId => $count) {
                 $product = new Product([]);
                 $product->load($this->_productResource, $productId);
-                $resultArray[] = ['product' => $product, 'count' => $count];
+                $item = new CartItem(['product_id' => $productId, 'count' => $count]);
+                $item->product = $product;
+                $resultArray[] = $item;
             }
+
+            return $resultArray;
         }
-
-
-        return $resultArray;
     }
 
     public function add($productId)
     {
         if (isset($this->_customerId)) {
+
             $this->_cartCollectionResource->filterBy('customer_id', $this->_customerId);
             $this->_cartCollectionResource->filterBy('product_id', $productId);
-            $data = $this->_cartCollectionResource->fetch();
+            $items = $this->_cartItemCollection->getItems();
 
-            if (count($data) == 0)
-                $this->_cartEntityResource->save(
-                    ['customer_id' => $this->_customerId, 'product_id' => $productId, 'count' => 1]);
-            else {
-                $this->_cartEntityResource->save(
-                    ['shopping_cart_id' => reset($data)['shopping_cart_id'], 'customer_id' => $this->_customerId, 'product_id' => $productId,
-                        'count' => intval(reset($data)['count']) + 1]);
+            if(count($items)) {
+                $items[0]->changeCount(+1);
+                $items[0]->save($this->_cartEntityResource);
+            } else {
+                $item = new CartItem(['count' => 1, 'product_id' => $productId, 'customer_id' => $this->_customerId]);
+                $item->save($this->_cartEntityResource);
             }
         } else {
             $cart = $this->_session->get('cart');
@@ -82,9 +77,8 @@ class ShoppingCart
         if (isset($this->_customerId)) {
             $this->_cartCollectionResource->filterBy('customer_id', $this->_customerId);
             $this->_cartCollectionResource->filterBy('product_id', $productId);
-            $data = $this->_cartCollectionResource->fetch();
-
-            $this->_cartEntityResource->delete($data[0]['shopping_cart_id']);
+            $item = $this->_cartItemCollection->getItems()[0];
+            $item->delete($this->_cartEntityResource);
         } else {
             $cart = $this->_session->get('cart');
             unset($cart[intval($productId)]);
@@ -103,9 +97,9 @@ class ShoppingCart
         if (isset($this->_customerId)) {
             $this->_cartCollectionResource->filterBy('customer_id', $this->_customerId);
             $this->_cartCollectionResource->filterBy('product_id', $productId);
-            $data = $this->_cartCollectionResource->fetch();
-            $data[0]['count'] = intval($data[0]['count']) - 1;
-            $this->_cartEntityResource->save($data[0]);
+            $item = $this->_cartItemCollection->getItems()[0];
+            $item->changeCount(-1);
+            $item->save($this->_cartEntityResource);
         } else {
             $cart = $this->_session->get('cart');
             $cart[intval($productId)]--;
