@@ -37,7 +37,7 @@ class CustomerController
         $error = false;
         $again = false;
         if (isset($_POST['customer'])) {
-            if ($this->_registerCustomer()) {
+            if (!ctype_space($_POST['customer']['name']) && $_POST['customer']['password'] != '' && $this->_registerCustomer()) {
                 $this->_loginCustomer();
                 $this->_goBack();
             }
