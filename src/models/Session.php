@@ -12,7 +12,7 @@ class Session
 
     public function __construct()
     {
-        session_start();
+        if (!isset($_SESSION)) session_start();
         $connection = new \PDO('mysql:host=localhost;dbname=student', 'root', '123');
         $this->_resource = new DBEntity($connection, new CustomerTable);
     }
@@ -29,6 +29,11 @@ class Session
         $customer = new Customer([]);
         $customer->load($this->_resource, $_SESSION['id']);
         return $customer;
+    }
+
+    public function getSessionId()
+    {
+        return session_id();
     }
 
     public function login($id)

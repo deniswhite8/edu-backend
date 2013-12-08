@@ -15,9 +15,11 @@ CREATE TABLE customers (
 
 CREATE TABLE shopping_cart (
   shopping_cart_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  customer_id      INT(11) UNSIGNED NOT NULL,
+  customer_id      INT(11) UNSIGNED NULL,
   product_id       INT(11) UNSIGNED NOT NULL,
   count            INT(11) UNSIGNED NULL,
+  session_id       VARCHAR(64)
+                   COLLATE utf8_bin NULL,
 
   PRIMARY KEY (shopping_cart_id)
 )
