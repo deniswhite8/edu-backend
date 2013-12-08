@@ -7,7 +7,8 @@ class Customer extends Entity
     public function __construct(array $data)
     {
         $hasher = new Hasher();
-        $data['password'] = $hasher->hashed($data['password']);
+        if(isset($data['password']))
+            $data['password'] = $hasher->hashed($data['password']);
         $this->_data = $data;
     }
 
