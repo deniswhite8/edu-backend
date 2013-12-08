@@ -46,14 +46,4 @@ class Session
     {
         unset($_SESSION['id']);
     }
-
-    public function set($key, $data)
-    {
-        $_SESSION[$key] = $data;
-    }
-
-    public function get($key)
-    {
-        return $_SESSION[$key];
-    }
 }
