@@ -18,8 +18,22 @@ class DBCollection
 
     public function fetch()
     {
-        $stmt = $this->_prepareSql();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $driver = new \Zend\Db\Adapter\Driver\Pdo\Pdo($this->_connection);
+        $adapter = new \Zend\Db\Adapter\Adapter($driver);
+        $sql = new \Zend\Db\Sql\Sql($adapter);
+
+        $select = $sql->select($this->_table->getName());
+        $this->_prepareFilters();
+
+        if ($this->_filters) {
+            foreach ($this->_filters as $column => $value) {
+                $select->where("{$column} = :{$column}");
+            }
+        }
+
+        return
+//        $stmt = $this->_prepareSql();
+//        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function filterBy($column, $value)
@@ -51,13 +65,13 @@ class DBCollection
 
     private function _prepareFilters()
     {
-        $conditions = [];
-        foreach ($this->_filters as $column => $value) {
-            $parameter = ':_param_' . $column;
-            $conditions[] = $column . ' = ' . $parameter . '';
-            $this->_bind[$parameter] = $value;
-        }
-        return implode(' AND ', $conditions);
+//        $conditions = [];
+//        foreach ($this->_filters as $column => $value) {
+//            $parameter = ':_param_' . $column;
+//            $conditions[] = $column . ' = ' . $parameter . '';
+//            $this->_bind[$parameter] = $value;
+//        }
+//        return implode(' AND ', $conditions);
     }
 
     private function _bindValues(\PDOStatement $stmt)
