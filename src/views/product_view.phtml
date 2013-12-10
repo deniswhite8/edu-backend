@@ -15,7 +15,8 @@
     </li>
 
 
-        <?php foreach ($reviews as $_review):?>
+        <?php foreach ($paginator as $_review):?>
+            <?php $_review = new \App\Model\ProductReview($_review); ?>
         <li class="review">
             <p><span><?php echo $_review->getName(); ?></span></p>
             <p><?php echo $_review->getText(); ?></p>
@@ -23,3 +24,15 @@
         </li>
     <?php endforeach;?>
 </ul>
+
+<?php if($paginator->count() > 1):?>
+<div class="paginator">
+    <?php for($i = 1; $i <= $paginator->count(); $i++): ?>
+        <?php if($i == $paginator->getCurrentPageNumber()): ?>
+            <span><?php echo $i; ?></span>
+        <?php else: ?>
+            <a href="/?page=product_view&id=<?php echo $product->getId();?>&p=<?php echo $i?>"><?php echo $i; ?></a>
+        <?php endif; ?>
+    <?php endfor; ?>
+</div>
+<?php endif;?>

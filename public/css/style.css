@@ -139,3 +139,13 @@ form {
     font-size: 30px;
     margin-left: 10px;
 }
+
+
+.paginator {
+    font-size: 30px;
+    margin-top: 20px;
+}
+
+.paginator span {
+    font-weight: bold;
+}

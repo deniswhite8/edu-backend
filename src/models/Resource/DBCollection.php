@@ -3,6 +3,7 @@ namespace App\Model\Resource;
 
 
 use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\Sql\Select;
 
 class DBCollection
     implements IResourceCollection
@@ -10,6 +11,7 @@ class DBCollection
     private $_connection;
     private $_table;
     private $_filters = [];
+    private $_bind = [];
     private $_select, $_driver, $_adapter, $_sql;
     private $_limit, $_offset;
 
@@ -21,6 +23,10 @@ class DBCollection
         $this->_driver = new \Zend\Db\Adapter\Driver\Pdo\Pdo($this->_connection);
         $this->_adapter = new \Zend\Db\Adapter\Adapter($this->_driver);
         $this->_sql = new \Zend\Db\Sql\Sql($this->_adapter);
+
+
+        $this->_select = $this->_sql->select($this->_table->getName());
+
     }
 
     private function _executeSelect($columns = null)
@@ -32,9 +38,10 @@ class DBCollection
         }
 
         $this->_prepareFilters();
+        $this->_prepareLimit();
 
         $statement = $this->_sql->prepareStatementForSqlObject($this->_select);
-        $result = $statement->execute();
+        $result = $statement->execute($this->_bind);
 
         return $result;
     }
@@ -54,6 +61,7 @@ class DBCollection
         $results = $this->_executeSelect(
             ['avg' => new \Zend\Db\Sql\Expression("AVG({$column})")]
         );
+
         return $results->current()['avg'];
     }
 
@@ -62,27 +70,44 @@ class DBCollection
         $this->_filters[$column] = $value;
     }
 
-    public function limit($limit)
+    public function limit($limit, $offset = 0)
     {
         $this->_limit = $limit;
+        $this->_offset = $offset;
     }
 
-    public function offset($offset)
+    public function count()
     {
-        $this->_offset = $offset;
+        $this->_prepareFilters();
+        $this->_prepareLimit();
+
+        $select = clone $this->_select;
+
+
+        $select->reset(Select::LIMIT)
+               ->reset(Select::OFFSET);
+
+        $select->columns(['count' => new \Zend\Db\Sql\Expression("COUNT(*)")]);
+
+        $statement = $this->_sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute($this->_bind);
+        return $results->current()['count'];
+
     }
 
     private function _prepareFilters()
     {
         foreach ($this->_filters as $column => $value) {
-//            $this->_select->where("{$column} = :{$column}");
-            $this->_select->where("{$column} = '{$value}'");
+            $this->_select->where("{$column} = :{$column}");
+            $this->_bind[$column] = $value;
         }
     }
 
     private function _prepareLimit()
     {
-        $this->_select->limit($this->_limit);
-        $this->_select->offset($this->_offset);
+        if ($this->_limit)
+            $this->_select->limit($this->_limit);
+        if ($this->_offset)
+            $this->_select->offset($this->_offset);
     }
 }
