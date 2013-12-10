@@ -14,7 +14,8 @@
         <a href="/?page=shoppingCart_add&id=<?php echo $product->getId(); ?>" class="option">Add to cart</a>
     </li>
 
-    <?php foreach ($reviews as $_review): ?>
+
+        <?php foreach ($reviews as $_review):?>
         <li class="review">
             <p><span><?php echo $_review->getName(); ?></span></p>
             <p><?php echo $_review->getText(); ?></p>
