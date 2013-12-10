@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-class CartItemCollection implements \IteratorAggregate
+class QuoteItemCollection implements \IteratorAggregate
 {
     private $_resource;
     private $_productResource;
@@ -17,7 +17,7 @@ class CartItemCollection implements \IteratorAggregate
     {
         return array_map(
             function ($data) {
-                $item = new CartItem($data);
+                $item = new QuoteItem($data);
                 $product = new Product([]);
                 $product->load($this->_productResource, $item->getProductId());
                 $item->product = $product;

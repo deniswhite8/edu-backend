@@ -4,7 +4,7 @@ namespace App\Model;
 
 use App\Model\Resource\IResourceEntity;
 
-class CartItem extends Entity
+class QuoteItem extends Entity
 {
     public $product;
 

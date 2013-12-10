@@ -17,14 +17,14 @@ class Session
         $this->_resource = new DBEntity($connection, new CustomerTable);
     }
 
-    public function isLogged()
+    public function isLoggedIn()
     {
         return isset($_SESSION['id']);
     }
 
     public function getCustomer()
     {
-        if (!$this->isLogged()) return null;
+        if (!$this->isLoggedIn()) return null;
 
         $customer = new Customer([]);
         $customer->load($this->_resource, $_SESSION['id']);

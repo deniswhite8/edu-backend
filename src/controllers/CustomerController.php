@@ -85,7 +85,7 @@ class CustomerController
         $session = new Session();
         $session->login($id);
 
-        return $session->isLogged();
+        return $session->isLoggedIn();
     }
 
     private function _goBack()

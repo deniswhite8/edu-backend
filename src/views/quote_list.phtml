@@ -7,9 +7,9 @@
         $product = $item->product;?>
         <a href="/?page=product_view&id=<?php echo $product->getId() ?>"><strong><?php echo $product->getName(); ?></strong></a>
         <p><?php echo $item->getCount() ?> pieces</p>
-        <a class="change" href="/?page=shoppingCart_plus&id=<?php echo $product->getId() ?>">+</a>
+        <a class="change" href="/?page=quote_plus&id=<?php echo $product->getId() ?>">+</a>
         <?php if ($item->getCount() > 1): ?>
-            <a class="change" href="/?page=shoppingCart_minus&id=<?php echo $product->getId() ?>">-</a>
+            <a class="change" href="/?page=quote_minus&id=<?php echo $product->getId() ?>">-</a>
         <?php endif; ?>
         <br>
         <?php if ($product->isSpecialPriceApplied()): ?>
@@ -18,6 +18,6 @@
         <?php else: ?>
             <p><?php echo $product->getPrice(); ?> $</p>
         <?php endif; ?>
-        <a href="/?page=shoppingCart_delete&id=<?php echo $product->getId() ?>" class="option">Delete from cart</a>
+        <a href="/?page=quote_delete&id=<?php echo $product->getId() ?>" class="option">Delete from cart</a>
     <?php endforeach; ?>
 </div>

@@ -8,9 +8,9 @@
 <body>
     <a href="/index.php" class="arrow-back">←</a>
     <?php $session = new \App\Model\Session();
-    if (!$session->isLogged()):?>
+    if (!$session->isLoggedIn()):?>
         <div class="login-box">
-            <a href="?page=shoppingCart_list">Shopping cart</a>
+            <a href="?page=quote_list">You quote</a>
             <a href="?page=customer_login">Login</a>
             <a href="?page=customer_register">Register</a>
         </div>
