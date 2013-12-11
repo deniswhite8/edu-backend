@@ -1,10 +1,13 @@
 <?php
-
 namespace App\Model\Resource;
 
-class Paginator implements \Zend\Paginator\Adapter\AdapterInterface
+use Zend\Paginator\Adapter\AdapterInterface;
+
+class Paginator implements AdapterInterface
 {
-    public function __construct(\App\Model\Resource\IResourceCollection $collection)
+    private $_collection;
+
+    public function __construct(IResourceCollection $collection)
     {
         $this->_collection = $collection;
     }
@@ -20,3 +23,4 @@ class Paginator implements \Zend\Paginator\Adapter\AdapterInterface
         return $this->_collection->count();
     }
 }
+

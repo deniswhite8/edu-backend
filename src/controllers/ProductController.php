@@ -26,6 +26,8 @@ class ProductController
         $paginator->setItemCountPerPage(2);
         $paginator->setCurrentPageNumber(isset($_GET['p']) ? $_GET['p'] : 1);
 
+        $pages = $paginator->getPages();
+
         $view = 'product_list';
         require_once __DIR__ . '/../views/layout/main.phtml';
     }
@@ -46,6 +48,8 @@ class ProductController
         $paginator = new Zend_Paginator($paginatorAdapter);
         $paginator->setItemCountPerPage(2);
         $paginator->setCurrentPageNumber(isset($_GET['p']) ? $_GET['p'] : 1);
+
+        $pages = $paginator->getPages();
 
         $view = 'product_view';
         require_once __DIR__ . '/../views/layout/main.phtml';
