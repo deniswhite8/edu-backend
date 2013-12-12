@@ -26,11 +26,12 @@ class ModelView
 
     public function renderTemplate()
     {
-        require_once$this->_templateDir . $this->_template . '.phtml';
+        require_once $this->_templateDir . $this->_template . '.phtml';
     }
 
-    public function get()
+    public function get($param)
     {
-
+        return $this->_params[$param];
     }
 }
+ 

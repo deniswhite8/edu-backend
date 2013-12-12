@@ -3,7 +3,8 @@ namespace App\Model\Resource;
 
 use Zend\Paginator\Adapter\AdapterInterface;
 
-class Paginator implements AdapterInterface
+class Paginator
+    implements AdapterInterface
 {
     private $_collection;
 
@@ -23,4 +24,3 @@ class Paginator implements AdapterInterface
         return $this->_collection->count();
     }
 }
-
