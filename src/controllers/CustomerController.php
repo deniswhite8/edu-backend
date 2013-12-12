@@ -29,7 +29,7 @@ class CustomerController
         }
 
         $view = 'customer_login';
-        if ($again) require_once __DIR__ . '/../views/layout/main.phtml';
+        if ($again) require_once __DIR__ . '/../views/layout/base.phtml';
     }
 
     public function registerAction()
@@ -51,7 +51,7 @@ class CustomerController
         }
 
         $view = 'customer_register';
-        if ($again) require_once __DIR__ . '/../views/layout/main.phtml';
+        if ($again) require_once __DIR__ . '/../views/layout/base.phtml';
     }
 
     public function logoutAction()

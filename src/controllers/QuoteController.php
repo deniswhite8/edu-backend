@@ -36,7 +36,7 @@ class QuoteController
 
 
         $view = 'quote_list';
-        require_once __DIR__ . '/../views/layout/main.phtml';
+        require_once __DIR__ . '/../views/layout/base.phtml';
     }
 
     public function addAction()

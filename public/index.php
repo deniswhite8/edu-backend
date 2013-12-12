@@ -1,6 +1,8 @@
 <?php
 namespace App;
 
+use App\Model\DiC;
+
 require_once __DIR__ . '/../autoloader.php';
 ini_set('display_errors', 1);
 
@@ -23,8 +25,14 @@ try {
     $actionName = 'notFoundAction';
 }
 
-$controller = new $controllerName;
-$controller->$actionName();
+$di = new \Zend\Di\Di();
+$dic = new DiC($di);
+$dic->assemble();
+
+$controller = new $controllerName($di);
+if ($view = $controller->$actionName()) {
+    $view->render();
+}
 
 
 
