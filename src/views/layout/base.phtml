@@ -17,9 +17,12 @@
     <?php else: ?>
          <div class="login-box">
             <p>Welcome, <strong><?php echo $session->getCustomer()->getData('name') ?></strong></p>
-            <a href="?page=shoppingCart_list">Shopping cart</a>
+             <a href="?page=quote_list">You quote</a>
             <a href="?page=customer_logout">Logout</a>
         </div>
-    <?php endif; include(__DIR__ . '/../' . $view . '.phtml'); ?>
+    <?php endif;
+
+    $this->renderTemplate();
+    ?>
 </body>
 </html>

@@ -1,4 +1,8 @@
-<h1> <?php echo $product->getName(); ?> </h1>
+<h1> <?php
+    $product = $this->get('product');
+    $pages = $this->get('pages');
+    $reviews = $this->get('reviews');
+    echo $product->getName(); ?> </h1>
 <ul>
     <li class="item clearfix">
         <img src="<?php echo $product->getImage(); ?>" alt=""/>

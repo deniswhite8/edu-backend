@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Model\Controller;
 use App\Model\CustomerCollection;
 use App\Model\Resource\DBCollection;
 use App\Model\Resource\DBEntity;
@@ -8,11 +9,8 @@ use App\Model\Customer;
 use App\Model\Resource\Table\Customer as CustomerTable;
 use App\Model\Session;
 
-class CustomerController
+class CustomerController extends Controller
 {
-
-
-
     public function loginAction()
     {
         $error = false;
@@ -28,8 +26,10 @@ class CustomerController
             $again = true;
         }
 
-        $view = 'customer_login';
-        if ($again) require_once __DIR__ . '/../views/layout/base.phtml';
+        return $this->_di->get('View', [
+            'template' => 'customer_login',
+            'params'   => ['error' => $error]
+        ]);
     }
 
     public function registerAction()
@@ -50,8 +50,10 @@ class CustomerController
             $again = true;
         }
 
-        $view = 'customer_register';
-        if ($again) require_once __DIR__ . '/../views/layout/base.phtml';
+        return $this->_di->get('View', [
+            'template' => 'customer_register',
+            'params'   => ['error' => $error]
+        ]);
     }
 
     public function logoutAction()
@@ -63,11 +65,17 @@ class CustomerController
 
     private function _registerCustomer()
     {
-        $connection = new \PDO('mysql:host=localhost;dbname=student', 'root', '123');
-        $resource = new DBEntity($connection, new CustomerTable);
-        $customer = new Customer($_POST['customer']);
+//        $connection = new \PDO('mysql:host=localhost;dbname=student', 'root', '123');
+//        $resource = new DBEntity($connection, new CustomerTable);
+//        $customer = new Customer($_POST['customer'], $resource);
+
+
+        $resource = $this->_di->get('ResourceEntity', ['table' => new \App\Model\Resource\Table\Customer()]);
+        $customer = $this->_di->get('Customer', ['data' => $_POST['customer'], 'resource' => $resource]);
+
+
         try {
-            $customer->save($resource);
+            $customer->save();
         } catch (\Exception $ex) {
             return false;
         }

@@ -11,7 +11,7 @@
     </div>
 
     <input type="submit" value="Register">
-    <?php if ($error): ?>
+    <?php if ($this->get('error')): ?>
         <p class="error">Incorrect username or password</p>
     <?php endif; ?>
 </form>

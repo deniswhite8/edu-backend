@@ -26,8 +26,8 @@ class Session
     {
         if (!$this->isLoggedIn()) return null;
 
-        $customer = new Customer([]);
-        $customer->load($this->_resource, $_SESSION['id']);
+        $customer = new Customer([], $this->_resource);
+        $customer->load($_SESSION['id']);
         return $customer;
     }
 
@@ -45,5 +45,20 @@ class Session
     public function logout()
     {
         unset($_SESSION['id']);
+    }
+
+    public function generateToken()
+    {
+        $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32));
+    }
+
+    public function getToken()
+    {
+        return $_SESSION['token'];
+    }
+
+    public function validateToken($token)
+    {
+        return $this->getToken() === $token;
     }
 }

@@ -1,5 +1,9 @@
 <div class="shopping-cart">
-    <?php if (empty($items)): ?>
+    <?php
+
+    $items = $this->get('items');
+
+    if (empty($items)): ?>
         <h3>Your cart is empty!</h3>
     <?php endif; ?>
 

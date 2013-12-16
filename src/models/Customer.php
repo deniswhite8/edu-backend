@@ -4,17 +4,18 @@ use App\Model\Resource\IResourceEntity;
 
 class Customer extends Entity
 {
-    public function __construct(array $data)
+    public function __construct(array $data, Resource\IResourceEntity $resource = null)
     {
         $hasher = new Hasher();
         if(isset($data['password']))
             $data['password'] = $hasher->hashed($data['password']);
         $this->_data = $data;
+        $this->_resource = $resource;
     }
 
-    public function save(IResourceEntity $resource)
+    public function save()
     {
-        $id = $resource->save($this->_data);
+        $id = $this->_resource->save($this->_data);
         $this->_data['customer_id'] = $id;
     }
 
@@ -23,8 +24,8 @@ class Customer extends Entity
         return $this->_getData('customer_id');
     }
 
-    public function load(Resource\IResourceEntity $resource, $id)
+    public function load($id)
     {
-        $this->_data = $resource->find($id);
+        $this->_data = $this->_resource->find($id);
     }
 }

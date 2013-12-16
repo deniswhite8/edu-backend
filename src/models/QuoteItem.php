@@ -33,19 +33,19 @@ class QuoteItem extends Entity
         return $this->_getData('shopping_cart_id');
     }
 
-    public function save(IResourceEntity $resource)
+    public function save()
     {
-        $id = $resource->save($this->_data);
+        $id = $this->_resource->save($this->_data);
         $this->_data['shopping_cart_id'] = $id;
     }
 
-    public function delete(IResourceEntity $resource)
+    public function delete()
     {
-        $resource->delete($this->getId());
+        $this->_resource->delete($this->getId());
     }
 
-    public function load(IResourceEntity $resource, $id)
+    public function load($id)
     {
-        $this->_data = $resource->find($id);
+        $this->_data = $this->_resource->find($id);
     }
 }

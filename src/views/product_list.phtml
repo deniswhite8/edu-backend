@@ -1,6 +1,6 @@
 <h1>Our Product List</h1>
 <ul>
-    <?php foreach ($products as $_product): ?>
+    <?php foreach ($this->get('products') as $_product): ?>
         <li class="item clearfix">
             <img src="<?php echo $_product->getImage(); ?>" alt=""/>
             <a href="/?page=product_view&id=<?php echo $_product->getId(); ?>"><h2><?php echo $_product->getName(); ?></h2></a>
@@ -17,7 +17,11 @@
     <?php endforeach; ?>
 </ul>
 
-<?php if($pages->pageCount > 1):?>
+<?php
+
+$pages = $this->get('pages');
+
+if($pages->pageCount > 1):?>
 <div class="paginator">
     <?php for($i = 1; $i <= $pages->pageCount; $i++):?>
         <?php if($i == $pages->current): ?>

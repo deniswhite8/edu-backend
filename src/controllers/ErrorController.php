@@ -1,11 +1,14 @@
 <?php
 namespace App\Controller;
 
-class ErrorController
+use App\Model\Controller;
+
+class ErrorController extends Controller
 {
     public function notFoundAction()
     {
-        $view = 'pageNotFound';
-        require_once __DIR__ . '/../views/layout/base.phtml';
+        return $this->_di->get('View', [
+            'template' => 'pageNotFound'
+        ]);
     }
 }

@@ -15,7 +15,7 @@ class Quote
     {
         $this->_cartCollectionResource = $cartCollectionResource;
         $this->_cartEntityResource = $cartEntityResource;
-        $this->_cartItemCollection = new QuoteItemCollection($cartCollectionResource, $productResource);
+        $this->_cartItemCollection = new QuoteItemCollection($cartCollectionResource, $productResource, $cartEntityResource);
     }
 
     public function loadBySession(Session $session)
@@ -79,7 +79,15 @@ class Quote
 
     private function _add($productId, $count, $customer, $session)
     {
-        $item = $this->getItemForProduct($productId);
+        if (isset($customer))
+            $this->_cartCollectionResource->filterBy('customer_id', $customer->getId());
+        else if (isset($session))
+            $this->_cartCollectionResource->filterBy('session_id', $session->getSessionId());
+        else
+            throw new \Exception('Not Customer and not Session!');
+
+        $this->_cartCollectionResource->filterBy('product_id', $productId);
+        $item = $this->_cartItemCollection->getItems()[0];
 
         if (isset($item)) {
 
@@ -89,10 +97,10 @@ class Quote
         } else {
             if (isset($customer))
                 $item = new QuoteItem(
-                    ['count' => 1, 'product_id' => $productId, 'customer_id' => $customer->getId()]);
+                    ['count' => 1, 'product_id' => $productId, 'customer_id' => $customer->getId()], $this->_cartEntityResource);
             else if (isset($session))
                 $item = new QuoteItem(['count' => 1, 'product_id' => $productId,
-                    'session_id' => $session->getSessionId()]);
+                    'session_id' => $session->getSessionId()], $this->_cartEntityResource);
             else
                 throw new \Exception('Not Customer and not Session!');
         }
