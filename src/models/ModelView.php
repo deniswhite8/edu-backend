@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-class ModelView
+class ModelView implements ISessionUser
 {
     private $_layoutDir;
     private $_templateDir;
@@ -32,6 +32,16 @@ class ModelView
     public function get($param)
     {
         return $this->_params[$param];
+    }
+
+    public function setSession(Session $session)
+    {
+
+    }
+
+    public function session()
+    {
+        return $this->
     }
 }
  
