@@ -9,7 +9,7 @@ use App\Model\Customer;
 use App\Model\Resource\Table\Customer as CustomerTable;
 use App\Model\Session;
 
-class CustomerController extends Controller
+class CustomerController extends ActionController
 {
     public function loginAction()
     {

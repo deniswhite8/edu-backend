@@ -9,6 +9,7 @@ class ModelView implements ISessionUser
     private $_layout;
     private $_template;
     private $_params;
+    private $_session;
 
     public function __construct($layoutDir, $templateDir, $layout, $template, $params)
     {
@@ -36,12 +37,12 @@ class ModelView implements ISessionUser
 
     public function setSession(Session $session)
     {
-
+        $this->_session = $session;
     }
 
     public function session()
     {
-        return $this->
+        return $this->_session;
     }
 }
  

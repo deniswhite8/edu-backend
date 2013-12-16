@@ -8,7 +8,7 @@ class ProductReviewTest extends \PHPUnit_Framework_TestCase
     public function testReturnsProductTableName()
     {
         $table = new ProductReview;
-        $this->assertEquals('product_reviews', $table->getName());
+        $this->assertEquals('reviews', $table->getName());
     }
 
     public function testReturnsProductPrimaryKey()

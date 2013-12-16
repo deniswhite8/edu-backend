@@ -6,6 +6,7 @@ class ProductReviewController
 {
     public function addAction()
     {
+//        var_dump($_POST);die;
         if ($this->_validRequest()) {
             $data = $_POST;
             unset($data['review_id']);
@@ -22,7 +23,10 @@ class ProductReviewController
 
     private function _validRequest()
     {
-        return isset($_POST['token']) &&
+        return isset($_POST['token']) && isset($_POST['name']) && isset($_POST['text']) && isset($_POST['rating']) &&
+        $_POST['name'] !== '' && $_POST['text'] !== '' && $_POST['rating'] !== '' &&
+        !ctype_space($_POST['name']) && !ctype_space($_POST['text']) && !ctype_space($_POST['rating']) &&
+
             $this->_di->get('Session')->validateToken($_POST['token']);
     }
 }

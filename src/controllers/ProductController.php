@@ -4,7 +4,7 @@ namespace App\Controller;
 use App\Model\Controller;
 use App\Model\Product;
 
-class ProductController extends Controller
+class ProductController extends ActionController
 {
 
     public function listAction()
@@ -27,6 +27,9 @@ class ProductController extends Controller
 
     public function viewAction()
     {
+        $this->_di->get('Session')->generateToken();
+
+
         $productResource = $this->_di->get('ResourceEntity', ['table' => new \App\Model\Resource\Table\Product()]);
         $product = new Product([], $productResource);
         $product->load($_GET['id']);

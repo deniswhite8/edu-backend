@@ -149,3 +149,19 @@ form {
 .paginator span {
     font-weight: bold;
 }
+
+form input[type="text"], input[type="submit"], textarea {
+    display: block;
+}
+
+form.product-review input[type="text"], textarea {
+    width: 100%;
+}
+
+form p {
+    display: inline;
+}
+
+.product-review-header {
+    margin-top: 20px;
+}

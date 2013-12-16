@@ -29,7 +29,7 @@
 </ul>
 
 <?php if($pages->pageCount > 1):?>
-<div class="paginator">
+    <div class="paginator">
     <?php for($i = 1; $i <= $pages->pageCount; $i++): ?>
         <?php if($i == $pages->current): ?>
             <span><?php echo $i; ?></span>
@@ -39,3 +39,22 @@
     <?php endfor; ?>
 </div>
 <?php endif;?>
+
+<h2 class="product-review-header">Write you product review!</h2>
+<?php if ($this->session()->isLoggedIn()): ?>
+    <form class="product-review" action="/?page=productReview_add" method="post">
+        <input type="hidden" name="product_id" value="<?php echo $product->getId() ?>">
+        <input type="hidden" name="token" value="<?php echo $this->session()->getToken() ?>">
+        <input type="text" name="name" placeholder="You name">
+        <p><input type="radio" name="rating" value="1">1</p>
+        <p><input type="radio" name="rating" value="2">2</p>
+        <p><input type="radio" name="rating" value="3">3</p>
+        <p><input type="radio" name="rating" value="4">4</p>
+        <p><input type="radio" name="rating" value="5">5</p>
+        <textarea name="text" cols="30" rows="10" placeholder="You product review"></textarea>
+        <input type="submit" value="Send">
+    </form>
+<?php else: ?>
+   <p>Login, please, for it</p>
+<?php endif; ?>
+

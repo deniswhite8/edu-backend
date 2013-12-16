@@ -54,11 +54,13 @@ class Session
 
     public function getToken()
     {
-        return $_SESSION['token'];
+        return isset($_SESSION['token']) ? $_SESSION['token'] : null;
     }
 
     public function validateToken($token)
     {
-        return $this->getToken() === $token;
+        $valid = $this->getToken() === $token;
+        unset($_SESSION['token']);
+        return $valid;
     }
 }

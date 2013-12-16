@@ -3,7 +3,7 @@ namespace App\Controller;
 
 use App\Model\Controller;
 
-class ErrorController extends Controller
+class ErrorController extends ActionController
 {
     public function notFoundAction()
     {
