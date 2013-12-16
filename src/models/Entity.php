@@ -7,7 +7,7 @@ class Entity
     protected $_data = array();
     protected $_resource;
 
-    public function __construct(array $data, Resource\IResourceEntity $resource = null)
+    public function __construct(array $data = [], Resource\IResourceEntity $resource = null)
     {
         $this->_data = $data;
         $this->_resource = $resource;
@@ -21,5 +21,10 @@ class Entity
     public function getData($key)
     {
         return $this->_getData($key);
+    }
+
+    public function load($id)
+    {
+        $this->_data = $this->_resource->find($id);
     }
 }
