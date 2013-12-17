@@ -6,7 +6,6 @@ class ProductReviewController
 {
     public function addAction()
     {
-//        var_dump($_POST);die;
         if ($this->_validRequest()) {
             $data = $_POST;
             unset($data['review_id']);

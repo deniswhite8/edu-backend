@@ -13,6 +13,23 @@ CREATE TABLE customers (
   AUTO_INCREMENT =1;
 
 
+CREATE TABLE addresses (
+  address_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  city_id    INT(11) UNSIGNED NOT NULL,
+  region_id  INT(11) UNSIGNED NOT NULL,
+  zip_code   VARCHAR(255)
+             COLLATE utf8_bin NULL,
+  street     VARCHAR(255)
+             COLLATE utf8_bin NULL,
+  house      INT(6) UNSIGNED  NULL,
+  flat       INT(6) UNSIGNED  NULL,
+
+    PRIMARY KEY (address_id)
+)
+  ENGINE =InnoDB
+  DEFAULT CHARSET =utf8
+  AUTO_INCREMENT =1;
+
 CREATE TABLE shopping_cart (
   shopping_cart_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   customer_id      INT(11) UNSIGNED NULL,
