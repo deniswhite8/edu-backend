@@ -20,6 +20,8 @@ class QuoteController extends ActionController
         $productResource = $this->_di->get('ResourceEntity', ['table' => new \App\Model\Resource\Table\Product()]);
         $shoppingCart = new Quote($cartEntityResource, $cartCollectionResource, $productResource);
 
+//        $shoppingCart = $this->_di->get('Quote');
+
         return $shoppingCart;
     }
 

@@ -75,6 +75,7 @@ class DiC
         $this->_im->addAlias('QuoteItem', 'App\Model\QuoteItem');
 
         $this->_im->setParameters('App\Model\Quote', []);
+
         $this->_im->addAlias('Quote', 'App\Model\Quote');
     }
 
@@ -90,10 +91,10 @@ class DiC
     private function _assembleView()
     {
         $this->_im->setParameters('App\Model\ModelView', [
-            'layoutDir'   => __DIR__ . '/../views/layout/',
+            'layoutDir' => __DIR__ . '/../views/layout/',
             'templateDir' => __DIR__ . '/../views/',
-            'layout'      => 'base',
-            'params'      => [],
+            'layout' => 'base',
+            'params' => [],
         ]);
         $this->_im->addAlias('View', 'App\Model\ModelView');
     }
@@ -104,6 +105,25 @@ class DiC
         $this->_im->setParameters('App\Model\ISessionUser', [
             'session' => $this->_di->get('Session')
         ]);
+    }
+
+
+    private function _assembleAddress()
+    {
+        $this->_im->setParameters('App\Model\Address', ['table' => 'App\Model\Resource\Table\Address']);
+        $this->_im->addAlias('Address', 'App\Model\Address');
+    }
+
+    private function _assembleRegion()
+    {
+        $this->_im->setParameters('App\Model\Region', ['table' => 'App\Model\Resource\Table\Region']);
+        $this->_im->addAlias('Region', 'App\Model\Region');
+    }
+
+    private function _assembleCity()
+    {
+        $this->_im->setParameters('App\Model\City', ['table' => 'App\Model\Resource\Table\City']);
+        $this->_im->addAlias('City', 'App\Model\City');
     }
 }
  
