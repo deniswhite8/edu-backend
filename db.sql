@@ -24,7 +24,30 @@ CREATE TABLE addresses (
   house      INT(6) UNSIGNED  NULL,
   flat       INT(6) UNSIGNED  NULL,
 
-    PRIMARY KEY (address_id)
+  PRIMARY KEY (address_id)
+)
+  ENGINE =InnoDB
+  DEFAULT CHARSET =utf8
+  AUTO_INCREMENT =1;
+
+
+CREATE TABLE cities (
+  city_id   INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  name      VARCHAR(255)
+            COLLATE utf8_bin NULL,
+  region_id INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (city_id)
+)
+  ENGINE =InnoDB
+  DEFAULT CHARSET =utf8
+  AUTO_INCREMENT =1;
+
+
+CREATE TABLE regions (
+  region_id   INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  name      VARCHAR(255)
+            COLLATE utf8_bin NULL,
+  PRIMARY KEY (region_id)
 )
   ENGINE =InnoDB
   DEFAULT CHARSET =utf8
