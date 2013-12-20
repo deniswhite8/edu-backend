@@ -106,4 +106,22 @@ class Quote
         }
         $item->save($this->_cartEntityResource);
     }
+
+
+    public function getAddress()
+    {
+        if ($addressId = $this->_getData('address_id')) {
+            return $this->_address->load($this->_getData('address_id'));
+        } else {
+            $this->_address->save();
+            $this->_assignAddress();
+            return $this->_addres;
+        }
+    }
+
+    protected function _assignAddress()
+    {
+        $this->_data['address_id'] = $this->_address->getId();
+        $this->save();
+    }
 }

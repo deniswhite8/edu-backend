@@ -10,21 +10,8 @@ use App\Model\Resource\Table\ShoppingCart as ShoppingCartTable;
 use App\Model\Resource\DBCollection;
 use App\Model\Resource\DBEntity;
 
-class QuoteController extends ActionController
+class QuoteController extends SalesController
 {
-
-    private function _getQuote()
-    {
-        $cartCollectionResource = $this->_di->get('ResourceCollection', ['table' => new \App\Model\Resource\Table\ShoppingCart()]);
-        $cartEntityResource = $this->_di->get('ResourceEntity', ['table' => new \App\Model\Resource\Table\ShoppingCart()]);
-        $productResource = $this->_di->get('ResourceEntity', ['table' => new \App\Model\Resource\Table\Product()]);
-        $shoppingCart = new Quote($cartEntityResource, $cartCollectionResource, $productResource);
-
-//        $shoppingCart = $this->_di->get('Quote');
-
-        return $shoppingCart;
-    }
-
     public function listAction()
     {
         $quote = $this->_getQuote();
