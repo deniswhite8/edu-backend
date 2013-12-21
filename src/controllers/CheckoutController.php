@@ -2,17 +2,18 @@
 
 namespace App\Controller;
 
-
-class CheckoutController extends SalesController
+class CheckoutController
+extends SalesController
 {
-    public function addAddressAction()
+
+    public function addressAction()
     {
         if (isset($_POST['address'])) {
-            $quote = $this->_getQuote();
+            $quote = $this->_initQuote();
             $address = $quote->getAddress();
             $address->setData($_POST['address']);
             $address->save();
-            $this->_redirect('setShipping');
+            $this->_redirect('shipping');
         }
     }
 
@@ -20,4 +21,5 @@ class CheckoutController extends SalesController
     {
 
     }
-} 
+}
+ 

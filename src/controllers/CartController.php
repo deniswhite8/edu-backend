@@ -10,7 +10,7 @@ use App\Model\Resource\Table\ShoppingCart as ShoppingCartTable;
 use App\Model\Resource\DBCollection;
 use App\Model\Resource\DBEntity;
 
-class QuoteController extends SalesController
+class CartController extends SalesController
 {
     public function listAction()
     {
