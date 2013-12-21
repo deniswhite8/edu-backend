@@ -12,7 +12,7 @@
             <?php else: ?>
                 <p><span>Цена:</span> <?php echo $_product->getPrice(); ?> $</p>
             <?php endif; ?>
-            <a href="/?page=quote_add&id=<?php echo $_product->getId(); ?>" class="option">Add to cart</a>
+            <a href="/?page=cart_add&id=<?php echo $_product->getId(); ?>" class="option">Add to cart</a>
         </li>
     <?php endforeach; ?>
 </ul>

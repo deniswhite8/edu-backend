@@ -82,7 +82,7 @@ form div label {
     float: left;
 }
 
-form div input {
+form div input, select {
     display: block;
     margin-left: 100px;
 }
@@ -92,8 +92,9 @@ form div {
 }
 
 form {
-    float: left;
+    /*float: left;*/
     background: #ffffff;
+    width: 250px;
     padding: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
@@ -164,4 +165,23 @@ form p {
 
 .product-review-header {
     margin-top: 20px;
+}
+
+
+.checkout {
+    margin-top: 50px;
+}
+
+.checkout a {
+    text-decoration: none;
+}
+
+
+.shipping label {
+    float: none;
+}
+
+.shipping input {
+    display: inline;
+    margin-left: 0;
 }

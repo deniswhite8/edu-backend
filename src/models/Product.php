@@ -5,27 +5,27 @@ class Product extends Entity
 {
     public function getSku()
     {
-        return $this->_getData('sku');
+        return $this->getData('sku');
     }
 
     public function getName()
     {
-        return $this->_getData('name');
+        return $this->getData('name');
     }
 
     public function getImage()
     {
-        return $this->_getData('image');
+        return $this->getData('image');
     }
 
     public function getPrice()
     {
-        return $this->_getData('price');
+        return $this->getData('price');
     }
 
     public function getSpecialPrice()
     {
-        return $this->_getData('special_price');
+        return $this->getData('special_price');
     }
 
     public function isSpecialPriceApplied()

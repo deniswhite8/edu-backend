@@ -10,14 +10,14 @@
     <?php $session = new \App\Model\Session();
     if (!$session->isLoggedIn()):?>
         <div class="login-box">
-            <a href="?page=quote_list">You quote</a>
+            <a href="?page=cart_list">You quote</a>
             <a href="?page=customer_login">Login</a>
             <a href="?page=customer_register">Register</a>
         </div>
     <?php else: ?>
          <div class="login-box">
             <p>Welcome, <strong><?php echo $session->getCustomer()->getData('name') ?></strong></p>
-             <a href="?page=quote_list">You quote</a>
+             <a href="?page=cart_list">You quote</a>
             <a href="?page=customer_logout">Logout</a>
         </div>
     <?php endif;

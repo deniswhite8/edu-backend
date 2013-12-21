@@ -13,14 +13,26 @@ class Entity
         $this->_resource = $resource;
     }
 
-    protected function _getData($key)
+    public function getData($key)
     {
         return isset($this->_data[$key]) ? $this->_data[$key] : null;
     }
 
     public function setData($data)
     {
+        if(! $this->_resource) {
+            $this->_data = $data;
+            return;
+        }
+        $primaryKeyField = $this->_resource->getPrimaryKeyField();
+        $id = $this->getId();
         $this->_data = $data;
+        if($id && !isset($data[$primaryKeyField])) $this->_data[$primaryKeyField] = $id;
+    }
+
+    public function setField($key, $value)
+    {
+        $this->_data[$key] = $value;
     }
 
     public function load($id)
@@ -34,8 +46,13 @@ class Entity
         $this->_data[$this->_resource->getPrimaryKeyField()] = $id;
     }
 
+    public function delete()
+    {
+        $this->_resource->delete($this->getId());
+    }
+
     public function getId()
     {
-        return $this->_getData($this->_resource->getPrimaryKeyField());
+        return $this->getData($this->_resource->getPrimaryKeyField());
     }
 }

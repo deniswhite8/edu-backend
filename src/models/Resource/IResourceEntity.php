@@ -8,4 +8,6 @@ interface IResourceEntity
     public function save($data);
 
     public function delete($id);
+
+    public function getPrimaryKeyField();
 }

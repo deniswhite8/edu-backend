@@ -6,46 +6,46 @@ class Address extends Entity {
 
     public function getCityId()
     {
-        return $this->_getData('city_id');
+        return $this->getData('city_id');
     }
 
     public function getRegionId()
     {
-        return $this->_getData('region_id');
+        return $this->getData('region_id');
     }
 
     public function getZipCode()
     {
-        return $this->_getData('zip_code');
+        return $this->getData('zip_code');
     }
 
     public function getStreet()
     {
-        return $this->_getData('street');
+        return $this->getData('street');
     }
 
     public function getHouse()
     {
-        return $this->_getData('house');
+        return $this->getData('house');
     }
 
     public function getFlat()
     {
-        return $this->_getData('flat');
+        return $this->getData('flat');
     }
 
     public function getId()
     {
-        return $this->_getData('address_id');
+        return $this->getData('address_id');
     }
 
-    public function load($id)
-    {
-        $this->_data = $this->_resource->find($id);
-    }
-
-    public function save()
-    {
-        $this->_resource->save($this->_data);
-    }
+//    public function load($id)
+//    {
+//        $this->_data = $this->_resource->find($id);
+//    }
+//
+//    public function save()
+//    {
+//        $this->_resource->save($this->_data);
+//    }
 }

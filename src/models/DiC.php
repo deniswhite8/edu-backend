@@ -39,6 +39,9 @@ class DiC
         $this->_im->addTypePreference('App\Model\Resource\IResourceEntity', 'App\Model\Resource\DBEntity');
         $this->_im->addAlias('ResourceCollection', 'App\Model\Resource\DBCollection');
         $this->_im->addAlias('ResourceEntity', 'App\Model\Resource\DBEntity');
+
+        $this->_im->setShared('App\Model\Resource\DBEntity', false);
+        $this->_im->setShared('App\Model\Resource\DBCollection', false);
     }
 
     private function _assemblePaginator()
@@ -66,19 +69,6 @@ class DiC
 
     }
 
-    private function _assembleQuote()
-    {
-        $this->_im->setParameters('App\Model\QuoteItemCollection', ['table' => 'App\Model\Resource\Table\ShoppingCart']);
-        $this->_im->addAlias('QuoteItemCollection', 'App\Model\QuoteItemCollection');
-
-        $this->_im->setParameters('App\Model\QuoteItem', ['table' => 'App\Model\Resource\Table\ShoppingCart']);
-        $this->_im->addAlias('QuoteItem', 'App\Model\QuoteItem');
-
-        $this->_im->setParameters('App\Model\Quote', []);
-
-        $this->_im->addAlias('Quote', 'App\Model\Quote');
-    }
-
     private function _assembleCustomer()
     {
         $this->_im->setParameters('App\Model\CustomerCollection', ['table' => 'App\Model\Resource\Table\Customer']);
@@ -99,14 +89,6 @@ class DiC
         $this->_im->addAlias('View', 'App\Model\ModelView');
     }
 
-    private function _assembleSession()
-    {
-        $this->_im->addAlias('Session', 'App\Model\Session');
-        $this->_im->setParameters('App\Model\ISessionUser', [
-            'session' => $this->_di->get('Session')
-        ]);
-    }
-
 
     private function _assembleAddress()
     {
@@ -118,12 +100,50 @@ class DiC
     {
         $this->_im->setParameters('App\Model\Region', ['table' => 'App\Model\Resource\Table\Region']);
         $this->_im->addAlias('Region', 'App\Model\Region');
+
+        $this->_im->setParameters('App\Model\RegionCollection', ['table' => 'App\Model\Resource\Table\Region']);
+        $this->_im->addAlias('RegionCollection', 'App\Model\RegionCollection');
     }
 
     private function _assembleCity()
     {
         $this->_im->setParameters('App\Model\City', ['table' => 'App\Model\Resource\Table\City']);
         $this->_im->addAlias('City', 'App\Model\City');
+
+        $this->_im->setParameters('App\Model\CityCollection', ['table' => 'App\Model\Resource\Table\City']);
+        $this->_im->addAlias('CityCollection', 'App\Model\CityCollection');
+    }
+
+    private function _assembleSession()
+    {
+        $this->_im->addAlias('Session', 'App\Model\Session');
+        $this->_im->setParameters('App\Model\ISessionUser', [
+            'session' => $this->_di->get('Session')
+        ]);
+    }
+
+    private function _assembleQuote()
+    {
+        $this->_im->setParameters('App\Model\QuoteItem', ['table' => 'App\Model\Resource\Table\QuoteItem']);
+        $this->_im->addAlias('QuoteItem', 'App\Model\QuoteItem');
+
+        $this->_im->setParameters('App\Model\QuoteItemCollection', [
+            'table' => 'App\Model\Resource\Table\QuoteItem',
+            'itemPrototype' => 'App\Model\QuoteItem'
+        ]);
+
+        $this->_im->setParameters('App\Model\Quote', [
+            'table' => 'App\Model\Resource\Table\Quote',
+            'items' => $this->_di->get('App\Model\QuoteItemCollection'),
+            'address' => $this->_di->get('App\Model\Address')
+        ]);
+        $this->_im->addAlias('Quote', 'App\Model\Quote');
+    }
+
+    private function _assembleFactory()
+    {
+        $this->_im->setParameters('App\Model\Shipping\Factory', []);
+        $this->_im->addAlias('Factory', 'App\Model\Shipping\Factory');
     }
 }
  

@@ -1,0 +1,36 @@
+<h1>Set address</h1>
+
+<form action="?page=checkout_address" method="POST">
+
+    <div>
+        <label for="region">Region</label>
+        <select name="address[region_id]" id="region">
+            <?php $i = 1; foreach($this->get('regions') as $region):?>
+                <option <?php if($i == $this->get('address')->getRegionId()) echo 'selected' ?> value="<?php echo $i; $i++; ?>"><?php echo $region ?></option>
+            <?php endforeach; ?>
+        </select>
+
+        <label for="city">City</label>
+        <select name="address[city_id]" id="city">
+            <?php $i = 1; foreach($this->get('cities') as $city):?>
+                <option <?php if($i == $this->get('address')->getCityId()) echo 'selected' ?> value="<?php echo $i; $i++; ?>"><?php echo $city ?></option>
+            <?php endforeach; ?>
+        </select>
+
+        <label for="zip">Zip code</label>
+        <input type="text" id="zip" name="address[zip_code]" value="<?php echo $this->get('address')->getZipCode() ?>">
+
+        <label for="street">Street</label>
+        <input type="text" id="street" name="address[street]" value="<?php echo $this->get('address')->getStreet() ?>">
+
+        <label for="house">House</label>
+        <input type="text" id="house" name="address[house]" value="<?php echo $this->get('address')->getHouse() ?>">
+
+        <label for="flat">Flat</label>
+        <input type="text" id="flat" name="address[flat]" value="<?php echo $this->get('address')->getFlat() ?>">
+    </div>
+
+    <input type="submit" value="Save">
+</form>
+
+<h2 class="checkout"><a href="/?page=checkout_shipping">Checkout →</a></h2>

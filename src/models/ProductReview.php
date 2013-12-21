@@ -5,26 +5,26 @@ class ProductReview extends Entity
 {
     public function getName()
     {
-        return $this->_getData('name');
+        return $this->getData('name');
     }
 
     public function getEmail()
     {
-        return $this->_getData('email');
+        return $this->getData('email');
     }
 
     public function getText()
     {
-        return $this->_getData('text');
+        return $this->getData('text');
     }
 
     public function getRating()
     {
-        return $this->_getData('rating');
+        return $this->getData('rating');
     }
 
     public function belongsToProduct(Product $product)
     {
-        return $product == $this->_getData('product');
+        return $product == $this->getData('product');
     }
 }

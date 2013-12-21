@@ -66,11 +66,17 @@ class Session
 
     public function getQuoteId()
     {
-        return isset($_SESSION['quote_id']) ? $_SESSION['quote_id'] : null;
+        if ($this->isLoggedIn())
+            return $this->getCustomer()->getQuoteId();
+        else
+            return isset($_SESSION['quote_id']) ? $_SESSION['quote_id'] : null;
     }
 
     public function setQuoteId($id)
     {
-        $_SESSION['quote_id'] = $id;
+        if ($this->isLoggedIn())
+            $this->getCustomer()->setQuoteId($id);
+        else
+            $_SESSION['quote_id'] = $id;
     }
 }

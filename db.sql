@@ -5,6 +5,7 @@ CREATE TABLE customers (
   password    VARCHAR(32)
               COLLATE utf8_bin NOT NULL,
   rating      DECIMAL(10, 2)   NULL,
+  quote_id    INT(11) UNSIGNED NOT NULL,
 
   PRIMARY KEY (customer_id)
 )
@@ -15,8 +16,8 @@ CREATE TABLE customers (
 
 CREATE TABLE addresses (
   address_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  city_id    INT(11) UNSIGNED NOT NULL,
-  region_id  INT(11) UNSIGNED NOT NULL,
+  city_id    INT(11) UNSIGNED,
+  region_id  INT(11) UNSIGNED,
   zip_code   VARCHAR(255)
              COLLATE utf8_bin NULL,
   street     VARCHAR(255)
@@ -44,7 +45,7 @@ CREATE TABLE cities (
 
 
 CREATE TABLE regions (
-  region_id   INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  region_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   name      VARCHAR(255)
             COLLATE utf8_bin NULL,
   PRIMARY KEY (region_id)
@@ -53,15 +54,39 @@ CREATE TABLE regions (
   DEFAULT CHARSET =utf8
   AUTO_INCREMENT =1;
 
-CREATE TABLE shopping_cart (
-  shopping_cart_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  customer_id      INT(11) UNSIGNED NULL,
-  product_id       INT(11) UNSIGNED NOT NULL,
-  count            INT(11) UNSIGNED NULL,
-  session_id       VARCHAR(64)
-                   COLLATE utf8_bin NULL,
+# CREATE TABLE shopping_cart (
+#   shopping_cart_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+#   customer_id      INT(11) UNSIGNED NULL,
+#   product_id       INT(11) UNSIGNED NOT NULL,
+#   count            INT(11) UNSIGNED NULL,
+#   session_id       VARCHAR(64)
+#                    COLLATE utf8_bin NULL,
+#
+#   PRIMARY KEY (shopping_cart_id)
+# )
+#   ENGINE = InnoDB
+#   DEFAULT CHARSET = utf8
+#   AUTO_INCREMENT = 1;
 
-  PRIMARY KEY (shopping_cart_id)
+
+CREATE TABLE quotes (
+  quote_id    INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  address_id  INT(11) UNSIGNED NULL,
+  method_code VARCHAR(16)
+              COLLATE utf8_bin NULL,
+  PRIMARY KEY (quote_id)
+
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  AUTO_INCREMENT = 1;
+
+CREATE TABLE quote_items (
+  item_id    INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  product_id INT(11) UNSIGNED NOT NULL,
+  qty        INT(11) UNSIGNED NULL,
+  quote_id   INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (item_id)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -181,17 +206,17 @@ REFERENCES orders (order_id)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 
-ALTER TABLE shopping_cart
-ADD FOREIGN KEY (customer_id)
-REFERENCES customers (customer_id)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
-
-ALTER TABLE shopping_cart
-ADD FOREIGN KEY (product_id)
-REFERENCES products (product_id)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+# ALTER TABLE shopping_cart
+# ADD FOREIGN KEY (customer_id)
+# REFERENCES customers (customer_id)
+#   ON DELETE CASCADE
+#   ON UPDATE CASCADE;
+#
+# ALTER TABLE shopping_cart
+# ADD FOREIGN KEY (product_id)
+# REFERENCES products (product_id)
+#   ON DELETE CASCADE
+#   ON UPDATE CASCADE;
 
 # ALTER TABLE reviews
 # ADD FOREIGN KEY (customer_id)
@@ -217,3 +242,8 @@ INSERT INTO products (name, sku, price, special_price, image)
 # INSERT INTO order_products (product_id, order_id) VALUES (1, 1);
 INSERT INTO reviews (product_id, rating, text, name)
   VALUES (1, 1, 'bad', 'lolka'), (2, 5, 'good', 'petrovich'), (1, 2, 'no', 'qwerty');
+
+INSERT INTO regions (name)
+  VALUES ('USA'), ('Russia');
+INSERT INTO cities (name, region_id)
+  VALUES ('NY', 1), ('Moscow', 2), ('Taganrog', 2);

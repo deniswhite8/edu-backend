@@ -4,6 +4,7 @@ use App\Model\Resource\IResourceEntity;
 
 class Customer extends Entity
 {
+
     public function __construct(array $data, Resource\IResourceEntity $resource = null)
     {
         $hasher = new Hasher();
@@ -21,11 +22,22 @@ class Customer extends Entity
 
     public function getId()
     {
-        return $this->_getData('customer_id');
+        return $this->getData('customer_id');
     }
 
     public function load($id)
     {
         $this->_data = $this->_resource->find($id);
+    }
+
+    public function getQuoteId()
+    {
+        return isset($this->_data['quote_id']) ? $this->_data['quote_id'] : null;
+    }
+
+    public function setQuoteId($id)
+    {
+        $this->_data['quote_id'] = $id;
+        $this->save();
     }
 }

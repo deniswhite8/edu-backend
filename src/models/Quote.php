@@ -1,122 +1,55 @@
 <?php
-
 namespace App\Model;
 
-use App\Model\Resource\IResourceCollection;
-use App\Model\Resource\IResourceEntity;
 
 class Quote
+    extends Entity
 {
-    private $_cartCollectionResource;
-    private $_cartEntityResource;
-    private $_cartItemCollection;
+    private $_items;
+    private $_address;
 
-    public function __construct(IResourceEntity $cartEntityResource, IResourceCollection $cartCollectionResource, IResourceEntity $productResource)
-    {
-        $this->_cartCollectionResource = $cartCollectionResource;
-        $this->_cartEntityResource = $cartEntityResource;
-        $this->_cartItemCollection = new QuoteItemCollection($cartCollectionResource, $productResource, $cartEntityResource);
+    public function __construct(
+        array $data = [],
+        Resource\IResourceEntity $resource = null,
+        QuoteItemCollection $items = null,
+        Address $address = null
+    ) {
+        $this->_items = $items;
+        $this->_address = $address;
+        parent::__construct($data, $resource);
     }
 
     public function loadBySession(Session $session)
     {
-        $this->_cartCollectionResource->filterBy('session_id', $session->getSessionId());
-        return $this->_cartItemCollection->getItems();
-    }
-
-    public function loadByCustomer(Customer $customer)
-    {
-        $this->_cartCollectionResource->filterBy('customer_id', $customer->getId());
-        return $this->_cartItemCollection->getItems();
-    }
-
-    public function getItemForProduct($productId)
-    {
-        $this->_cartCollectionResource->filterBy('product_id', $productId);
-        $items = $this->_cartItemCollection->getItems();
-
-        if (count($items)) {
-            return $items[0];
+        if ($quoteId = $session->getQuoteId()) {
+            $this->load($session->getQuoteId());
         } else {
-            return null;
+            $this->save();
+            $session->setQuoteId($this->getId());
         }
     }
 
-    public function addToCustomer($productId, Customer $customer, $count)
+    public function getItems()
     {
-        $this->_add($productId, $count, $customer, null);
+        $this->_items->filterByQuote($this);
+        return $this->_items;
     }
-
-    public function addToSession($productId, Session $session, $count)
-    {
-        $this->_add($productId, $count, null, $session);
-    }
-
-    public function deleteFromCustomer($productId, Customer $customer)
-    {
-        $this->_delete($productId, $customer, null);
-    }
-
-    public function deleteFromSession($productId, Session $session)
-    {
-        $this->_delete($productId, null, $session);
-    }
-
-    private function _delete($productId, $customer, $session)
-    {
-        if (isset($customer))
-            $this->_cartCollectionResource->filterBy('customer_id', $customer->getId());
-        else if (isset($session))
-            $this->_cartCollectionResource->filterBy('session_id', $session->getSessionId());
-        else
-            throw new \Exception('Not Customer and not Session!');
-
-
-        $this->_cartCollectionResource->filterBy('product_id', $productId);
-        $item = $this->_cartItemCollection->getItems()[0];
-        $item->delete($this->_cartEntityResource);
-    }
-
-    private function _add($productId, $count, $customer, $session)
-    {
-        if (isset($customer))
-            $this->_cartCollectionResource->filterBy('customer_id', $customer->getId());
-        else if (isset($session))
-            $this->_cartCollectionResource->filterBy('session_id', $session->getSessionId());
-        else
-            throw new \Exception('Not Customer and not Session!');
-
-        $this->_cartCollectionResource->filterBy('product_id', $productId);
-        $item = $this->_cartItemCollection->getItems()[0];
-
-        if (isset($item)) {
-
-            if ($item->getCount() + $count < 1) return;
-
-            $item->changeCount($count);
-        } else {
-            if (isset($customer))
-                $item = new QuoteItem(
-                    ['count' => 1, 'product_id' => $productId, 'customer_id' => $customer->getId()], $this->_cartEntityResource);
-            else if (isset($session))
-                $item = new QuoteItem(['count' => 1, 'product_id' => $productId,
-                    'session_id' => $session->getSessionId()], $this->_cartEntityResource);
-            else
-                throw new \Exception('Not Customer and not Session!');
-        }
-        $item->save($this->_cartEntityResource);
-    }
-
 
     public function getAddress()
     {
-        if ($addressId = $this->_getData('address_id')) {
-            return $this->_address->load($this->_getData('address_id'));
+        if ($addressId = $this->getData('address_id')) {
+            $this->_address->load($this->getData('address_id'));
         } else {
             $this->_address->save();
             $this->_assignAddress();
-            return $this->_addres;
         }
+        return $this->_address;
+    }
+
+    public function setMethod($code)
+    {
+        $this->setField('method_code', $code);
+        $this->save();
     }
 
     protected function _assignAddress()

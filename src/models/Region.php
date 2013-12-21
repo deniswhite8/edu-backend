@@ -16,11 +16,11 @@ class Region extends Entity
 
     public function getId()
     {
-        return $this->_getData('region_id');
+        return $this->getData('region_id');
     }
 
     public function getName()
     {
-        return $this->_getData('name');
+        return $this->getData('name');
     }
 }

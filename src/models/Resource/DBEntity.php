@@ -38,6 +38,7 @@ class DBEntity
         } else {
             $stmt = $this->_insertItem($fields);
         }
+
         if(!$stmt->execute(array_combine($this->_prepareBind($fields), $data))) throw new \Exception();
         return $this->_connection->lastInsertId($this->_table->getPrimaryKey());
     }

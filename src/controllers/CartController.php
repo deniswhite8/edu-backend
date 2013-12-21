@@ -1,80 +1,61 @@
 <?php
-
 namespace App\Controller;
 
-use App\Model\Controller;
-use App\Model\Resource\Table\Product as ProductTable;
-use App\Model\Session;
-use App\Model\Quote;
-use App\Model\Resource\Table\ShoppingCart as ShoppingCartTable;
-use App\Model\Resource\DBCollection;
-use App\Model\Resource\DBEntity;
-
-class CartController extends SalesController
+class CartController
+    extends SalesController
 {
-    public function listAction()
-    {
-        $quote = $this->_getQuote();
-        $session = new Session();
-        $items = null;
-
-        if ($session->isLoggedIn())
-            $items = $quote->loadByCustomer($session->getCustomer());
-        else
-            $items = $quote->loadBySession($session);
-
-        return $this->_di->get('View', [
-            'template' => 'quote_list',
-            'params'   => ['items' => $items]
-        ]);
-    }
-
     public function addAction()
     {
-        $quote = $this->_getQuote();
-        $session = new Session();
+        $quoteItem = $this->_initQuoteItem();
+        $quoteItem->addQty(1, 1);
+        $quoteItem->save();
 
-        if ($session->isLoggedIn())
-            $quote->addToCustomer($_GET['id'], $session->getCustomer(), 1);
-        else
-            $quote->addToSession($_GET['id'], $session, 1);
-
-        $this->_goCart();
-    }
-
-    public function deleteAction()
-    {
-        $quote = $this->_getQuote();
-        $session = new Session();
-
-        if ($session->isLoggedIn())
-            $quote->deleteFromCustomer($_GET['id'], $session->getCustomer());
-        else
-            $quote->deleteFromSession($_GET['id'], $session);
-
-        $this->_goCart();
+        $this->_redirect('cart_list');
     }
 
     public function plusAction()
     {
         $this->addAction();
-        $this->_goCart();
     }
 
     public function minusAction()
     {
-        $quote = $this->_getQuote();
-        $session = new Session();
+        $quoteItem = $this->_initQuoteItem();
+        $quoteItem->addQty(1, -1);
+        $quoteItem->save();
 
-        if ($session->isLoggedIn())
-            $quote->addToCustomer($_GET['id'], $session->getCustomer(), -1);
-        else
-            $quote->addToSession($_GET['id'], $session, -1);
-        $this->_goCart();
+        $this->_redirect('cart_list');
     }
 
-    private function _goCart()
+    public function deleteAction()
     {
-        echo '<script>location.href="/?page=quote_list"</script>';
+        $quoteItem = $this->_initQuoteItem();
+        $quoteItem->delete();
+
+        $this->_redirect('cart_list');
     }
+
+    public function listAction()
+    {
+        $quote = $this->_initQuote();
+        $items = $quote->getItems();
+        $items->assignProducts($this->_di->get('Product'));
+
+        return $this->_di->get('View', [
+            'template' => 'cart_list',
+            'params'   => ['items' => $items]
+        ]);
+    }
+
+    private function _initQuoteItem()
+    {
+        $quote = $this->_initQuote();
+
+        $product = $this->_di->get('Product');
+        $product->load($_GET['id']);
+
+        $item = $quote->getItems()->forProduct($product);
+        return $item;
+    }
+
 }

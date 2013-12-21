@@ -1,51 +1,44 @@
 <?php
-
 namespace App\Model;
 
-use App\Model\Resource\IResourceEntity;
-
-class QuoteItem extends Entity
+class QuoteItem
+    extends Entity
 {
-    public $product;
+    private $_product;
 
     public function getProductId()
     {
-        return $this->_getData('product_id');
+        return $this->_data['product_id'];
     }
 
-    public function getCustomerId()
+    public function belongsToProduct(Product $product)
     {
-        return $this->_getData('customer_id');
+        return $this->getProductId() == $product->getId();
     }
 
-    public function getCount()
+    public function assignToProduct(Product $product)
     {
-        return $this->_getData('count');
+        $this->_data['product_id'] = $product->getId();
+        $this->_product = $product;
     }
 
-    public function changeCount($d)
+    public function getProduct()
     {
-        $this->_data['count'] += $d;
+        return $this->_product;
     }
 
-    public function getId()
+    public function getQty()
     {
-        return $this->_getData('shopping_cart_id');
+        return $this->_data['qty'];
     }
 
-    public function save()
+    public function addQty($qty, $count = 1)
     {
-        $id = $this->_resource->save($this->_data);
-        $this->_data['shopping_cart_id'] = $id;
+        $this->_data['qty'] = $this->getData('qty') + $count;
     }
 
-    public function delete()
+    public function assignToQuote($quote)
     {
-        $this->_resource->delete($this->getId());
-    }
-
-    public function load($id)
-    {
-        $this->_data = $this->_resource->find($id);
+        $this->_data['quote_id'] = $quote->getId();
     }
 }

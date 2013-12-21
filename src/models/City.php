@@ -16,16 +16,16 @@ class City extends Entity
 
     public function getId()
     {
-        return $this->_getData('ciy_id');
+        return $this->getData('ciy_id');
     }
 
     public function getName()
     {
-        return $this->_getData('name');
+        return $this->getData('name');
     }
 
     public function getRegionId()
     {
-        return $this->_getData('region_id');
+        return $this->getData('region_id');
     }
 }

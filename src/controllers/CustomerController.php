@@ -65,13 +65,9 @@ class CustomerController extends ActionController
 
     private function _registerCustomer()
     {
-//        $connection = new \PDO('mysql:host=localhost;dbname=student', 'root', '123');
-//        $resource = new DBEntity($connection, new CustomerTable);
-//        $customer = new Customer($_POST['customer'], $resource);
-
-
         $resource = $this->_di->get('ResourceEntity', ['table' => new \App\Model\Resource\Table\Customer()]);
-        $customer = $this->_di->get('Customer', ['data' => $_POST['customer'], 'resource' => $resource]);
+//        $customer = $this->_di->get('Customer', ['data' => $_POST['customer'], 'resource' => $resource]);
+        $customer = new Customer($_POST['customer'], $resource);
 
 
         try {
