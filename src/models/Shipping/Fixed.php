@@ -8,7 +8,7 @@ class Fixed implements IMethod
     private $_code = 'fixed';
     private $_address;
 
-    public function __construct($address)
+    public function __construct($address = null)
     {
         $this->_address = $address;
     }
