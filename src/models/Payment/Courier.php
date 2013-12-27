@@ -2,6 +2,7 @@
 
 namespace App\Model\Payment;
 
+
 use App\Model\Address;
 
 class Courier implements IMethod
@@ -16,4 +17,10 @@ class Courier implements IMethod
     {
         // TODO: Implement isAvailable() method.
     }
+
+    public function getLabel()
+    {
+        // TODO: Implement getLabel() method.
+    }
 }
+ 

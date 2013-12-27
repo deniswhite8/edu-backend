@@ -1,8 +1,5 @@
 <?php
-
 namespace App\Model\Payment;
-
-
 class Factory
 {
     private $_collection;
@@ -22,6 +19,10 @@ class Factory
 
     private function _getMethods()
     {
-        return
+        return [
+            new Courier,
+            new CashOnDelivery
+        ];
     }
 }
+ 

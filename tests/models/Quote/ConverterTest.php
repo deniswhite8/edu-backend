@@ -6,24 +6,26 @@ use App\Model\Quote;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConvertsQuoteToOrderUsingConverter()
+
+    public function testConvertsQuoteToOrderUsingConverters()
     {
         $quote = new Quote;
-        $order = new \App\Model\IOrder;
+        $order =  new \App\Model\Order;
 
-        $parkConverter = $this->getMock('\App\Model\Quotes\IConverter');
-        $parkConverter->expects($this->once())
-            ->method('convert')
+        $partConverter = $this->getMock('\App\Model\Quote\IConverter', ['toOrder']);
+        $partConverter->expects($this->once())
+            ->method('toOrder')
             ->with($this->equalTo($quote), $this->equalTo($order));
 
         $converterFactory = $this->getMock('\App\Model\Quote\ConverterFactory', ['getConverters']);
 
         $converterFactory->expects($this->once())
             ->method('getConverters')
-            ->will($parkConverter);
+            ->will($this->returnValue([$partConverter]));
 
         $converter = new \App\Model\Quote\Converter($converterFactory);
 
-        $converter->toOrder($qoute, $order);
+        $converter->toOrder($quote, $order);
     }
 }
+ 

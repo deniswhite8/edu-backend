@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Model\Payment;
+
 
 use App\Model\Address;
 
@@ -15,5 +17,10 @@ class CashOnDelivery implements IMethod
     {
         // TODO: Implement isAvailable() method.
     }
-:w
+
+    public function getLabel()
+    {
+        // TODO: Implement getLabel() method.
+    }
 }
+ 

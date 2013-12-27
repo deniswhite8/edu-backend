@@ -6,12 +6,6 @@ class Fixed implements IMethod
 {
     private $_price = 42;
     private $_code = 'fixed';
-    private $_address;
-
-    public function __construct($address = null)
-    {
-        $this->_address = $address;
-    }
 
     public function getPrice()
     {
@@ -25,7 +19,7 @@ class Fixed implements IMethod
 
     public function getLabel()
     {
-        return "Fixed";
+        // TODO: Implement getLabel() method.
     }
 }
  
