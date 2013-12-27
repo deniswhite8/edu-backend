@@ -64,5 +64,34 @@ class CheckoutController
             ]);
         }
     }
+
+    public function paymentAction()
+    {
+        if (isset($_POST['payment'])) {
+
+        } else {
+            $quote = $this->_initQuote();
+            $method = $this->_di->get('PaymentFactory')
+                ->getMethods()
+                ->available($quote->getAddres());
+        }
+    }
+
+    public function orderAction()
+    {
+        $quote = $this->_initQuote();
+        $quote->collectTotals();
+        $quote->save();
+
+        if ($this->_isPost()) {
+            $order = $this->_di->get('Order');
+            $this->_di->get('QuoteConverter')
+                ->toOrder($quote, $order);
+            $order->save();
+            $order->sendEmail();
+        } else {
+
+        }
+    }
 }
  

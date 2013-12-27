@@ -22,5 +22,10 @@ class Fixed implements IMethod
     {
         return $this->_code;
     }
+
+    public function getLabel()
+    {
+        return "Fixed";
+    }
 }
  

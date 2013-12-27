@@ -12,7 +12,8 @@ class Quote
         array $data = [],
         Resource\IResourceEntity $resource = null,
         QuoteItemCollection $items = null,
-        Address $address = null
+        Address $address = null,
+        Quote\CollectorsFactory $collectorsFactory
     ) {
         $this->_items = $items;
         $this->_address = $address;
@@ -56,5 +57,27 @@ class Quote
     {
         $this->_data['address_id'] = $this->_address->getId();
         $this->save();
+    }
+
+    public function collectTotal()
+    {
+        foreach ($this->_collectorsFactory->getCollectors() as $field => $collector) {
+            $this->_data[$field] = $collector->collect($this);
+        }
+    }
+
+    public function getSubtotal()
+    {
+        return $this->getData('subtotal');
+    }
+
+    public function getShipping()
+    {
+        return $this->getData('shipping');
+    }
+
+    public function getTotal()
+    {
+        return $this->getData('total');
     }
 }

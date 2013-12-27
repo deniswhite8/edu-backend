@@ -17,4 +17,9 @@ class ActionController
 
         header('Location: /?' . \http_build_query($urlParams));
     }
+
+    protected function _isPost()
+    {
+        return strtolower($_SERVER['REQUEST_METHOD']) == 'post';
+    }
 }
