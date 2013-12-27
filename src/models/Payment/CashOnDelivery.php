@@ -10,17 +10,17 @@ class CashOnDelivery implements IMethod
 
     public function getCode()
     {
-        // TODO: Implement getCode() method.
+        return 'cash_on_delivery';
     }
 
     public function isAvailable(Address $address)
     {
-        // TODO: Implement isAvailable() method.
+        return true;
     }
 
     public function getLabel()
     {
-        // TODO: Implement getLabel() method.
+        return 'Cash on delivery';
     }
 }
  

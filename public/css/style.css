@@ -185,3 +185,9 @@ form p {
     display: inline;
     margin-left: 0;
 }
+
+.ok-btn {
+    font-size: 200%;
+    margin: 15px;
+    width: 100%;
+}

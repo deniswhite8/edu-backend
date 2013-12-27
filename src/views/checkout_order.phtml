@@ -1,0 +1,7 @@
+<form action="?page=checkout_order" class="shipping" method="post">
+    <h3>Shipping: <?php echo $this->get('shipping') ?> $</h3>
+    <h3>Products: <?php echo $this->get('subtotal') ?> $</h3>
+    <h2>Total: <?php echo $this->get('grand_total') ?> $</h2>
+
+    <input type="submit" value="OK?" class="ok-btn">
+</form>

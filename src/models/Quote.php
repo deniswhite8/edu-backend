@@ -7,17 +7,24 @@ class Quote
 {
     private $_items;
     private $_address;
+    private $_collectorsFactory;
 
     public function __construct(
         array $data = [],
         Resource\IResourceEntity $resource = null,
         QuoteItemCollection $items = null,
         Address $address = null,
-        Quote\CollectorsFactory $collectorsFactory
+        Quote\CollectorsFactory $collectorsFactory = null
     ) {
         $this->_items = $items;
         $this->_address = $address;
+        $this->_collectorsFactory = $collectorsFactory;
         parent::__construct($data, $resource);
+    }
+
+    public function getQuoteItemsCollection()
+    {
+        return $this->_items;
     }
 
     public function loadBySession(Session $session)
@@ -47,9 +54,20 @@ class Quote
         return $this->_address;
     }
 
-    public function setMethod($code)
+    public function setShippingMethod($code)
     {
-        $this->setField('method_code', $code);
+        $this->setField('shipping_method_code', $code);
+        $this->save();
+    }
+
+    public function getShippingMethod()
+    {
+        return $this->getData('shipping_method_code');
+    }
+
+    public function setPaymentMethod($code)
+    {
+        $this->setField('payment_method_code', $code);
         $this->save();
     }
 
@@ -59,7 +77,7 @@ class Quote
         $this->save();
     }
 
-    public function collectTotal()
+    public function collectTotals()
     {
         foreach ($this->_collectorsFactory->getCollectors() as $field => $collector) {
             $this->_data[$field] = $collector->collect($this);
@@ -76,8 +94,8 @@ class Quote
         return $this->getData('shipping');
     }
 
-    public function getTotal()
+    public function getGrandTotal()
     {
-        return $this->getData('total');
+        return $this->getData('grand_total');
     }
 }

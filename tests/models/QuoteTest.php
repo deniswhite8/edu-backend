@@ -92,7 +92,7 @@ class QuoteTest
         $this->assertEquals(42, $quote->getId());
     }
 
-    public function testReturunsFilteredItemsCollection()
+    public function testReturnsFilteredItemsCollection()
     {
         $itemsCollection = $this->getMockBuilder('\App\Model\QuoteItemCollection')
             ->disableOriginalConstructor()->setMethods(['filterByQuote'])->getMock();
@@ -104,7 +104,7 @@ class QuoteTest
         $this->assertEquals($itemsCollection, $quote->getItems());
     }
 
-    public function testReturnsAssginedAddress()
+    public function testReturnsAssignedAddress()
     {
         $address = $this->getMock('App\Model\Address', ['load']);
         $address->expects($this->once())

@@ -19,7 +19,7 @@ class Fixed implements IMethod
 
     public function getLabel()
     {
-        // TODO: Implement getLabel() method.
+        return 'Fixed';
     }
 }
  

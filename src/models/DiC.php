@@ -144,6 +144,15 @@ class DiC
     {
         $this->_im->setParameters('App\Model\Shipping\Factory', []);
         $this->_im->addAlias('Factory', 'App\Model\Shipping\Factory');
+
+        $this->_im->setParameters('App\Model\Quote\CollectorsFactory', []);
+        $this->_im->addAlias('CollectorsFactory', 'App\Model\Quote\CollectorsFactory');
+    }
+
+    private function _assemblePayment()
+    {
+        $this->_im->setParameters('App\Model\Payment\Factory', ['collection' => 'App\Model\Payment\Collection']);
+        $this->_im->addAlias('PaymentFactory', 'App\Model\Payment\Factory');
     }
 }
  

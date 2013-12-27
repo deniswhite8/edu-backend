@@ -27,10 +27,5 @@ class TableRate implements IMethod
     {
         return "Table Rate";
     }
-
-    public function getLabel()
-    {
-        // TODO: Implement getLabel() method.
-    }
 }
  

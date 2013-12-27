@@ -5,9 +5,9 @@ class SalesController
     extends ActionController
 {
 
-    protected function _initQuote()
+    protected function _initQuote($collectorFactory = null)
     {
-        $quote   = $this->_di->get('Quote');
+        $quote   = $this->_di->get('Quote', ['collectorsFactory' => $collectorFactory]);
         $session = $this->_di->get('Session');
 
         $quote->loadBySession($session);

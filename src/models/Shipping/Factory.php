@@ -18,5 +18,13 @@ class Factory
             new TableRate($this->_address)
         ];
     }
+
+    public function getMethodByCode($code)
+    {
+        foreach ($this->getMethods() as $method) {
+            if ($method->getCode() == $code) return $method;
+        }
+        return null;
+    }
 }
  

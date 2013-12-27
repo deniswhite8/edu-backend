@@ -1,10 +1,10 @@
-<h1>Select method</h1>
+<h1>Select payment method</h1>
 
-<form action="?page=checkout_shipping" class="shipping" method="POST">
+<form action="?page=checkout_payment" class="shipping" method="post">
 
     <div>
         <?php foreach($this->get('methods') as $method): ?>
-            <label><input type="radio" name="method" value="<?php echo $method['code'] ?>"><?php echo $method['price'] ?>$ (<?php echo $method['label'] ?>)</label>
+            <label><input type="radio" name="method" value="<?php echo $method->getCode() ?>"><?php echo $method->getLabel() ?></label>
         <?php endforeach; ?>
     </div>
 

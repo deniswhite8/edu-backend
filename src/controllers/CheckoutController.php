@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Model\Address;
+use App\Model\Product;
+use App\Model\Quote\CollectorsFactory;
 
 class CheckoutController
     extends SalesController
@@ -43,7 +44,8 @@ class CheckoutController
     {
         if (isset($_POST['method'])) {
             $quote = $this->_initQuote();
-            $quote->setMethod($_POST['method']);
+            $quote->setShippingMethod($_POST['method']);
+            $this->_redirect('checkout_payment');
         } else {
             $quote = $this->_initQuote();
             $address = $quote->getAddress();
@@ -55,7 +57,7 @@ class CheckoutController
             $methodsArray = [];
 
             foreach ($methods as $method) {
-                $methodsArray[] = ['code' => $method->getCode(), 'price' => $method->getPrice()];
+                $methodsArray[] = ['code' => $method->getCode(), 'price' => $method->getPrice(), 'label' => $method->getLabel()];
             }
 
             return $this->_di->get('View', [
@@ -65,63 +67,50 @@ class CheckoutController
         }
     }
 
+
     public function paymentAction()
     {
-        if (isset($_POST['payment'])) {
-
-        } else {
+        if (isset($_POST['method'])) {
             $quote = $this->_initQuote();
-            $method = $this->_di->get('PaymentFactory')
-                ->getMethods()
-                ->available($quote->getAddres());
-        }
-    }
-
-    public function orderAction()
-    {
-        $quote = $this->_initQuote();
-        $quote->collectTotals();
-        $quote->save();
-
-        if ($this->_isPost()) {
-            $order = $this->_di->get('Order');
-            $this->_di->get('QuoteConverter')
-                ->toOrder($quote, $order);
-            $order->save();
-            $order->sendEmail();
-        } else {
-
-        }
-    }
-
-    public function paymentAction()
-    {
-        if (isset($_POST['payment'])) {
-
+            $quote->setPaymentMethod($_POST['method']);
+            $this->_redirect('checkout_order');
         } else {
             $quote = $this->_initQuote();
             $methods = $this->_di->get('PaymentFactory')
                 ->getMethods()
                 ->available($quote->getAddress());
+
+            return $this->_di->get('View', [
+                'template' => 'checkout_payment',
+                'params' => ['methods' => $methods]
+            ]);
         }
     }
 
     public function orderAction()
     {
-        $quote = $this->_initQuote();
+        $productResource = $this->_di->get('ResourceEntity', ['table' => new \App\Model\Resource\Table\Product()]);
+        $product = $this->_di->get('Product', ['resource' => $productResource]);
+
+
+        $quote = $this->_initQuote($this->_di->get('CollectorsFactory', ['productPrototype' => $product]));
         $quote->collectTotals();
         $quote->save();
-        if ($this->_isPost()) {
-            $order = $this->_di->get('Order');
-            $this->_di->get('QuoteConverter')
-                ->toOrder($quote, $order);
-            $order->save();
-            $order->sendEmail();
-        } else {
 
+        if ($this->_isPost()) {
+//            $order = $this->_di->get('Order');
+//            $this->_di->get('QuoteConverter')
+//                ->toOrder($quote, $order);
+//            $order->save();
+//            $order->sendEmail();
+        } else {
+            return $this->_di->get('View', [
+                'template' => 'checkout_order',
+                'params' => ['shipping' => $quote->getShipping(),
+                             'subtotal' => $quote->getSubtotal(),
+                             'grand_total' => $quote->getGrandTotal()]
+            ]);
         }
     }
-
-
 }
  

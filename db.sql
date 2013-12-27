@@ -54,26 +54,17 @@ CREATE TABLE regions (
   DEFAULT CHARSET =utf8
   AUTO_INCREMENT =1;
 
-# CREATE TABLE shopping_cart (
-#   shopping_cart_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-#   customer_id      INT(11) UNSIGNED NULL,
-#   product_id       INT(11) UNSIGNED NOT NULL,
-#   count            INT(11) UNSIGNED NULL,
-#   session_id       VARCHAR(64)
-#                    COLLATE utf8_bin NULL,
-#
-#   PRIMARY KEY (shopping_cart_id)
-# )
-#   ENGINE = InnoDB
-#   DEFAULT CHARSET = utf8
-#   AUTO_INCREMENT = 1;
-
 
 CREATE TABLE quotes (
-  quote_id    INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  address_id  INT(11) UNSIGNED NULL,
-  method_code VARCHAR(16)
-              COLLATE utf8_bin NULL,
+  quote_id             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  address_id           INT(11) UNSIGNED NULL,
+  shipping_method_code VARCHAR(16)
+                       COLLATE utf8_bin NULL,
+  payment_method_code  VARCHAR(16)
+                       COLLATE utf8_bin NULL,
+  shipping             INT(11) UNSIGNED NULL,
+  subtotal             INT(11) UNSIGNED NULL,
+  grand_total          INT(11) UNSIGNED NULL,
   PRIMARY KEY (quote_id)
 
 )
