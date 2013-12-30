@@ -18,7 +18,7 @@ class Entity
         return isset($this->_data[$key]) ? $this->_data[$key] : null;
     }
 
-    public function setData($data)
+    public function setData($data, $clearId = false)
     {
         if(! $this->_resource) {
             $this->_data = $data;
@@ -27,7 +27,7 @@ class Entity
         $primaryKeyField = $this->_resource->getPrimaryKeyField();
         $id = $this->getId();
         $this->_data = $data;
-        if($id && !isset($data[$primaryKeyField])) $this->_data[$primaryKeyField] = $id;
+        if(!$clearId && $id && !isset($data[$primaryKeyField])) $this->_data[$primaryKeyField] = $id;
     }
 
     public function setField($key, $value)
@@ -43,7 +43,8 @@ class Entity
     public function save()
     {
         $id = $this->_resource->save($this->_data);
-        $this->_data[$this->_resource->getPrimaryKeyField()] = $id;
+        if ($id != 0)
+            $this->_data[$this->_resource->getPrimaryKeyField()] = $id;
     }
 
     public function delete()

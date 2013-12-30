@@ -171,6 +171,9 @@ class DiC
 
         $this->_im->setParameters('App\Model\ProductOrder', ['table' => 'App\Model\Resource\Table\ProductOrder']);
         $this->_im->addAlias('ProductOrder', 'App\Model\ProductOrder');
+
+        $this->_im->setParameters('App\Model\ProductOrderCollection', ['table' => 'App\Model\Resource\Table\ProductOrder']);
+        $this->_im->addAlias('ProductOrderCollection', 'App\Model\ProductOrderCollection');
     }
 }
  

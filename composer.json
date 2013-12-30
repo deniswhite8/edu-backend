@@ -8,6 +8,8 @@
         "zendframework/zend-servicemanager": "2.2.*",
         "zendFramework/zend-di": "2.2.*",
         "zendFramework/zend-filter": "2.2.*",
-        "zendFramework/zend-view": "2.2.*"
+        "zendFramework/zend-view": "2.2.*",
+        "zendFramework/zend-mail": "2.2.*",
+        "zendFramework/zend-validator": "2.2.*"
     }
 }

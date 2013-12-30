@@ -105,10 +105,12 @@ class CheckoutController
             $city = $this->_di->get('City');
             $region = $this->_di->get('Region');
 
+            $order->save();
             $this->_di->get('QuoteConverter')
                 ->toOrder($quote, $order, $productOrder, $session, $quoteItemCollection, $product, $city, $region);
             $order->save();
-//            $order->sendEmail();
+            $order->sendEmail($this->_di->get('ProductOrderCollection'));
+            $this->_redirect('product_list');
         } else {
             return $this->_di->get('View', [
                 'template' => 'checkout_order',

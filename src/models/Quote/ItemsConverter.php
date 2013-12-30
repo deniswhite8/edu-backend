@@ -16,8 +16,9 @@ class ItemsConverter implements IConverter
     public function toOrder(Quote $quote, Order $order, ProductOrder $productOrderPrototype, Session $session,
                             QuoteItemCollection $quoteItemPrototype, Product $productPrototype, City $cityPrototype, Region $regionPrototype)
     {
-        $quoteItemPrototype->filterByQuote($quote);
-        foreach ($quoteItemPrototype->getItems() as $quoteItem) {
+        foreach ($quote->getItems() as $quoteItem) {
+            $productOrderPrototype->setData([], true);
+
             $productOrderPrototype->setField('order_id', $order->getId());
             $productOrderPrototype->setField('qty', $quoteItem->getQty());
 
@@ -26,6 +27,7 @@ class ItemsConverter implements IConverter
             $productOrderPrototype->setField('sku', $productPrototype->getSku());
             $productOrderPrototype->setField('price', $productPrototype->getPrice());
             $productOrderPrototype->setField('special_price', $productPrototype->getSpecialPrice());
+            $productOrderPrototype->setField('order_id', $order->getId());
 
             $productOrderPrototype->save();
         }
