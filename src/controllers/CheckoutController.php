@@ -98,10 +98,16 @@ class CheckoutController
         $quote->save();
 
         if ($this->_isPost()) {
-//            $order = $this->_di->get('Order');
-//            $this->_di->get('QuoteConverter')
-//                ->toOrder($quote, $order);
-//            $order->save();
+            $order = $this->_di->get('Order');
+            $session = $this->_di->get('Session');
+            $productOrder = $this->_di->get('ProductOrder');
+            $quoteItemCollection = $this->_di->get('QuoteItemCollection');
+            $city = $this->_di->get('City');
+            $region = $this->_di->get('Region');
+
+            $this->_di->get('QuoteConverter')
+                ->toOrder($quote, $order, $productOrder, $session, $quoteItemCollection, $product, $city, $region);
+            $order->save();
 //            $order->sendEmail();
         } else {
             return $this->_di->get('View', [

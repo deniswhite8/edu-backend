@@ -131,6 +131,7 @@ class DiC
             'table' => 'App\Model\Resource\Table\QuoteItem',
             'itemPrototype' => 'App\Model\QuoteItem'
         ]);
+        $this->_im->addAlias('QuoteItemCollection', 'App\Model\QuoteItemCollection');
 
         $this->_im->setParameters('App\Model\Quote', [
             'table' => 'App\Model\Resource\Table\Quote',
@@ -153,6 +154,23 @@ class DiC
     {
         $this->_im->setParameters('App\Model\Payment\Factory', ['collection' => 'App\Model\Payment\Collection']);
         $this->_im->addAlias('PaymentFactory', 'App\Model\Payment\Factory');
+    }
+
+    private function _assembleConverter()
+    {
+        $this->_im->setParameters('App\Model\Quote\ConverterFactory', []);
+
+        $this->_im->setParameters('App\Model\Quote\Converter', ['converterFactory' => 'App\Model\Quote\ConverterFactory']);
+        $this->_im->addAlias('QuoteConverter', 'App\Model\Quote\Converter');
+    }
+
+    private function _assembleOrder()
+    {
+        $this->_im->setParameters('App\Model\Order', ['table' => 'App\Model\Resource\Table\Order']);
+        $this->_im->addAlias('Order', 'App\Model\Order');
+
+        $this->_im->setParameters('App\Model\ProductOrder', ['table' => 'App\Model\Resource\Table\ProductOrder']);
+        $this->_im->addAlias('ProductOrder', 'App\Model\ProductOrder');
     }
 }
  

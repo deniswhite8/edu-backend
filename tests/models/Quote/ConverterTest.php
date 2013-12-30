@@ -25,7 +25,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $converter = new \App\Model\Quote\Converter($converterFactory);
 
-        $converter->toOrder($quote, $order);
+        $converter->toOrder($quote, $order, null);
     }
 }
  

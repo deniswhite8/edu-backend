@@ -71,6 +71,11 @@ class Quote
         $this->save();
     }
 
+    public function getPaymentMethod()
+    {
+        return $this->getData('payment_method_code');
+    }
+
     protected function _assignAddress()
     {
         $this->_data['address_id'] = $this->_address->getId();
