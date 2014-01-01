@@ -1,0 +1,46 @@
+<?php
+    $productCollection = $this->get('product_collection');
+?>
+
+<h1>Products</h1>
+
+<script>
+    function getCheckedRadio(name) {
+        var elements = document.getElementsByName(name);
+
+        for (var i=0, len=elements.length; i<len; ++i)
+            if (elements[i].checked) return elements[i].value;
+    }
+</script>
+
+<?php $cur = $this->get('searchBy'); ?>
+<label><input type="radio" name="like" value="name" <?php if($cur == 'name') echo 'checked' ?>>Name</label>
+<label><input type="radio" name="like" value="sku" <?php if($cur == 'sku') echo 'checked' ?>>Sku</label>
+<label><input type="radio" name="like" value="price" <?php if($cur == 'price') echo 'checked' ?>>Price</label>
+<label><input type="radio" name="like" value="special_price" <?php if($cur == 'special_price') echo 'checked' ?>>Special price</label>
+<input type="search" id="searchString" value="<?php echo $this->get('searchStr') ?>">
+<button onclick="window.location = ('?page=admin_products&searchBy='+getCheckedRadio('like')+'&searchStr='+document.getElementById('searchString').value);">Search</button>
+<button onclick="window.location = '?page=admin_products'">Cancel</button>
+
+<table>
+    <tr>
+        <th>Image</th>
+        <?php $revStr = ($this->get('reverse') ? '' : '&reverse=true' ) . "&searchBy={$this->get('searchBy')}&searchStr={$this->get('searchStr')}" ?>
+        <th>SKU <a href="?page=admin_products&order=sku<?php echo $revStr ?>">⇵</a></th>
+        <th>Name <a href="?page=admin_products&order=name<?php echo $revStr ?>">⇵</a></th>
+        <th>Price <a href="?page=admin_products&order=price<?php echo $revStr ?>">⇵</a></th>
+        <th>Special price <a href="?page=admin_products&order=special_price<?php echo $revStr ?>">⇵</a></th>
+        <th></th>
+    </tr>
+    <?php foreach ($productCollection as $product): ?>
+    <tr>
+        <td><img src="<?php echo $product->getImage(); ?>" alt=""></td>
+        <td><?php echo $product->getSku(); ?></td>
+        <td><?php echo $product->getName(); ?></td>
+        <td><?php echo $product->getPrice(); ?></td>
+        <td><?php echo ($product->isSpecialPriceApplied() ? $product->getSpecialPrice() : '-') ; ?></td>
+        <td><button onclick="window.location = '?page=admin_editProduct&id=<?php echo $product->getId() ?>'">Edit</button></td>
+    </tr>
+    <?php endforeach; ?>
+</table>
+<button onclick="window.location = '?page=admin_editProduct&id='">Create new product</button>

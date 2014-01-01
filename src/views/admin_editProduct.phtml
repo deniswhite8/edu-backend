@@ -1,0 +1,26 @@
+<?php $product = $this->get('product'); ?>
+
+<?php if ($this->get('new')): ?>
+<h1>New product</h1>
+<?php else: ?>
+<h1>Update product</h1>
+<?php endif; ?>
+
+<form action="#" method="post" enctype="multipart/form-data">
+    <input name="product[product_id]" type="hidden" value="<?php echo $product->getId() ?>">
+
+    <img src="<?php echo $product->getImage(); ?>" alt="">
+    <label for="file">Image:</label>
+    <input id="file" type="file" name="image" id=""/>
+
+    <label for="sku">Sku:</label> <input name="product[sku]" id="sku" type="text" value="<?php echo $product->getSku(); ?>">
+    <label for="name">Name:</label> <input name="product[name]" id="name" type="text" value="<?php echo $product->getName(); ?>">
+    <label for="price">Price:</label> <input name="product[price]" id="price" type="text" value="<?php echo $product->getPrice(); ?>">
+    <label for="special_price">Special price:</label> <input name="product[special_price]" id="special_price" type="text" value="<?php echo $product->getSpecialPrice(); ?>">
+
+    <?php if ($this->get('new')): ?>
+        <input type="submit" value="Create">
+    <?php else: ?>
+        <input type="submit" value="Update">
+    <?php endif; ?>
+</form>

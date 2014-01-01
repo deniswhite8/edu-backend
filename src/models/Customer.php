@@ -1,6 +1,5 @@
 <?php
 namespace App\Model;
-use App\Model\Resource\IResourceEntity;
 
 class Customer extends Entity
 {

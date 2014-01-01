@@ -1,8 +1,6 @@
 <?php
 namespace App\Controller;
 
-use App\Model\Controller;
-
 class ErrorController extends ActionController
 {
     public function notFoundAction()

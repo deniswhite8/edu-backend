@@ -20,6 +20,11 @@ class ModelView implements ISessionUser
         $this->_params = $params;
     }
 
+    public function setLayout($layout)
+    {
+        $this->_layout = $layout;
+    }
+
     public function render()
     {
         require_once $this->_layoutDir . $this->_layout . '.phtml';

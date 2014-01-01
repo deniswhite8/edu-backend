@@ -4,6 +4,8 @@ namespace App\Model\Resource;
 
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Where;
+use Zend\Db\Sql\Predicate\Like;
 
 class DBCollection
     implements IResourceCollection
@@ -14,6 +16,8 @@ class DBCollection
     private $_bind = [];
     private $_select, $_driver, $_adapter, $_sql;
     private $_limit, $_offset;
+    private $_order, $_reverse;
+    private $_isLike = [];
 
     public function __construct(\PDO $connection, Table\ITable $table)
     {
@@ -37,8 +41,11 @@ class DBCollection
             $this->_select->columns($columns);
         }
 
+
         $this->_prepareFilters();
         $this->_prepareLimit();
+        $this->_prepareOrder();
+
 
         $statement = $this->_sql->prepareStatementForSqlObject($this->_select);
         $result = $statement->execute($this->_bind);
@@ -70,10 +77,22 @@ class DBCollection
         $this->_filters[$column] = $value;
     }
 
+    public function likeBy($column, $value)
+    {
+        $this->_filters[$column] = $value;
+        $this->_isLike[$column] = true;
+    }
+
     public function limit($limit, $offset = 0)
     {
         $this->_limit = $limit;
         $this->_offset = $offset;
+    }
+
+    public function sortBy($column, $reverse = false)
+    {
+        $this->_order = $column;
+        $this->_reverse = $reverse;
     }
 
     public function count()
@@ -98,7 +117,11 @@ class DBCollection
     private function _prepareFilters()
     {
         foreach ($this->_filters as $column => $value) {
-            $this->_select->where("{$column} = :{$column}");
+            if($this->_isLike[$column]) {
+                $this->_select->where("{$column} LIKE :{$column}");
+            }
+            else
+                $this->_select->where("{$column} = :{$column}");
             $this->_bind[$column] = $value;
         }
     }
@@ -109,5 +132,12 @@ class DBCollection
             $this->_select->limit($this->_limit);
         if ($this->_offset)
             $this->_select->offset($this->_offset);
+    }
+
+    private function _prepareOrder()
+    {
+        if ($this->_order) {
+            $this->_select->order($this->_order . ($this->_reverse ? ' DESC' : ''));
+        }
     }
 }

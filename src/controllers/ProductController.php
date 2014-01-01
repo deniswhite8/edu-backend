@@ -1,7 +1,6 @@
 <?php
 namespace App\Controller;
 
-use App\Model\Controller;
 use App\Model\Product;
 
 class ProductController extends ActionController

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin panel</title>
+    <link rel="stylesheet" href="/css/admin.css"/>
+</head>
+<body>
+    <nav>
+        <?php $current = $this->get('current'); ?>
+        <a href="/?page=admin_products" class="<?php if($current == 'products') echo 'current' ?>">Products</a>
+        <a href="#" class="<?php if($current == 'reviews') echo 'current' ?>">Reviews</a>
+        <a href="#" class="<?php if($current == 'customers') echo 'current' ?>">Customers</a>
+        <a href="#" class="<?php if($current == 'orders') echo 'current' ?>">Orders</a>
+        <a href="#" class="<?php if($current == 'discounts') echo 'current' ?>">Discounts</a>
+        <a href="#" class="<?php if($current == 'delivery') echo 'current' ?>">Delivery</a>
+    </nav>
+
+    <?php
+        $this->renderTemplate();
+    ?>
+</body>
+</html>

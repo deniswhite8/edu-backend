@@ -16,7 +16,7 @@ class CustomerController extends ActionController
         $error = false;
         $again = false;
         if (isset($_POST['customer'])) {
-            if ($this->_loginCustomer()) $this->_goBack();
+            if ($this->_loginCustomer()) $this->_redirect('product_list');
             else {
                 $error = true;
                 $again = true;
@@ -39,7 +39,7 @@ class CustomerController extends ActionController
         if (isset($_POST['customer'])) {
             if (!ctype_space($_POST['customer']['name']) && $_POST['customer']['password'] != '' && $this->_registerCustomer()) {
                 $this->_loginCustomer();
-                $this->_goBack();
+                $this->_redirect('product_list');
             }
             else {
                 $error = true;
@@ -60,15 +60,15 @@ class CustomerController extends ActionController
     {
         $session = new Session();
         $session->logout();
-        $this->_goBack();
+        $this->_redirect('product_list');
     }
 
     private function _registerCustomer()
     {
         $resource = $this->_di->get('ResourceEntity', ['table' => new \App\Model\Resource\Table\Customer()]);
-//        $customer = $this->_di->get('Customer', ['data' => $_POST['customer'], 'resource' => $resource]);
         $customer = new Customer($_POST['customer'], $resource);
 
+//        $customer = $this->_di->get('Customer', ['data' => $_POST['customer']]);
 
         try {
             $customer->save();
@@ -80,20 +80,15 @@ class CustomerController extends ActionController
 
     private function _loginCustomer()
     {
-        $connection = new \PDO('mysql:host=localhost;dbname=student', 'root', '123');
-        $resource = new DBCollection($connection, new CustomerTable);
         $customer = new Customer($_POST['customer']);
-        $customers = new CustomerCollection($resource, new CustomerTable);
+
+//        $customer = $this->_di->get('Customer', ['data' => $_POST['customer']]);
+        $customers = $this->_di->get('CustomerCollection');
 
         $id = $customers->loginAttempt($customer);
         $session = new Session();
         $session->login($id);
 
         return $session->isLoggedIn();
-    }
-
-    private function _goBack()
-    {
-        echo '<script>location.href="/"</script>';
     }
 }

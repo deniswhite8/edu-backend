@@ -29,4 +29,14 @@ class ProductCollection
     {
         return new \ArrayIterator($this->getProducts());
     }
+
+    public function sortBy($name, $reverse = false)
+    {
+        $this->_resource->sortBy($name, $reverse);
+    }
+
+    public function search($column, $string)
+    {
+        $this->_resource->likeBy($column, '%'.$string.'%');
+    }
 }
