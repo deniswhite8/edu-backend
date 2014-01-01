@@ -117,7 +117,7 @@ class DBCollection
     private function _prepareFilters()
     {
         foreach ($this->_filters as $column => $value) {
-            if($this->_isLike[$column]) {
+            if(isset($this->_isLike[$column])) {
                 $this->_select->where("{$column} LIKE :{$column}");
             }
             else

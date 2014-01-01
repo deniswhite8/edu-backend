@@ -25,6 +25,8 @@
         <a href="/?page=cart_delete&id=<?php echo $product->getId() ?>" class="option">Delete from cart</a>
     <?php endforeach; ?>
 
-    <h2 class="checkout"><a href="/?page=checkout_address">Checkout →</a></h2>
+    <?php if (count($items->getItems())): ?>
+        <h2 class="checkout"><a href="/?page=checkout_address">Checkout →</a></h2>
+    <?php endif; ?>
 
 </div>

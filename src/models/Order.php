@@ -33,7 +33,7 @@ class Order extends Entity
     }
 
 
-    public function sendEmail(ProductOrderCollection $productOrderCollection)
+    public function sendEmail(ProductOrderCollection $productOrderCollection, Customer $customer)
     {
         $transport = new Smtp();
         $transport->setOptions(new SmtpOptions(
@@ -42,7 +42,7 @@ class Order extends Entity
                 'connection_class' => 'plain',
                 'connection_config' => [
                     'username' => 'deniswhite8@gmail.com',
-                    'password' => 'nope :3',
+                    'password' => ':)',
                     'ssl' => 'tls'
                 ]
             ]
@@ -66,6 +66,18 @@ class Order extends Entity
             $i++;
         }
 
+        $customer->load($this->getData('customer_id'));
+        $customerStr = '';
+
+
+        if ($customer->getId()) {
+            $customerStr .= "~ Customer info ~\n";
+            $customerStr .= "ID: {$customer->getId()}\n";
+            $customerStr .= "Name: {$customer->getName()}\n";
+            $customerStr .= "Email: {$customer->getEmail()}\n\n";
+        }
+
+
 
         $message = new Message();
         $message->addTo('deniswhite8@gmail.com')
@@ -78,6 +90,8 @@ class Order extends Entity
                       "Shipping: {$this->getData('shipping')}\n" .
                       "Subtotal: {$this->getData('subtotal')}\n" .
                       "Grand total: {$this->getData('grand_total')}\n\n" .
+
+                      $customerStr .
 
                       "~ Address ~\n" .
                       "Region: {$this->getData('region_name')}\n" .

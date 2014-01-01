@@ -14,16 +14,13 @@ class CustomerController extends ActionController
     public function loginAction()
     {
         $error = false;
-        $again = false;
         if (isset($_POST['customer'])) {
             if ($this->_loginCustomer()) $this->_redirect('product_list');
             else {
                 $error = true;
-                $again = true;
             }
         } else {
             $error = false;
-            $again = true;
         }
 
         return $this->_di->get('View', [
@@ -35,19 +32,16 @@ class CustomerController extends ActionController
     public function registerAction()
     {
         $error = false;
-        $again = false;
         if (isset($_POST['customer'])) {
-            if (!ctype_space($_POST['customer']['name']) && $_POST['customer']['password'] != '' && $this->_registerCustomer()) {
+            if (!ctype_space($_POST['customer']['email']) && $_POST['customer']['password'] != '' && $this->_registerCustomer()) {
                 $this->_loginCustomer();
                 $this->_redirect('product_list');
             }
             else {
                 $error = true;
-                $again = true;
             }
         } else {
             $error = false;
-            $again = true;
         }
 
         return $this->_di->get('View', [

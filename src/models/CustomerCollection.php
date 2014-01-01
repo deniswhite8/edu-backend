@@ -24,7 +24,7 @@ class CustomerCollection
 
     public function loginAttempt(Customer $customer)
     {
-        $this->_resource->filterBy('name', $customer->getData('name'));
+        $this->_resource->filterBy('email', $customer->getData('email'));
         $this->_resource->filterBy('password', $customer->getData('password'));
         $data = $this->_resource->fetch();
         if (count($data) == 0) return 0;

@@ -41,7 +41,6 @@
 <?php endif;?>
 
 <h2 class="product-review-header">Write you product review!</h2>
-<?php if ($this->session()->isLoggedIn()): ?>
     <form class="product-review" action="/?page=productReview_add" method="post">
         <input type="hidden" name="product_id" value="<?php echo $product->getId() ?>">
         <input type="hidden" name="token" value="<?php echo $this->session()->getToken() ?>">
@@ -54,7 +53,5 @@
         <textarea name="text" cols="30" rows="10" placeholder="You product review"></textarea>
         <input type="submit" value="Send">
     </form>
-<?php else: ?>
-   <p>Login, please, for it</p>
-<?php endif; ?>
+
 

@@ -19,8 +19,9 @@
     <label for="special_price">Special price:</label> <input name="product[special_price]" id="special_price" type="text" value="<?php echo $product->getSpecialPrice(); ?>">
 
     <?php if ($this->get('new')): ?>
-        <input type="submit" value="Create">
+        <input type="submit" value="Create" name="action" >
     <?php else: ?>
-        <input type="submit" value="Update">
+        <input type="submit" class="first" name="action" value="Update">
+        <input type="submit" class="second" name="action" value=Delete>
     <?php endif; ?>
 </form>

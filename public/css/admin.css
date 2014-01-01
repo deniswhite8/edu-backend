@@ -78,3 +78,16 @@ form input {
     display: block;
     width: 60%;
 }
+
+form .first, .second {
+    display: inline;
+}
+
+form .first {
+    width: 40%;
+}
+
+form .second {
+    margin-left: 10px;
+    width: 20%;
+}

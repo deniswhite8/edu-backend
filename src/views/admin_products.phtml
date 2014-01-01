@@ -43,4 +43,21 @@
     </tr>
     <?php endforeach; ?>
 </table>
-<button onclick="window.location = '?page=admin_editProduct&id='">Create new product</button>
+<button onclick="window.location = '?page=admin_editProduct'">Create new product</button>
+
+<?php
+
+$pages = $this->get('pages');
+
+if($pages->pageCount > 1):?>
+<div class="paginator">
+    <?php for($i = 1; $i <= $pages->pageCount; $i++):?>
+        <?php if($i == $pages->current): ?>
+            <span><?php echo $i; ?></span>
+        <?php else: ?>
+            <?php $revStr = ($this->get('reverse') ? '&reverse=true' : '') . '&'; ?>
+            <a href=<?php echo "/?page=admin_products&order={$this->get('orderBy')}&{$revStr}searchBy={$this->get('searchBy')}&searchStr={$this->get('searchStr')}&p={$i}"?>><?php echo $i; ?></a>
+        <?php endif; ?>
+    <?php endfor; ?>
+</div>
+<?php endif;?>

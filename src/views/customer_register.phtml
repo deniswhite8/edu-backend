@@ -2,8 +2,16 @@
 
 <form action="?page=customer_register" method="POST">
     <div>
+        <label for="email">Email</label>
+        <input type="text" id="email" name="customer[email]" />
+    </div>
+    <div>
         <label for="name">Name</label>
         <input type="text" id="name" name="customer[name]" />
+    </div>
+    <div>
+        <label for="surname">Surname</label>
+        <input type="text" id="surname" name="customer[surname]" />
     </div>
     <div>
         <label for="password">Password</label>
@@ -12,7 +20,7 @@
 
     <input type="submit" value="Register">
     <?php if ($this->get('error')): ?>
-        <p class="error">Incorrect username or password</p>
+        <p class="error">Incorrect email or password</p>
     <?php endif; ?>
 </form>
 

@@ -19,9 +19,14 @@ class Customer extends Entity
         $this->_data['customer_id'] = $id;
     }
 
-    public function getId()
+    public function getEmail()
     {
-        return $this->getData('customer_id');
+        return $this->getData('email');
+    }
+
+    public function getName()
+    {
+        return $this->getData('name');
     }
 
     public function load($id)

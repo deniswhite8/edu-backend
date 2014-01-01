@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Model\Product;
-use App\Model\Quote\CollectorsFactory;
+use App\Model\Customer;
 
 class CheckoutController
     extends SalesController
@@ -109,7 +108,12 @@ class CheckoutController
             $this->_di->get('QuoteConverter')
                 ->toOrder($quote, $order, $productOrder, $session, $quoteItemCollection, $product, $city, $region);
             $order->save();
-            $order->sendEmail($this->_di->get('ProductOrderCollection'));
+
+
+            $resource = $this->_di->get('ResourceEntity', ['table' => new \App\Model\Resource\Table\Customer()]);
+            $customer = new Customer([], $resource);
+
+            $order->sendEmail($this->_di->get('ProductOrderCollection'), $customer);
             $this->_redirect('product_list');
         } else {
             return $this->_di->get('View', [

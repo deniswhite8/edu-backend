@@ -2,12 +2,30 @@ CREATE TABLE customers (
   customer_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   name        VARCHAR(255)
               COLLATE utf8_bin NULL,
+  surname     VARCHAR(255)
+              COLLATE utf8_bin NULL,
+  email       VARCHAR(255)
+              COLLATE utf8_bin NULL,
   password    VARCHAR(32)
               COLLATE utf8_bin NOT NULL,
   rating      DECIMAL(10, 2)   NULL,
   quote_id    INT(11) UNSIGNED NOT NULL,
 
   PRIMARY KEY (customer_id)
+)
+  ENGINE =InnoDB
+  DEFAULT CHARSET =utf8
+  AUTO_INCREMENT =1;
+
+
+CREATE TABLE admins (
+  admin_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  login        VARCHAR(255)
+              COLLATE utf8_bin NULL,
+  password    VARCHAR(32)
+              COLLATE utf8_bin NOT NULL,
+
+  PRIMARY KEY (admin_id)
 )
   ENGINE =InnoDB
   DEFAULT CHARSET =utf8
@@ -121,17 +139,17 @@ CREATE TABLE orders (
 
 CREATE TABLE products_order (
   products_order_id INT(11) UNSIGNED        NOT NULL AUTO_INCREMENT,
-  order_id       INT(11) UNSIGNED        NOT NULL,
+  order_id          INT(11) UNSIGNED        NOT NULL,
 
-  qty            INT(11) UNSIGNED        NULL,
+  qty               INT(11) UNSIGNED        NULL,
 
 # PRODUCT DATA
-  name           VARCHAR(255)
-                 COLLATE utf8_bin        NULL,
-  sku            VARCHAR(255)
-                 COLLATE utf8_bin        NULL,
-  price          DECIMAL(10, 2) UNSIGNED NOT NULL,
-  special_price  DECIMAL(10, 2) UNSIGNED NULL,
+  name              VARCHAR(255)
+                    COLLATE utf8_bin        NULL,
+  sku               VARCHAR(255)
+                    COLLATE utf8_bin        NULL,
+  price             DECIMAL(10, 2) UNSIGNED NOT NULL,
+  special_price     DECIMAL(10, 2) UNSIGNED NULL,
 
   PRIMARY KEY (products_order_id)
 )
@@ -182,8 +200,10 @@ ALTER TABLE products
 ADD UNIQUE INDEX (sku);
 
 ALTER TABLE customers
-ADD UNIQUE INDEX (name);
+ADD UNIQUE INDEX (email);
 
+ALTER TABLE admins
+ADD UNIQUE INDEX (login);
 
 ALTER TABLE orders
 ADD FOREIGN KEY (customer_id)
@@ -193,59 +213,23 @@ REFERENCES customers (customer_id)
 
 
 ALTER TABLE orders
-ADD FOREIGN KEY (seller_id)
-REFERENCES sellers (seller_id)
+ADD FOREIGN KEY (customer_id)
+REFERENCES customers (customer_id)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 
 
-ALTER TABLE order_products
-ADD FOREIGN KEY (product_id)
-REFERENCES products (product_id)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
-
-
-ALTER TABLE order_products
+ALTER TABLE products_order
 ADD FOREIGN KEY (order_id)
 REFERENCES orders (order_id)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 
-# ALTER TABLE shopping_cart
-# ADD FOREIGN KEY (customer_id)
-# REFERENCES customers (customer_id)
-#   ON DELETE CASCADE
-#   ON UPDATE CASCADE;
-#
-# ALTER TABLE shopping_cart
-# ADD FOREIGN KEY (product_id)
-# REFERENCES products (product_id)
-#   ON DELETE CASCADE
-#   ON UPDATE CASCADE;
 
-# ALTER TABLE reviews
-# ADD FOREIGN KEY (customer_id)
-# REFERENCES customers (customer_id)
-#   ON DELETE CASCADE
-#   ON UPDATE CASCADE;
-#
-#
-# ALTER TABLE reviews
-# ADD FOREIGN KEY (product_id)
-# REFERENCES products (product_id)
-#   ON DELETE CASCADE
-#   ON UPDATE CASCADE;
-
-
--- test
-# INSERT INTO customers (name) VALUES ('Petya');
-# INSERT INTO sellers (name) VALUES ('Vasya');
-# INSERT INTO orders (customer_id, seller_id) VALUES (1, 1);
 INSERT INTO products (name, sku, price, special_price, image)
   VALUES ('Nokia', '12345', 100.00, 0.00, 'http://www.qosc.zp.ua/wp-content/uploads/2013/08/Nokia_3310.jpg'),
   ('SE', '3242', 50.00, 48.99, 'http://freemarket.kiev.ua/images_goods/Sony-Ericsson/Sony-Ericsson-K320i-6.jpg');
-# INSERT INTO order_products (product_id, order_id) VALUES (1, 1);
+
 INSERT INTO reviews (product_id, rating, text, name)
   VALUES (1, 1, 'bad', 'lolka'), (2, 5, 'good', 'petrovich'), (1, 2, 'no', 'qwerty');
 
