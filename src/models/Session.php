@@ -4,22 +4,42 @@ namespace App\Model;
 
 use App\Model\Resource\DBEntity;
 use App\Model\Resource\Table\Customer as CustomerTable;
+use App\Model\Resource\Table\Admin as AdminTable;
 
 class Session
 {
 
-    private $_resource;
+    private $_resource, $_customerResource, $_adminResource;
+    private $_mode, $_userIdName;
 
     public function __construct()
     {
         if (!isset($_SESSION)) session_start();
         $connection = new \PDO('mysql:host=localhost;dbname=student', 'root', '123');
-        $this->_resource = new DBEntity($connection, new CustomerTable);
+        $this->_customerResource = new DBEntity($connection, new CustomerTable);
+        $this->_adminResource = new DBEntity($connection, new AdminTable);
+
+        $this->setCustomerMode();
+    }
+
+
+    public function setCustomerMode()
+    {
+        $this->_mode = 'customer';
+        $this->_userIdName = 'id';
+        $this->_resource = $this->_customerResource;
+    }
+
+    public function setAdminMode()
+    {
+        $this->_mode = 'admin';
+        $this->_userIdName = 'admin_id';
+        $this->_resource = $this->_adminResource;
     }
 
     public function isLoggedIn()
     {
-        return isset($_SESSION['id']);
+        return isset($_SESSION[$this->_userIdName]);
     }
 
     public function getCustomer()
@@ -27,8 +47,17 @@ class Session
         if (!$this->isLoggedIn()) return null;
 
         $customer = new Customer([], $this->_resource);
-        $customer->load($_SESSION['id']);
+        $customer->load($_SESSION[$this->_userIdName]);
         return $customer;
+    }
+
+    public function getAdmin()
+    {
+        if (!$this->isLoggedIn()) return null;
+
+        $admin = new Admin([], $this->_resource);
+        $admin->load($_SESSION[$this->_userIdName]);
+        return $admin;
     }
 
     public function getSessionId()
@@ -38,13 +67,14 @@ class Session
 
     public function login($id)
     {
-        if ($id)
-            $_SESSION['id'] = $id;
+        if ($id) {
+            $_SESSION[$this->_userIdName] = $id;
+        }
     }
 
     public function logout()
     {
-        unset($_SESSION['id']);
+        unset($_SESSION[$this->_userIdName]);
     }
 
     public function generateToken()

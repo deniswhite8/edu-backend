@@ -13,12 +13,6 @@ class Customer extends Entity
         $this->_resource = $resource;
     }
 
-    public function save()
-    {
-        $id = $this->_resource->save($this->_data);
-        $this->_data['customer_id'] = $id;
-    }
-
     public function getEmail()
     {
         return $this->getData('email');
@@ -27,11 +21,6 @@ class Customer extends Entity
     public function getName()
     {
         return $this->getData('name');
-    }
-
-    public function load($id)
-    {
-        $this->_data = $this->_resource->find($id);
     }
 
     public function getQuoteId()

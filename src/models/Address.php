@@ -38,14 +38,4 @@ class Address extends Entity {
     {
         return $this->getData('address_id');
     }
-
-//    public function load($id)
-//    {
-//        $this->_data = $this->_resource->find($id);
-//    }
-//
-//    public function save()
-//    {
-//        $this->_resource->save($this->_data);
-//    }
 }

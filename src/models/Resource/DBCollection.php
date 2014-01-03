@@ -46,7 +46,6 @@ class DBCollection
         $this->_prepareLimit();
         $this->_prepareOrder();
 
-
         $statement = $this->_sql->prepareStatementForSqlObject($this->_select);
         $result = $statement->execute($this->_bind);
 

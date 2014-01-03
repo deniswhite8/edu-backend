@@ -7,13 +7,23 @@
 </head>
 <body>
     <nav>
-        <?php $current = $this->get('current'); ?>
+        <?php
+            $current = $this->get('current');
+            $session = $this->session();
+            $session->setAdminMode();
+        ?>
         <a href="/?page=admin_products" class="<?php if($current == 'products') echo 'current' ?>">Products</a>
         <a href="#" class="<?php if($current == 'reviews') echo 'current' ?>">Reviews</a>
         <a href="#" class="<?php if($current == 'customers') echo 'current' ?>">Customers</a>
         <a href="#" class="<?php if($current == 'orders') echo 'current' ?>">Orders</a>
         <a href="#" class="<?php if($current == 'discounts') echo 'current' ?>">Discounts</a>
         <a href="#" class="<?php if($current == 'delivery') echo 'current' ?>">Delivery</a>
+        <?php if ($session->isLoggedIn()): ?>
+        <span class="welcome">
+            Welcome, <strong><?php echo $session->getAdmin()->getLogin() ?></strong>
+            <a href="/?page=admin_logout" class="logout">logout</a>
+        </span>
+        <?php endif; ?>
     </nav>
 
     <?php

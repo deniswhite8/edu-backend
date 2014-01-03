@@ -80,7 +80,8 @@ class CustomerController extends ActionController
         $customers = $this->_di->get('CustomerCollection');
 
         $id = $customers->loginAttempt($customer);
-        $session = new Session();
+
+        $session = $this->_di->get('Session');
         $session->login($id);
 
         return $session->isLoggedIn();

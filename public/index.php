@@ -1,10 +1,13 @@
 <?php
 namespace App;
 
+use App\Model\Hasher;
+
 require_once __DIR__ . '/../autoloader.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 date_default_timezone_set('Europe/Moscow');
+
 
 try {
     $defaultPath = 'product_list';

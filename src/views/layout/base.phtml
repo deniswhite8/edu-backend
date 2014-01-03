@@ -7,7 +7,7 @@
 </head>
 <body>
     <a href="/index.php" class="arrow-back">←</a>
-    <?php $session = new \App\Model\Session();
+    <?php $session = $this->session();
     if (!$session->isLoggedIn()):?>
         <div class="login-box">
             <a href="?page=cart_list">You quote</a>

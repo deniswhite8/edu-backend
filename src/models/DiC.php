@@ -78,6 +78,15 @@ class DiC
         $this->_im->addAlias('Customer', 'App\Model\Customer');
     }
 
+    private function _assembleAdmin()
+    {
+        $this->_im->setParameters('App\Model\AdminCollection', ['table' => 'App\Model\Resource\Table\Admin']);
+        $this->_im->addAlias('AdminCollection', 'App\Model\AdminCollection');
+
+        $this->_im->setParameters('App\Model\Admin', ['table' => 'App\Model\Resource\Table\Admin']);
+        $this->_im->addAlias('Admin', 'App\Model\Admin');
+    }
+
     private function _assembleView()
     {
         $this->_im->setParameters('App\Model\ModelView', [

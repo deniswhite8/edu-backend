@@ -237,3 +237,6 @@ INSERT INTO regions (name)
   VALUES ('USA'), ('Russia');
 INSERT INTO cities (name, region_id)
   VALUES ('NY', 1), ('Moscow', 2), ('Taganrog', 2);
+
+INSERT INTO admins (login, password)
+  VALUES ('admin', 'f61ad230f22ea03a487606f1e7d3967d')
