@@ -13,6 +13,7 @@
     <label for="file">Image:</label>
     <input id="file" type="file" name="image" id=""/>
 
+    <input type="hidden" name="token" value="<?php echo $this->session()->getToken() ?>">
     <label for="sku">Sku:</label> <input name="product[sku]" id="sku" type="text" value="<?php echo $product->getSku(); ?>">
     <label for="name">Name:</label> <input name="product[name]" id="name" type="text" value="<?php echo $product->getName(); ?>">
     <label for="price">Price:</label> <input name="product[price]" id="price" type="text" value="<?php echo $product->getPrice(); ?>">

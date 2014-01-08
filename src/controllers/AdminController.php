@@ -113,7 +113,11 @@ class AdminController extends ActionController
 
     public function editProductAction()
     {
-        if ($this->_isPost()) {
+        $this->_mustLogin();
+
+        $session =  $this->_di->get('Session');
+
+        if ($this->_isPost() && $session->validateToken($_POST['token'])) {
             $product = $this->_di->get('Product');
             $product->setData($_POST['product']);
 
@@ -131,6 +135,8 @@ class AdminController extends ActionController
         } else {
             $product = $this->_di->get('Product');
             if (isset($_GET['id'])) $product->load($_GET['id']);
+
+            $session->generateToken();
 
             $modelView = $this->_di->get('View', [
                 'template' => 'admin_editProduct',
