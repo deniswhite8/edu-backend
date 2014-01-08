@@ -2,8 +2,7 @@
 
 namespace App\Model;
 
-class CustomerCollection
-    implements \IteratorAggregate
+class CustomerCollection implements \IteratorAggregate
 {
     private $_resource;
 

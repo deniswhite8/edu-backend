@@ -1,8 +1,7 @@
 <?php
 namespace App\Model;
 
-class RegionCollection
-    implements \IteratorAggregate
+class RegionCollection implements \IteratorAggregate
 {
     private $_resource;
 

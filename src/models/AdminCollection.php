@@ -2,8 +2,7 @@
 
 namespace App\Model;
 
-class AdminCollection
-    implements \IteratorAggregate
+class AdminCollection implements \IteratorAggregate
 {
     private $_resource;
 

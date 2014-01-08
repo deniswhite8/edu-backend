@@ -1,8 +1,7 @@
 <?php
 namespace App\Model;
 
-class QuoteItem
-    extends Entity
+class QuoteItem extends Entity
 {
     private $_product;
 

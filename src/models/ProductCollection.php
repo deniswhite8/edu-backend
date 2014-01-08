@@ -1,8 +1,7 @@
 <?php
 namespace App\Model;
 
-class ProductCollection
-    implements \IteratorAggregate
+class ProductCollection implements \IteratorAggregate
 {
     private $_resource;
     private $_prototype;

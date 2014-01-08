@@ -1,8 +1,7 @@
 <?php
 namespace App\Model;
 
-class QuoteItemCollection
-    implements \IteratorAggregate
+class QuoteItemCollection implements \IteratorAggregate
 {
     private $_resource;
     private $_prototype;

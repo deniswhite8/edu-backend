@@ -2,8 +2,7 @@
 namespace App\Model;
 
 
-class Quote
-    extends Entity
+class Quote extends Entity
 {
     private $_items;
     private $_address;

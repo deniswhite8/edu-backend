@@ -1,8 +1,7 @@
 <?php
 namespace App\Model;
 
-class AddressCollection
-    implements \IteratorAggregate
+class AddressCollection implements \IteratorAggregate
 {
     private $_resource;
 

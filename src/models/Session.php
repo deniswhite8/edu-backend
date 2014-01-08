@@ -8,7 +8,6 @@ use App\Model\Resource\Table\Admin as AdminTable;
 
 class Session
 {
-
     private $_resource, $_customerResource, $_adminResource;
     private $_mode, $_userIdName;
 

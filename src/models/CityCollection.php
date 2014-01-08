@@ -1,8 +1,7 @@
 <?php
 namespace App\Model;
 
-class CityCollection
-    implements \IteratorAggregate
+class CityCollection implements \IteratorAggregate
 {
     private $_resource;
 
