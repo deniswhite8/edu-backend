@@ -41,8 +41,8 @@ class Order extends Entity
                 'host' => 'smtp.gmail.com',
                 'connection_class' => 'plain',
                 'connection_config' => [
-                    'username' => 'deniswhite8@gmail.com',
-                    'password' => ':)',
+                    'username' => '0test1337@gmail.com',
+                    'password' => 'passwordfortest',
                     'ssl' => 'tls'
                 ]
             ]
@@ -78,8 +78,8 @@ class Order extends Entity
         }
 
         $message = new Message();
-        $message->addTo('deniswhite8@gmail.com')
-            ->addFrom('deniswhite8@gmail.com')
+        $message->addTo('0test1337@gmail.com')
+            ->addFrom('0test1337@gmail.com')
             ->setSubject('New order')
             ->setBody(
                       "~ New order ~\n" .
