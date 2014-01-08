@@ -21,6 +21,12 @@ class QuoteItemCollection
         $this->_resource->filterBy('quote_id', $quote->getId());
     }
 
+    public function filterByQuoteId($id)
+    {
+        $this->_prototype->assignToQuoteId($id);
+        $this->_resource->filterBy('quote_id', $id);
+    }
+
     public function getItems()
     {
         if (!$this->_items) {

@@ -148,6 +148,10 @@ class DiC
             'address' => $this->_di->get('App\Model\Address')
         ]);
         $this->_im->addAlias('Quote', 'App\Model\Quote');
+
+
+
+        $this->_im->setShared('App\Model\QuoteItemCollection', false);
     }
 
     private function _assembleFactory()

@@ -7,7 +7,7 @@ class CartController
     public function addAction()
     {
         $quoteItem = $this->_initQuoteItem();
-        $quoteItem->addQty(1, 1);
+        $quoteItem->addQty(1);
         $quoteItem->save();
 
         $this->_redirect('cart_list');
@@ -21,7 +21,7 @@ class CartController
     public function minusAction()
     {
         $quoteItem = $this->_initQuoteItem();
-        $quoteItem->addQty(1, -1);
+        $quoteItem->addQty(-1);
         $quoteItem->save();
 
         $this->_redirect('cart_list');

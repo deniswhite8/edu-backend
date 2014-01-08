@@ -1,13 +1,10 @@
 <?php
 namespace App\Controller;
 
-use App\Model\Controller;
-use App\Model\CustomerCollection;
-use App\Model\Resource\DBCollection;
-use App\Model\Resource\DBEntity;
 use App\Model\Customer;
-use App\Model\Resource\Table\Customer as CustomerTable;
+use App\Model\Quote;
 use App\Model\Session;
+use App\Model\Resource\Table\QuoteItem as QuoteItemTable;
 
 class CustomerController extends ActionController
 {
@@ -15,9 +12,28 @@ class CustomerController extends ActionController
     {
         $error = false;
         if (isset($_POST['customer'])) {
-            if ($this->_loginCustomer()) $this->_redirect('product_list');
-            else {
+            $session = $this->_di->get('Session');
+            $guestQuoteId = $session->getQuoteId();
+
+            $guestQuote = $this->_di->get('Quote');
+            $guestQuote->loadBySession($session);
+
+            $session->setQuoteId(null);
+
+            if ($this->_loginCustomer($session)) {
+                $quote = $this->_di->get('Quote');
+                $quote->setField('quote_id', null);
+                $quote->loadBySession($session);
+
+                $this->_transfer($guestQuoteId, $quote->getId());
+
+                $guestQuote->setField('quote_id', $guestQuoteId);
+                $guestQuote->delete();
+
+                $this->_redirect('product_list');
+            } else {
                 $error = true;
+                $session->setQuoteId($guestQuoteId);
             }
         } else {
             $error = false;
@@ -25,8 +41,33 @@ class CustomerController extends ActionController
 
         return $this->_di->get('View', [
             'template' => 'customer_login',
-            'params'   => ['error' => $error]
+            'params' => ['error' => $error]
         ]);
+    }
+
+    private function _transfer($quoteIdFrom, $quoteIdTo)
+    {
+        if(!isset($quoteIdFrom)) return;
+
+        $resource = $this->_di->get('ResourceEntity', ['table' => new QuoteItemTable]);
+        $quoteResourceSsid = $this->_di->get('ResourceCollection', ['table' => new QuoteItemTable]);
+        $quoteResourceSsid->filterBy('quote_id', $quoteIdFrom);
+
+        foreach ($quoteResourceSsid->fetch() as $quoteItem) {
+
+            $quoteResource = $this->_di->get('ResourceCollection', ['table' => new QuoteItemTable]);
+            $quoteResource->filterBy('quote_id', $quoteIdTo);
+            $quoteResource->filterBy('product_id', $quoteItem['product_id']);
+            $existItem = reset($quoteResource->fetch());
+
+            if ($existItem) {
+                $existItem['qty'] += $quoteItem['qty'];
+                $resource->save($existItem);
+            } else {
+                $quoteItem['quote_id'] = $quoteIdTo;
+                $resource->save($quoteItem);
+            }
+        }
     }
 
     public function registerAction()
@@ -34,10 +75,10 @@ class CustomerController extends ActionController
         $error = false;
         if (isset($_POST['customer'])) {
             if (!ctype_space($_POST['customer']['email']) && $_POST['customer']['password'] != '' && $this->_registerCustomer()) {
-                $this->_loginCustomer();
+                $session = $this->_di->get('Session');
+                $this->_loginCustomer($session);
                 $this->_redirect('product_list');
-            }
-            else {
+            } else {
                 $error = true;
             }
         } else {
@@ -46,7 +87,7 @@ class CustomerController extends ActionController
 
         return $this->_di->get('View', [
             'template' => 'customer_register',
-            'params'   => ['error' => $error]
+            'params' => ['error' => $error]
         ]);
     }
 
@@ -72,7 +113,7 @@ class CustomerController extends ActionController
         return true;
     }
 
-    private function _loginCustomer()
+    private function _loginCustomer(Session $session)
     {
         $customer = new Customer($_POST['customer']);
 
@@ -81,7 +122,6 @@ class CustomerController extends ActionController
 
         $id = $customers->loginAttempt($customer);
 
-        $session = $this->_di->get('Session');
         $session->login($id);
 
         return $session->isLoggedIn();

@@ -21,7 +21,11 @@
 
         <?php foreach ($reviews as $_review):?>
         <li class="review">
-            <p><span><?php echo $_review->getName(); ?></span></p>
+            <p class="name"><span><?php echo $_review->getName(); ?></span></p>
+            <?php $email = $_review->getEmail();
+                  if ($email): ?>
+                <a class="email" href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a>
+            <?php endif; ?>
             <p><?php echo $_review->getText(); ?></p>
             <p><span><?php echo $_review->getRating(); ?> / 5</span></p>
         </li>
@@ -45,6 +49,7 @@
         <input type="hidden" name="product_id" value="<?php echo $product->getId() ?>">
         <input type="hidden" name="token" value="<?php echo $this->session()->getToken() ?>">
         <input type="text" name="name" placeholder="You name">
+        <input type="text" name="email" placeholder="You email">
         <p><input type="radio" name="rating" value="1">1</p>
         <p><input type="radio" name="rating" value="2">2</p>
         <p><input type="radio" name="rating" value="3">3</p>

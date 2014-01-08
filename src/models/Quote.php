@@ -20,6 +20,8 @@ class Quote
         $this->_address = $address;
         $this->_collectorsFactory = $collectorsFactory;
         parent::__construct($data, $resource);
+
+
     }
 
     public function getQuoteItemsCollection()

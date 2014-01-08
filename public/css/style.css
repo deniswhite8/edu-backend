@@ -113,6 +113,15 @@ form {
     padding: 5px;
 }
 
+p.name {
+    display: inline;
+}
+
+a.email {
+    font-style: italic;
+    color: #7f7f7f
+}
+
 .arrow-back {
     font-size: 50px;
     text-decoration: none;

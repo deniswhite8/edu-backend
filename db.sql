@@ -226,12 +226,36 @@ REFERENCES orders (order_id)
   ON UPDATE CASCADE;
 
 
+ALTER TABLE reviews
+ADD FOREIGN KEY (product_id)
+REFERENCES products (product_id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+
+ALTER TABLE quote_items
+ADD FOREIGN KEY (product_id)
+REFERENCES products (product_id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE quote_items
+ADD FOREIGN KEY (quote_id)
+REFERENCES quotes (quote_id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+
+
+# FOR EXAMPLE
+
 INSERT INTO products (name, sku, price, special_price, image)
   VALUES ('Nokia', '12345', 100.00, 0.00, 'http://www.qosc.zp.ua/wp-content/uploads/2013/08/Nokia_3310.jpg'),
-  ('SE', '3242', 50.00, 48.99, 'http://freemarket.kiev.ua/images_goods/Sony-Ericsson/Sony-Ericsson-K320i-6.jpg');
+  ('SE', '666', 50.00, 48.99, 'http://freemarket.kiev.ua/images_goods/Sony-Ericsson/Sony-Ericsson-K320i-6.jpg'),
+  ('Siemens', '1337', 1.00, 0.99, 'http://www.mo.com.ua/catalog/c_img/siemens_a50.jpg');
 
-INSERT INTO reviews (product_id, rating, text, name)
-  VALUES (1, 1, 'bad', 'lolka'), (2, 5, 'good', 'petrovich'), (1, 2, 'no', 'qwerty');
+INSERT INTO reviews (product_id, rating, text, name, email)
+  VALUES (1, 1, 'bad', 'lolka', 'dog@gmail.com'), (1, 5, 'good', 'petrovich', ''), (1, 2, 'no', 'qwerty', '');
 
 INSERT INTO regions (name)
   VALUES ('USA'), ('Russia');
@@ -239,4 +263,5 @@ INSERT INTO cities (name, region_id)
   VALUES ('NY', 1), ('Moscow', 2), ('Taganrog', 2);
 
 INSERT INTO admins (login, password)
-  VALUES ('admin', 'f61ad230f22ea03a487606f1e7d3967d')
+  VALUES ('admin', 'f61ad230f22ea03a487606f1e7d3967d'); #admin@admin
+

@@ -32,7 +32,7 @@ class QuoteItem
         return $this->_data['qty'];
     }
 
-    public function addQty($qty, $count = 1)
+    public function addQty($count = 1)
     {
         $this->_data['qty'] = $this->getData('qty') + $count;
     }
@@ -40,5 +40,10 @@ class QuoteItem
     public function assignToQuote($quote)
     {
         $this->_data['quote_id'] = $quote->getId();
+    }
+
+    public function assignToQuoteId($id)
+    {
+        $this->_data['quote_id'] = $id;
     }
 }
