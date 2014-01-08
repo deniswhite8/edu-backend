@@ -4,7 +4,7 @@ namespace App\Model\Shipping;
 
 class TableRate implements IMethod
 {
-    private $_priceTable = ['1' => 9999, '2' => 99, '3' => 0];
+    private $_priceTable = ['1' => 100.00, '2' => 2.99, '3' => 30.20];
     private $_code = 'table_rate';
     private $_address;
 

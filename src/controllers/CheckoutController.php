@@ -107,6 +107,8 @@ class CheckoutController
             $order->save();
             $this->_di->get('QuoteConverter')
                 ->toOrder($quote, $order, $productOrder, $session, $quoteItemCollection, $product, $city, $region);
+            $order->setField('number', 10000 + $order->getId());
+            $order->setField('created_at', date('Y-m-d H:i:s'));
             $order->save();
 
 

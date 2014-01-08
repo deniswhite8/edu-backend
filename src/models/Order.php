@@ -42,7 +42,7 @@ class Order extends Entity
                 'connection_class' => 'plain',
                 'connection_config' => [
                     'username' => 'deniswhite8@gmail.com',
-                    'password' => ':)',
+                    'password' => 'qwerty2404',
                     'ssl' => 'tls'
                 ]
             ]
@@ -77,14 +77,14 @@ class Order extends Entity
             $customerStr .= "Email: {$customer->getEmail()}\n\n";
         }
 
-
-
         $message = new Message();
         $message->addTo('deniswhite8@gmail.com')
             ->addFrom('deniswhite8@gmail.com')
             ->setSubject('New order')
             ->setBody(
                       "~ New order ~\n" .
+                      "Create at: {$this->getData('created_at')} \n" .
+                      "Order number: {$this->getData('number')} \n" .
                       "Shipping method code: {$this->getData('shipping_method_code')}\n" .
                       "Payment method code: {$this->getData('payment_method_code')}\n" .
                       "Shipping: {$this->getData('shipping')}\n" .

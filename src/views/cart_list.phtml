@@ -19,8 +19,10 @@
         <?php if ($product->isSpecialPriceApplied()): ?>
             <p class="strike"><?php echo $product->getPrice(); ?></p>
             <p><?php echo $product->getSpecialPrice(); ?> $</p>
+            <p class="total">Total: <?php echo $product->getSpecialPrice() * $item->getQty(); ?> $</p>
         <?php else: ?>
             <p><?php echo $product->getPrice(); ?> $</p>
+            <p class="total">Total: <?php echo $product->getPrice() * $item->getQty(); ?> $</p>
         <?php endif; ?>
         <a href="/?page=cart_delete&id=<?php echo $product->getId() ?>" class="option">Delete from cart</a>
     <?php endforeach; ?>

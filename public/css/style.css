@@ -131,6 +131,10 @@ a.email {
    display: inline;
 }
 
+.shopping-cart .total {
+    display: block;
+}
+
 .shopping-cart strong {
     margin: 5px;
     margin-top: 30px;

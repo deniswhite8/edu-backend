@@ -104,7 +104,8 @@ CREATE TABLE quote_items (
 
 CREATE TABLE orders (
   order_id             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  created_at           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_at           TIMESTAMP NULL,
+  number               INT(11) UNSIGNED NULL,
 
   customer_id          INT(11) UNSIGNED NULL,
 
