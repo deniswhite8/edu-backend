@@ -75,8 +75,27 @@ class CustomerController extends ActionController
         $error = false;
         if (isset($_POST['customer'])) {
             if (!ctype_space($_POST['customer']['email']) && $_POST['customer']['password'] != '' && $this->_registerCustomer()) {
+
+
                 $session = $this->_di->get('Session');
+                $guestQuoteId = $session->getQuoteId();
+                $guestQuote = $this->_di->get('Quote');
+                $guestQuote->loadBySession($session);
+                $session->setQuoteId(null);
+
+
                 $this->_loginCustomer($session);
+
+
+
+                $quote = $this->_di->get('Quote');
+                $quote->setField('quote_id', null);
+                $quote->loadBySession($session);
+                $this->_transfer($guestQuoteId, $quote->getId());
+                $guestQuote->setField('quote_id', $guestQuoteId);
+                $guestQuote->delete();
+
+
                 $this->_redirect('product_list');
             } else {
                 $error = true;
