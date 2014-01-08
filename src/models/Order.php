@@ -42,7 +42,7 @@ class Order extends Entity
                 'connection_class' => 'plain',
                 'connection_config' => [
                     'username' => 'deniswhite8@gmail.com',
-                    'password' => 'qwerty2404',
+                    'password' => ':)',
                     'ssl' => 'tls'
                 ]
             ]

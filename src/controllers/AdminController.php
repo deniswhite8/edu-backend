@@ -18,7 +18,6 @@ class AdminController extends ActionController
         }
 
 
-
         $modelView = $this->_di->get('View', [
             'template' => 'admin_login',
             'params' => [
@@ -115,7 +114,7 @@ class AdminController extends ActionController
     {
         $this->_mustLogin();
 
-        $session =  $this->_di->get('Session');
+        $session = $this->_di->get('Session');
 
         if ($this->_isPost() && $session->validateToken($_POST['token'])) {
             $product = $this->_di->get('Product');
