@@ -30,8 +30,7 @@ class ProductController extends ActionController
         $this->_di->get('Session')->generateToken();
 
 
-        $productResource = $this->_di->get('ResourceEntity', ['table' => new \App\Model\Resource\Table\Product()]);
-        $product = new Product([], $productResource);
+        $product = $this->_di->get('Product');
         $product->load($_GET['id']);
 
         $reviewsResource = $this->_di->get('ResourceCollection', ['table' => new \App\Model\Resource\Table\ProductReview()]);

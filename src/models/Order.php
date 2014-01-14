@@ -33,7 +33,7 @@ class Order extends Entity
     }
 
 
-    public function sendEmail(ProductOrderCollection $productOrderCollection, Customer $customer)
+    public function sendEmail(ProductOrderCollection $productOrderCollection, Customer $customer, ModelView $modelView)
     {
         $transport = new Smtp();
         $transport->setOptions(new SmtpOptions(
@@ -51,59 +51,33 @@ class Order extends Entity
         $productOrderCollection->filterByOrder($this);
         $items = $productOrderCollection->getProductsOrder();
 
-        $productsMessage = '';
-        $i = 0;
-        foreach ($items as $productOrder) {
-            $productsMessage .= "#{$i}\n";
-
-            $productsMessage .= "Qty: {$productOrder->getData('qty')}\n";
-            $productsMessage .= "Name: {$productOrder->getData('name')}\n";
-            $productsMessage .= "Sku: {$productOrder->getData('sku')}\n";
-            $productsMessage .= "Price: {$productOrder->getData('price')}\n";
-            $productsMessage .= "Special price: {$productOrder->getData('special_price')}\n";
-
-            $productsMessage .= "\n";
-            $i++;
-        }
-
         $customer->load($this->getData('customer_id'));
-        $customerStr = '';
 
+        $modelView->setLayout(null);
+        $modelView->set('created_at', $this->getData('created_at'));
+        $modelView->set('number', $this->getData('number'));
+        $modelView->set('shipping_method_code', $this->getData('shipping_method_code'));
+        $modelView->set('payment_method_code', $this->getData('payment_method_code'));
+        $modelView->set('shipping', $this->getData('shipping'));
+        $modelView->set('subtotal', $this->getData('subtotal'));
+        $modelView->set('grand_total', $this->getData('grand_total'));
 
-        if ($customer->getId()) {
-            $customerStr .= "~ Customer info ~\n";
-            $customerStr .= "ID: {$customer->getId()}\n";
-            $customerStr .= "Name: {$customer->getName()}\n";
-            $customerStr .= "Email: {$customer->getEmail()}\n\n";
-        }
+        $modelView->set('region_name', $this->getData('region_name'));
+        $modelView->set('city_name', $this->getData('city_name'));
+        $modelView->set('zip_code', $this->getData('zip_code'));
+        $modelView->set('street', $this->getData('street'));
+        $modelView->set('house', $this->getData('house'));
+        $modelView->set('flat', $this->getData('flat'));
+
+        $modelView->set('customer', $customer);
+        $modelView->set('items', $items);
 
         $message = new Message();
         $message->addTo('0test1337@gmail.com')
             ->addFrom('0test1337@gmail.com')
             ->setSubject('New order')
-            ->setBody(
-                      "~ New order ~\n" .
-                      "Create at: {$this->getData('created_at')} \n" .
-                      "Order number: {$this->getData('number')} \n" .
-                      "Shipping method code: {$this->getData('shipping_method_code')}\n" .
-                      "Payment method code: {$this->getData('payment_method_code')}\n" .
-                      "Shipping: {$this->getData('shipping')}\n" .
-                      "Subtotal: {$this->getData('subtotal')}\n" .
-                      "Grand total: {$this->getData('grand_total')}\n\n" .
+            ->setBody($modelView->renderToString());
 
-                      $customerStr .
-
-                      "~ Address ~\n" .
-                      "Region: {$this->getData('region_name')}\n" .
-                      "City: {$this->getData('city_name')}\n" .
-                      "Zip code: {$this->getData('zip_code')}\n" .
-                      "Street: {$this->getData('street')}\n" .
-                      "House: {$this->getData('house')}\n" .
-                      "Flat: {$this->getData('flat')}\n\n" .
-
-                      "~ Products ~\n" .
-                      $productsMessage
-            );
         $transport->send($message);
     }
 }

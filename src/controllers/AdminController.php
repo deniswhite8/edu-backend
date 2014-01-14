@@ -41,9 +41,7 @@ class AdminController extends ActionController
 
     private function _loginAdmin()
     {
-        $admin = new Admin($_POST['admin']);
-
-//        $admin = $this->_di->get('Admin', ['data' => $_POST['admin']]);
+        $admin = $this->_di->get('Admin', ['idata' => $_POST['admin']]);
         $admins = $this->_di->get('AdminCollection');
 
         $id = $admins->loginAttempt($admin);

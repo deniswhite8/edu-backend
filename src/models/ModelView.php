@@ -25,6 +25,21 @@ class ModelView implements ISessionUser
         $this->_layout = $layout;
     }
 
+    public function renderToString()
+    {
+        ob_start();
+
+        if (isset($this->_layout))
+            $this->render();
+        else
+            $this->renderTemplate();
+
+        $contents = ob_get_contents();
+        ob_end_clean();
+
+        return $contents;
+    }
+
     public function render()
     {
         require_once $this->_layoutDir . $this->_layout . '.phtml';
@@ -38,6 +53,11 @@ class ModelView implements ISessionUser
     public function get($param)
     {
         return $this->_params[$param];
+    }
+
+    public function set($param, $value)
+    {
+        $this->_params[$param] = $value;
     }
 
     public function setSession(Session $session)

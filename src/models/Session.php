@@ -8,15 +8,15 @@ use App\Model\Resource\Table\Admin as AdminTable;
 
 class Session
 {
-    private $_resource, $_customerResource, $_adminResource;
-    private $_mode, $_userIdName;
+    private $_userIdName;
+    private $_customer, $_admin;
 
-    public function __construct()
+    public function __construct($customer, $admin)
     {
         if (!isset($_SESSION)) session_start();
-        $connection = new \PDO('mysql:host=localhost;dbname=student', 'root', '123');
-        $this->_customerResource = new DBEntity($connection, new CustomerTable);
-        $this->_adminResource = new DBEntity($connection, new AdminTable);
+
+        $this->_customer = $customer;
+        $this->_admin = $admin;
 
         $this->setCustomerMode();
     }
@@ -24,16 +24,12 @@ class Session
 
     public function setCustomerMode()
     {
-        $this->_mode = 'customer';
         $this->_userIdName = 'id';
-        $this->_resource = $this->_customerResource;
     }
 
     public function setAdminMode()
     {
-        $this->_mode = 'admin';
         $this->_userIdName = 'admin_id';
-        $this->_resource = $this->_adminResource;
     }
 
     public function isLoggedIn()
@@ -45,18 +41,16 @@ class Session
     {
         if (!$this->isLoggedIn()) return null;
 
-        $customer = new Customer([], $this->_resource);
-        $customer->load($_SESSION[$this->_userIdName]);
-        return $customer;
+        $this->_customer->load($_SESSION[$this->_userIdName]);
+        return $this->_customer;
     }
 
     public function getAdmin()
     {
         if (!$this->isLoggedIn()) return null;
 
-        $admin = new Admin([], $this->_resource);
-        $admin->load($_SESSION[$this->_userIdName]);
-        return $admin;
+        $this->_admin->load($_SESSION[$this->_userIdName]);
+        return $this->_admin;
     }
 
     public function getSessionId()

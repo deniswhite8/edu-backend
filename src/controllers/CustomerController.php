@@ -112,17 +112,14 @@ class CustomerController extends ActionController
 
     public function logoutAction()
     {
-        $session = new Session();
+        $session = $this->_di->get('Session');
         $session->logout();
         $this->_redirect('product_list');
     }
 
     private function _registerCustomer()
     {
-        $resource = $this->_di->get('ResourceEntity', ['table' => new \App\Model\Resource\Table\Customer()]);
-        $customer = new Customer($_POST['customer'], $resource);
-
-//        $customer = $this->_di->get('Customer', ['data' => $_POST['customer']]);
+        $customer = $this->_di->get('Customer', ['idata' => $_POST['customer']]);
 
         try {
             $customer->save();
@@ -134,9 +131,7 @@ class CustomerController extends ActionController
 
     private function _loginCustomer(Session $session)
     {
-        $customer = new Customer($_POST['customer']);
-
-//        $customer = $this->_di->get('Customer', ['data' => $_POST['customer']]);
+        $customer = $this->_di->get('Customer', ['idata' => $_POST['customer']]);
         $customers = $this->_di->get('CustomerCollection');
 
         $id = $customers->loginAttempt($customer);

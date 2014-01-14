@@ -69,13 +69,20 @@ class DiC
 
     }
 
+    private function _assembleHasher()
+    {
+        $this->_im->addAlias('Hasher', 'App\Model\Hasher');
+    }
+
     private function _assembleCustomer()
     {
         $this->_im->setParameters('App\Model\CustomerCollection', ['table' => 'App\Model\Resource\Table\Customer']);
         $this->_im->addAlias('CustomerCollection', 'App\Model\CustomerCollection');
 
-        $this->_im->setParameters('App\Model\Customer', ['table' => 'App\Model\Resource\Table\Customer']);
+        $this->_im->setParameters('App\Model\Customer', ['hasher' => 'App\Model\Hasher', 'idata' => [], 'table' => 'App\Model\Resource\Table\Customer']);
         $this->_im->addAlias('Customer', 'App\Model\Customer');
+
+        $this->_im->setShared('App\Model\Admin', false);
     }
 
     private function _assembleAdmin()
@@ -83,8 +90,10 @@ class DiC
         $this->_im->setParameters('App\Model\AdminCollection', ['table' => 'App\Model\Resource\Table\Admin']);
         $this->_im->addAlias('AdminCollection', 'App\Model\AdminCollection');
 
-        $this->_im->setParameters('App\Model\Admin', ['table' => 'App\Model\Resource\Table\Admin']);
+        $this->_im->setParameters('App\Model\Admin', ['hasher' => 'App\Model\Hasher', 'idata' => [], 'table' => 'App\Model\Resource\Table\Admin']);
         $this->_im->addAlias('Admin', 'App\Model\Admin');
+
+        $this->_im->setShared('App\Model\Admin', false);
     }
 
     private function _assembleView()
@@ -125,6 +134,8 @@ class DiC
 
     private function _assembleSession()
     {
+        $this->_im->setParameters('App\Model\Session', [
+            'customer' => $this->_di->get('App\Model\Customer'), 'admin' => $this->_di->get('App\Model\Admin')]);
         $this->_im->addAlias('Session', 'App\Model\Session');
         $this->_im->setParameters('App\Model\ISessionUser', [
             'session' => $this->_di->get('Session')

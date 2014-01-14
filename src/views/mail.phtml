@@ -1,0 +1,60 @@
+~ New order ~
+Create at: <?php echo $this->get('created_at') ?>
+
+Order number: <?php echo $this->get('number') ?>
+
+Shipping method code: <?php echo $this->get('shipping_method_code') ?>
+
+Payment method code: <?php echo $this->get('payment_method_code') ?>
+
+Shipping: <?php echo $this->get('shipping') ?>
+
+Subtotal: <?php echo $this->get('subtotal') ?>
+
+Grand total: <?php echo $this->get('grand_total') ?>
+
+
+<?php $customer = $this->get('customer');
+
+if ($customer->getId()): ?>
+~ Customer info ~
+ID: <?php echo $customer->getId() ?>
+
+Name: <?php echo $customer->getName() ?>
+
+Email: <?php echo $customer->getEmail() ?>
+
+
+<?php endif ?>
+~ Address ~
+Region: <?php echo $this->get('region_name') ?>
+
+City: <?php echo $this->get('city_name') ?>
+
+Zip code: <?php echo $this->get('zip_code') ?>
+
+Street: <?php echo $this->get('street') ?>
+
+House: <?php echo $this->get('house') ?>
+
+Flat: <?php echo $this->get('flat') ?>
+
+
+~ Products ~
+<?php $i = 0;
+foreach ($this->get('items') as $productOrder): ?>
+#<?php echo $i ?>
+
+Qty: <?php echo $productOrder->getData('qty') ?>
+
+Name: <?php echo $productOrder->getData('name') ?>
+
+Sku: <?php echo $productOrder->getData('sku') ?>
+
+Price: <?php echo $productOrder->getData('price') ?>
+
+Special price: <?php echo $productOrder->getData('special_price') ?>
+
+
+<?php $i++ ?>
+<?php endforeach ?>

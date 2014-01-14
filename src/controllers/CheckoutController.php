@@ -111,11 +111,14 @@ class CheckoutController
             $order->setField('created_at', date('Y-m-d H:i:s'));
             $order->save();
 
+            $customer = $this->_di->get('Customer');
 
-            $resource = $this->_di->get('ResourceEntity', ['table' => new \App\Model\Resource\Table\Customer()]);
-            $customer = new Customer([], $resource);
+            $modelView = $this->_di->get('View', ['template' => 'mail']);
+            $order->sendEmail($this->_di->get('ProductOrderCollection'), $customer, $modelView);
 
-            $order->sendEmail($this->_di->get('ProductOrderCollection'), $customer);
+            $quote->delete();
+            $session->setQuoteId(null);
+
             $this->_redirect('product_list');
         } else {
             return $this->_di->get('View', [
