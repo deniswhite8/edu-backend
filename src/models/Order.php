@@ -2,13 +2,19 @@
 
 namespace App\Model;
 
-use Zend\Mail\Message;
-use Zend\Mail\Transport\Smtp as SmtpTransport;
-use Zend\Mail\Transport\Smtp;
 use Zend\Mail\Transport\SmtpOptions;
 
 class Order extends Entity
 {
+    private $_transport, $_message;
+
+    public function __construct($transport, $message, Resource\IResourceEntity $resource = null)
+    {
+        $this->_transport = $transport;
+        $this->_message = $message;
+        parent::__construct([], $resource);
+    }
+
     public function setCustomerId($customerId)
     {
         $this->setField('customer_id', $customerId);
@@ -35,8 +41,7 @@ class Order extends Entity
 
     public function sendEmail(ProductOrderCollection $productOrderCollection, Customer $customer, ModelView $modelView)
     {
-        $transport = new Smtp();
-        $transport->setOptions(new SmtpOptions(
+        $this->_transport->setOptions(new SmtpOptions(
             [
                 'host' => 'smtp.gmail.com',
                 'connection_class' => 'plain',
@@ -72,13 +77,12 @@ class Order extends Entity
         $modelView->set('customer', $customer);
         $modelView->set('items', $items);
 
-        $message = new Message();
-        $message->addTo('0test1337@gmail.com')
+        $this->_message->addTo('0test1337@gmail.com')
             ->addFrom('0test1337@gmail.com')
             ->setSubject('New order')
             ->setBody($modelView->renderToString());
 
-        $transport->send($message);
+        $this->_transport->send($this->_message);
     }
 }
  

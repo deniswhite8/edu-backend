@@ -188,9 +188,16 @@ class DiC
         $this->_im->addAlias('QuoteConverter', 'App\Model\Quote\Converter');
     }
 
+    private function _assembleMail()
+    {
+        $this->_im->addAlias('Smtp', 'Zend\Mail\Transport\Smtp');
+        $this->_im->addAlias('Message', 'Zend\Mail\Message');
+    }
+
     private function _assembleOrder()
     {
-        $this->_im->setParameters('App\Model\Order', ['table' => 'App\Model\Resource\Table\Order']);
+        $this->_im->setParameters('App\Model\Order', ['transport' => 'Zend\Mail\Transport\Smtp',
+            'message' => 'Zend\Mail\Message', 'table' => 'App\Model\Resource\Table\Order']);
         $this->_im->addAlias('Order', 'App\Model\Order');
 
         $this->_im->setParameters('App\Model\ProductOrder', ['table' => 'App\Model\Resource\Table\ProductOrder']);
