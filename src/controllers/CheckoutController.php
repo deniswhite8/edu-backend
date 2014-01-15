@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Model\Customer;
-
 class CheckoutController
     extends SalesController
 {

@@ -1,18 +1,18 @@
 <?php
 namespace Test\Model;
-use \App\Model\Customer;
+use \App\Model\Admin;
 
-class CustomerTest extends \PHPUnit_Framework_TestCase
+class AdminTest extends \PHPUnit_Framework_TestCase
 {
     public function testSavesDataInResource()
     {
         $resource = $this->getMock('\App\Model\Resource\IResourceEntity');
         $resource->expects($this->any())
             ->method('save')
-            ->with($this->equalTo(['name' => 'Vasia']));
+            ->with($this->equalTo(['login' => 'Vasia']));
 
-        $customer = new Customer(['name' => 'Vasia'], null, $resource);
-        $customer->save();
+        $admin = new Admin(['login' => 'Vasia'], null, $resource);
+        $admin->save();
     }
 
     public function testGetsIdFromResourceAfterSave()
@@ -20,15 +20,15 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $resource = $this->getMock('\App\Model\Resource\IResourceEntity');
         $resource->expects($this->any())
             ->method('save')
-            ->with($this->equalTo(['name' => 'Vasia']))
+            ->with($this->equalTo(['login' => 'Vasia']))
             ->will($this->returnValue(42));
         $resource->expects($this->any())
             ->method('getPrimaryKeyField')
-            ->will($this->returnValue('customer_id'));
+            ->will($this->returnValue('admin_id'));
 
-        $customer = new Customer(['name' => 'Vasia'], null,  $resource);
-        $customer->save();
-        $this->assertEquals(42, $customer->getId());
+        $admin = new Admin(['login' => 'Vasia'], null,  $resource);
+        $admin->save();
+        $this->assertEquals(42, $admin->getId());
     }
 
     public function testReturnsIdWhichHasBeenInitialized()
@@ -36,12 +36,12 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $resource = $this->getMock('\App\Model\Resource\IResourceEntity');
         $resource->expects($this->any())
             ->method('getPrimaryKeyField')
-            ->will($this->returnValue('customer_id'));
+            ->will($this->returnValue('admin_id'));
 
-        $customer = new Customer(['customer_id' => 1], null, $resource);
-        $this->assertEquals(1, $customer->getId());
+        $admin = new Admin(['admin_id' => 1], null, $resource);
+        $this->assertEquals(1, $admin->getId());
 
-        $customer = new Customer(['customer_id' => 2], null, $resource);
-        $this->assertEquals(2, $customer->getId());
+        $admin = new Admin(['admin_id' => 2], null, $resource);
+        $this->assertEquals(2, $admin->getId());
     }
 }
