@@ -4,7 +4,7 @@ namespace App\Model;
 class Customer extends Entity
 {
 
-    public function __construct(array $idata, Hasher $hasher, Resource\IResourceEntity $resource = null)
+    public function __construct(array $idata, Hasher $hasher = null, Resource\IResourceEntity $resource = null)
     {
         if(isset($idata['password']))
             $idata['password'] = $hasher->hashed($idata['password']);
