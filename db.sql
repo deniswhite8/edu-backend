@@ -9,7 +9,6 @@ CREATE TABLE customers (
   password    VARCHAR(32)
               COLLATE utf8_bin NOT NULL,
   rating      DECIMAL(10, 2)   NULL,
-#   quote_id    INT(11) UNSIGNED NOT NULL,
 
   PRIMARY KEY (customer_id)
 )
