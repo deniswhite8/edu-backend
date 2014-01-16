@@ -115,7 +115,6 @@ class CheckoutController
             $order->sendEmail($this->_di->get('ProductOrderCollection'), $customer, $modelView);
 
             $quote->delete();
-            $session->setQuoteId(null);
 
             $this->_redirect('product_list');
         } else {

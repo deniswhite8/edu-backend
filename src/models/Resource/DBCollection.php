@@ -113,6 +113,13 @@ class DBCollection
 
     }
 
+    public function clearFilters()
+    {
+        $this->_select->reset(Select::WHERE);
+        $this->_filters = [];
+        $this->_bind = [];
+    }
+
     private function _prepareFilters()
     {
         foreach ($this->_filters as $column => $value) {

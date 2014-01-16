@@ -18,22 +18,17 @@ class CustomerController extends ActionController
             $guestQuote = $this->_di->get('Quote');
             $guestQuote->loadBySession($session);
 
-            $session->setQuoteId(null);
-
             if ($this->_loginCustomer($session)) {
-                $quote = $this->_di->get('Quote');
-                $quote->setField('quote_id', null);
+                $quote = $this->_di->newInstance('Quote');
                 $quote->loadBySession($session);
 
                 $this->_transfer($guestQuoteId, $quote->getId());
 
-                $guestQuote->setField('quote_id', $guestQuoteId);
                 $guestQuote->delete();
 
                 $this->_redirect('product_list');
             } else {
                 $error = true;
-                $session->setQuoteId($guestQuoteId);
             }
         } else {
             $error = false;
@@ -81,18 +76,15 @@ class CustomerController extends ActionController
                 $guestQuoteId = $session->getQuoteId();
                 $guestQuote = $this->_di->get('Quote');
                 $guestQuote->loadBySession($session);
-                $session->setQuoteId(null);
 
 
                 $this->_loginCustomer($session);
 
 
 
-                $quote = $this->_di->get('Quote');
-                $quote->setField('quote_id', null);
+                $quote = $this->_di->newInstance('Quote');
                 $quote->loadBySession($session);
                 $this->_transfer($guestQuoteId, $quote->getId());
-                $guestQuote->setField('quote_id', $guestQuoteId);
                 $guestQuote->delete();
 
 

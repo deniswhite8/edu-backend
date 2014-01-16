@@ -9,7 +9,7 @@ CREATE TABLE customers (
   password    VARCHAR(32)
               COLLATE utf8_bin NOT NULL,
   rating      DECIMAL(10, 2)   NULL,
-  quote_id    INT(11) UNSIGNED NOT NULL,
+#   quote_id    INT(11) UNSIGNED NOT NULL,
 
   PRIMARY KEY (customer_id)
 )
@@ -74,6 +74,10 @@ CREATE TABLE regions (
 
 
 CREATE TABLE quotes (
+  customer_id          INT(11) UNSIGNED NULL,
+  session_id           VARCHAR(64)
+                       COLLATE utf8_bin NULL,
+
   quote_id             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   address_id           INT(11) UNSIGNED NULL,
   shipping_method_code VARCHAR(16)

@@ -132,15 +132,7 @@ class DiC
         $this->_im->addAlias('CityCollection', 'App\Model\CityCollection');
     }
 
-    private function _assembleSession()
-    {
-        $this->_im->setParameters('App\Model\Session', [
-            'customer' => $this->_di->get('App\Model\Customer'), 'admin' => $this->_di->get('App\Model\Admin')]);
-        $this->_im->addAlias('Session', 'App\Model\Session');
-        $this->_im->setParameters('App\Model\ISessionUser', [
-            'session' => $this->_di->get('Session')
-        ]);
-    }
+
 
     private function _assembleQuote()
     {
@@ -154,15 +146,33 @@ class DiC
         $this->_im->addAlias('QuoteItemCollection', 'App\Model\QuoteItemCollection');
 
         $this->_im->setParameters('App\Model\Quote', [
+            'idata' => [],
             'table' => 'App\Model\Resource\Table\Quote',
             'items' => $this->_di->get('App\Model\QuoteItemCollection'),
             'address' => $this->_di->get('App\Model\Address')
         ]);
         $this->_im->addAlias('Quote', 'App\Model\Quote');
 
-
+        $this->_im->setParameters('App\Model\QuoteCollection', [
+            'table' => 'App\Model\Resource\Table\Quote',
+            'itemPrototype' => 'App\Model\Quote'
+        ]);
+        $this->_im->addAlias('QuoteCollection', 'App\Model\QuoteCollection');
 
         $this->_im->setShared('App\Model\QuoteItemCollection', false);
+        $this->_im->setShared('App\Model\Quote', false);
+    }
+
+    private function _assembleSession()
+    {
+        $this->_im->setParameters('App\Model\Session', [
+            'customer' => $this->_di->get('App\Model\Customer'), 'admin' => $this->_di->get('App\Model\Admin'),
+            'quoteCollection' => $this->_di->newInstance('App\Model\QuoteCollection')]);
+
+        $this->_im->addAlias('Session', 'App\Model\Session');
+        $this->_im->setParameters('App\Model\ISessionUser', [
+            'session' => $this->_di->get('Session')
+        ]);
     }
 
     private function _assembleFactory()

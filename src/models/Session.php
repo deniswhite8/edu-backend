@@ -10,13 +10,15 @@ class Session
 {
     private $_userIdName;
     private $_customer, $_admin;
+    private $_quoteCollection;
 
-    public function __construct($customer, $admin)
+    public function __construct($customer, $admin, $quoteCollection)
     {
         if (!isset($_SESSION)) session_start();
 
         $this->_customer = $customer;
         $this->_admin = $admin;
+        $this->_quoteCollection = $quoteCollection;
 
         $this->setCustomerMode();
     }
@@ -41,7 +43,7 @@ class Session
     {
         if (!$this->isLoggedIn()) return null;
 
-        $this->_customer->load($_SESSION[$this->_userIdName]);
+        $this->_customer->load($_SESSION['id']);
         return $this->_customer;
     }
 
@@ -49,7 +51,7 @@ class Session
     {
         if (!$this->isLoggedIn()) return null;
 
-        $this->_admin->load($_SESSION[$this->_userIdName]);
+        $this->_admin->load($_SESSION['admin_id']);
         return $this->_admin;
     }
 
@@ -89,17 +91,27 @@ class Session
 
     public function getQuoteId()
     {
+        $this->_quoteCollection->clear();
+
         if ($this->isLoggedIn())
-            return $this->getCustomer()->getQuoteId();
+            $this->_quoteCollection->filterByCustomerId($_SESSION['id']);
         else
-            return isset($_SESSION['quote_id']) ? $_SESSION['quote_id'] : null;
+            $this->_quoteCollection->filterBySessionId($this->getSessionId());
+
+        $this->_quoteCollection->setLast();
+        $quotes = $this->_quoteCollection->getQuotes();
+
+        if (empty($quotes)) return null;
+        else return reset($quotes)->getId();
     }
 
-    public function setQuoteId($id)
+    public function setQuoteId($quote)
     {
         if ($this->isLoggedIn())
-            $this->getCustomer()->setQuoteId($id);
+            $quote->setCustomerId($_SESSION['id']);
         else
-            $_SESSION['quote_id'] = $id;
+            $quote->setSessionId($this->getSessionId());
+
+        $quote->save();
     }
 }

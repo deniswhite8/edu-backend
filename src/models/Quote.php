@@ -9,7 +9,7 @@ class Quote extends Entity
     private $_collectorsFactory;
 
     public function __construct(
-        array $data = [],
+        array $idata = [],
         Resource\IResourceEntity $resource = null,
         QuoteItemCollection $items = null,
         Address $address = null,
@@ -18,7 +18,7 @@ class Quote extends Entity
         $this->_items = $items;
         $this->_address = $address;
         $this->_collectorsFactory = $collectorsFactory;
-        parent::__construct($data, $resource);
+        parent::__construct($idata, $resource);
 
 
     }
@@ -31,11 +31,21 @@ class Quote extends Entity
     public function loadBySession(Session $session)
     {
         if ($quoteId = $session->getQuoteId()) {
-            $this->load($session->getQuoteId());
+            $this->load($quoteId);
         } else {
-            $this->save();
-            $session->setQuoteId($this->getId());
+            $session->setQuoteId($this);
         }
+    }
+
+
+    public function setCustomerId($id)
+    {
+        $this->setField('customer_id', $id);
+    }
+
+    public function setSessionId($id)
+    {
+        $this->setField('session_id', $id);
     }
 
     public function getItems()
